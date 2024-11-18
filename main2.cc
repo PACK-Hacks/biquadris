@@ -5,27 +5,26 @@
 
 using namespace std;
 
-void runRound(vector<Player*> players) {
-    for ( auto p : players ) {
-        p->runTurn();
 
-    }
-}
 
 int main(int argc, char *argv[]) {
 
     int startLevel = 0; //////
-    vector<Player*> players;
-     
-    players.emplace_back(new Player{}); //
-    players.emplace_back(new Player{}); //
+    Player *p1 = new Player{};
+    Player *p2 = new Player{};
 
-    string command;
+    string special = "";
+
+    void runRound(Player *p1, Player *p2) {
+        special = p1->runTurn(special, ...);
+        if (p1->lost) return;
+        special = p2->runTurn(special, ...);
+    }
     
     startGame()
     bool lost = false;
     while(!lost) {
-        runRound(players);
+        runRound(p1, p2);
         // for ( auto player : players ) {
         //     if (player->lost) cout << player->name << " loses" << endl;
         //     lost = true;
