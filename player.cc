@@ -5,18 +5,22 @@ Player::runTurn(string special) {
         istringstream iss{special};
         string s;
 
-        while (iss >> s) {
-            if (s == "blind") {
+        block = level->getBlock();
+        heavy = level->getHeavy();
+        dummy = level->getDummy();
 
+        while (iss >> s) {
+            if (s == "blind") {     // set nextBlind to false in drop method
+                isBlind = true;
             }
             if (s == "force") {
-                iss >> nextBlock;
+                iss >> isBlock;
             } 
             if (s == "heavy") {
-
+                heavy = true;
             }
         }
-        board  = new Blank;
+        display.board() = new Board{block, isHeavy, isBlind, dummy, ...};
     }
 
     string command;
