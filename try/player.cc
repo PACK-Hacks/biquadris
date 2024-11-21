@@ -1,49 +1,13 @@
-#include <memory>
-#include "display.h"
-#include <string>
-#include "game.h"
-#include <sstream>
-#include <iostream>
+#include "player.h"
 using namespace std;
 
-class Player {
-    int highScore;
-    bool lost;
-    string text;
-    int seed;
-    string scriptfile1;
-    int startLevel;
-    Display display;
-    unique_ptr<Game> game;
-
-    string left = "left"; // Extension, allow users to change command values
-    string right = "right";
-    string down = "down";
-    string drop = "drop";
-    string clockwise = "clockwise";
-    string counterclockwise = "counterclockwise";
-    string levelup = "levelup";
-    string leveldown = "leveldown";
-    string norandom = "norandom";
-    string random = "random";
-    string sequence = "sequence";
-    string restart = "restart";
-    string i = "I";
-    string j = "J";
-    string l = "L";
-    string o = "O";
-    string s = "S";
-    string z = "Z";
-    string t = "T";
-
-
-    Player(bool text, int seed, string scriptfile, int startLevel, unique_ptr<Game> game):
+Player(bool text, int seed, string scriptfile, int startLevel, unique_ptr<Game> game):
     highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile1{scriptfile1}, 
     startLevel{startLevel}, display{startLevel, scriptfile}, game{game} {
-        display.generateNextBlock("");
-    }
+    display.generateNextBlock("");
+}
 
-    string runTurn(string special) {
+string Player::runTurn(string special) {
     bool status = display.moveNextToCurrent(); // Assume moves it onto the board
 
     if (status == false) { // When block was attempted to be placed on board, there was something covering
@@ -143,17 +107,11 @@ class Player {
 
     
 
-    string command;
-    // create variables for each command, which can be modified by the user 
-    Level *lvl = 
+    // string command;
+    // // create variables for each command, which can be modified by the user 
+    // Level *lvl = 
 
     
-
     
-
-    
-    Decorator currentBlock{nextHeavy}
+    // Decorator currentBlock{nextHeavy}
 }
-
-};
-
