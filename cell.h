@@ -5,9 +5,7 @@ class Cell {
     char letter;
 
     public:
-        char getChar() {
-            return letter;
-        }
+        char getChar();
 };
 
 

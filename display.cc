@@ -49,7 +49,10 @@ bool Display::levelDown() {
     return true;
 }
 
-// Let current 
+// Set the nextBlock as the currentBlock, returns true if successful, false otherwise
+bool Display::moveNextToCurrent() {
+    
+}
 
 
 
