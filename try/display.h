@@ -14,7 +14,7 @@ class Display {
     const int WIDTH = 11;
     const int HEIGHT = 15;
     const int MAXLEVEL = 4;
-    const int MAXLEVEL = 0;
+    const int MINLEVEL = 0;
 
     // vector<Cell *> board(11, nullptr);
 
