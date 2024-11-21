@@ -1,4 +1,10 @@
-#include "memory.h"
+#include <memory>
+#include "display.h"
+#include <string>
+#include "game.h"
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 class Player {
     int highScore;
@@ -21,6 +27,7 @@ class Player {
     string norandom = "norandom";
     string random = "random";
     string sequence = "sequence";
+    string restart = "restart";
     string i = "I";
     string j = "J";
     string l = "L";
@@ -42,7 +49,7 @@ class Player {
     if (status == false) { // When block was attempted to be placed on board, there was something covering
                            // one of the default spots, and so the player automatically loses
         lost = true;
-        display.render(lost) // ?
+        display.render(lost); // ?
         return "";
     }
 
@@ -52,7 +59,7 @@ class Player {
 
     cout << "Please input a series of commands to move / rotate your block" << endl;
 
-
+    string command;
 
     while(cin >> command && !endTurn) {     // fstream >> command
         if (command == left) {
@@ -76,13 +83,13 @@ class Player {
             break;
         } else if (command == levelup) {
             bool canLevelUp;
-            canLevelUp = levelup()
+            canLevelUp = levelup();
             if (canLevelUp == false) {
                 cout << "You cannot level up! You are already at level 4!" << endl;
             }
         } else if (command == leveldown) {
             bool canLevelDown;
-            canLevelDown = levelDown()
+            canLevelDown = levelDown();
             if (canLevelUp == false) {
                 cout << "You cannot level down! You are already at level 0!" << endl;
                 ifstream 
@@ -91,9 +98,9 @@ class Player {
             string file_name;
             cin >> file_name;
             ifstream f{file_name};
-            norandom(f);
+            display.norandom(f);
         } else if (command == random) {
-            random();
+            display.random();
         } else if (command == restart) {
             game->restart();
         }
