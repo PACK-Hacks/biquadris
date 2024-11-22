@@ -55,7 +55,7 @@ class Display {
         bool down();
         bool drop();
         bool clockwise();
-        bool counterClockwise()
+        bool counterClockwise();
 };
 
 
