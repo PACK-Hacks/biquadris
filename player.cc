@@ -148,10 +148,6 @@ class Player {
     Level *lvl = 
 
     
-
-    
-
-    
     Decorator currentBlock{nextHeavy}
 }
 
