@@ -92,7 +92,6 @@ class Player {
             canLevelDown = levelDown();
             if (canLevelUp == false) {
                 cout << "You cannot level down! You are already at level 0!" << endl;
-                ifstream 
             }
         } else if (command == norandom) {
             string file_name;
@@ -101,14 +100,16 @@ class Player {
             display.norandom(f);
         } else if (command == random) {
             display.random();
+        } else if (command == i) {
+            display.setCurrentBlock(i); // Find a way to make this so we dont need different else if statements for each block type
         } else if (command == restart) {
             game->restart();
-        }
+        } 
     }
 
-    // Player's turn is over
-
+    for () // Check all columns in third row to see if there is a cell there, if so, player loses
     if (display.getScore() > highScore) highScore = display.getScore();
+
 
 
     
@@ -149,6 +150,10 @@ class Player {
 
     
     Decorator currentBlock{nextHeavy}
+}
+
+bool getLost() {
+    return lost;
 }
 
 };
