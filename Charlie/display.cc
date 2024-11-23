@@ -4,11 +4,11 @@
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
     board[5][5] = make_unique<Cell>('T');
 
-    unique_ptr<Cell> cell1 = make_unique<Cell>('L');
-    unique_ptr<Cell> cell2 = make_unique<Cell>('L');
-    unique_ptr<Cell> cell3 = make_unique<Cell>('L');
-    unique_ptr<Cell> cell4 = make_unique<Cell>('L');
-    currentBlock = make_unique<Block>(true, false, 0, 0, 3, move(cell1), move(cell2), move(cell3), move(cell4));
+    Cell *cell1 = new Cell{'L'};
+    Cell *cell2 = new Cell{'L'};
+    Cell *cell3 = new Cell{'L'};
+    Cell *cell4 = new Cell{'L'};
+    currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
 };
 
 Display::~Display() {
@@ -59,7 +59,7 @@ bool Display::levelDown() {
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
-
+    
 }
 
 
@@ -94,7 +94,9 @@ void Display::print() {
 
 // insert the currentBlock on the board
 void Display::insertCurrentBlock() {
-    
+    for (auto cell : currentBlock->getAllCells()) {
+        
+    }
 }
 
 
