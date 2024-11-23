@@ -2,12 +2,12 @@
 
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
-    board[5][5] = make_unique<Cell>('T');
+    board[5][5] = make_unique<Cell>('T', 5, 5);
 
-    Cell *cell1 = new Cell{'L'};
-    Cell *cell2 = new Cell{'L'};
-    Cell *cell3 = new Cell{'L'};
-    Cell *cell4 = new Cell{'L'};
+    Cell *cell1 = new Cell{'L', 0, 0};
+    Cell *cell2 = new Cell{'L', 1, 0};
+    Cell *cell3 = new Cell{'L', 2, 0};
+    Cell *cell4 = new Cell{'L', 2, 1};
     currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
 };
 
@@ -95,7 +95,7 @@ void Display::print() {
 // insert the currentBlock on the board
 void Display::insertCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {
-        
+        board[cell->getX()][cell->getY()] = unique_ptr<Cell>{cell};
     }
 }
 

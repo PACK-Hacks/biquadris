@@ -8,5 +8,6 @@ int main() {
 
     Display d{4, blockFile};
 
+    d.insertCurrentBlock();
     d.print();
 }

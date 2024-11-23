@@ -35,7 +35,6 @@ class Display {
     ifstream &blockFile;
 
     bool clear();
-    void insertCurrentBlock();
 
     public:
         Display(int levelIndex, ifstream &blockFile);
@@ -63,6 +62,9 @@ class Display {
 
         // development functions
         void print();
+    
+        // functions to be private
+        void insertCurrentBlock();
 };
 
 
