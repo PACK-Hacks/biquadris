@@ -27,9 +27,10 @@ class Display {
     bool heavy = false; // maybe
     bool force = false; // maybe
     bool lost = false;  // maybe
-    vector<Level *> levels = {}; // something
+    // vector<Level *> levels = {}; // something
+
     int levelIndex;
-    Level *level;
+    // Level *level;
     ifstream &blockFile;
 
     bool clear();

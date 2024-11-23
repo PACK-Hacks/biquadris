@@ -1,7 +1,7 @@
 #include "display.h"
 
 
-Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{vecLevels[levelIndex]}, blockFile{blockFile} {};
+Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 
 Display::~Display() {
 
