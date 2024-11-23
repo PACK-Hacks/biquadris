@@ -1,10 +1,23 @@
 #include "subject.h"
+#include "observer.h"
+#include <vector>
 
-void Subject::attach (Observer *o) {
+// Add new observer
+void Subject::attach( Observer* o ) {
+    observers.emplace_back(o);
 }
 
-void Subject::detach(Observer *o) {
+// Remove observer
+void Subject::detach( Observer* o ) {
+    for (auto p = observers.begin(); p != observers.end(); ++p) {
+        if (*p == o) {
+            observers.erase(p);
+            break;
+        }
+    }
 }
 
-void Subject::notifyObservers() {}
-
+// Notify observers
+void Subject::notifyObservers() {
+    for (auto p: observers) p->notify();
+}
