@@ -34,6 +34,6 @@ int main() {
 
     t.notify();
 
-    // d.down();
-    // t.notify();
+    d.drop();
+    t.notify();
   }
