@@ -55,6 +55,13 @@ bool Display::moveNextToCurrent() {
 }
 
 
+int Display::getWidth() {
+    return WIDTH;
+}
+int Display::getHeight() {
+    return HEIGHT;
+}
+
 
 // class Display {
 //     const int width = 11;

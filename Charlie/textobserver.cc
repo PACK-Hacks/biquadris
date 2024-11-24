@@ -2,18 +2,18 @@
 #include "subject.h"
 #include "display.h"
 
-// top = left = 0; botoom = HEIGHT; right = WIDTH
-// TextObserver::TextObserver(Display* subject, int top, int bottom, int left, int right) 
-//     :subject{subject}, top{top}, bottom{bottom}, left{left}, right{right} {
-//         subject->attach(this);
-// }
+// 0 = 0 = 0; botoom = HEIGHT; width = WIDTH
+TextObserver::TextObserver(Display* subject) 
+    :subject{subject}, width{subject->getWidth()}, height{subject->getHeight()} {
+        subject->attach(this);
+}
 
 int seperate = 10;
 int highScore = 100;
 int levelIndex = 0;
 int score = 0;
 
-// reserve three extra rows for different cell types at top of the baord for rotationn
+// reserve three extra rows for different cell types at 0 of the baord for rotationn
 void TextObserver::notify() {
     // Hisch Score 
     out << "High Score:     " << highScore;
@@ -33,20 +33,20 @@ void TextObserver::notify() {
     out << "Score:     " << score;
 
 
-    // top margin for player1
-    for (int i = left; i <= right; ++i) out << '-'; // reserve three extra rows
+    // 0 margin for player1
+    for (int i = 0; i <= width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
     for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
 
-    // top margin for player1
-    for (int i = left; i <= right; ++i) out << '-'; // reserve three extra rows
+    // 0 margin for player1
+    for (int i = 0; i <= width; ++i) out << '-'; // reserve three extra rows
 
     // board
-    for (int i = top; i <= bottom; ++i) {
+    for (int i = 0; i <= height; ++i) {
 
         // plaer1 board
-        for (int j = left; j <= right; ++j) {
+        for (int j = 0; j <= width; ++j) {
             out << subject->getState(i, j); // retrieved from Display 
         }
 
@@ -54,20 +54,20 @@ void TextObserver::notify() {
         for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
 
         // plaer2 board
-        for (int j = left; j <= right; ++j) {
+        for (int j = 0; j <= width; ++j) {
             out << subject->getState(i, j); // retrieved from Display 
         }
 
     }
 
-    // bottom margin for player1
-    for (int i = left; i <= right; ++i) out << '-'; // reserve three extra rows
+    // height margin for player1
+    for (int i = 0; i <= width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
     for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
 
-    // bottom margin for player2
-    for (int i = left; i <= right; ++i) out << '-'; // reserve three extra rows
+    // height margin for player2
+    for (int i = 0; i <= width; ++i) out << '-'; // reserve three extra rows
     
     
     out << "Next:       "; 
@@ -76,7 +76,7 @@ void TextObserver::notify() {
 
     out << "Next:       ";
 
-    // bottom margin
+    // height margin
     out << "getNextBook()";
     
     out << "          ";
@@ -90,18 +90,18 @@ void TextObserver::notify() {
 
 // void TextObserver::notify() {
 //     out << '+';
-//     for (int j = left; j <= right; ++j) out << '-'; // reserve three extra rows
+//     for (int j = 0; j <= width; ++j) out << '-'; // reserve three extra rows
 //     out << '+' << std::endl;
 
-//     for (int i = top; i <= bottom; ++i) {
+//     for (int i = top; i <= height; ++i) {
 //         out << '|';
-//         for (int j = left; j <= right; ++j) {
+//         for (int j = 0; j <= width; ++j) {
 //             out << subject->getState(i, j); // retrieved from Display 
 //         }
 //         out << '|' << std::endl;
 //     }
 //     out << '+';
-//     for (int j = left; j <= right; ++j) out << '-';
+//     for (int j = 0; j <= width; ++j) out << '-';
 //     out << '+' << std::endl;
 // }
 

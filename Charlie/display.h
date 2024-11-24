@@ -8,11 +8,11 @@
 #include "level.h"
 #include "block.h"
 #include "cell.h"
-
+#include "subject.h"
 
 using namespace std;
 
-class Display {
+class Display: public Subject {
     const int HEIGHT = 15;
     const int WIDTH = 11;
     const int MAXLEVEL = 4;
@@ -39,9 +39,9 @@ class Display {
 
     public:
         Display(int levelIndex, ifstream &blockFile);
-        ~Display();
+        ~Display() = default;
 
-        char getState(int row, int col);
+        char getState(int row, int col) const override;
         int getScore();
         bool levelUp();
         bool levelDown();
@@ -68,6 +68,8 @@ class Display {
         void insertCurrentBlock();
         void removeCurrentBlock();
         void place();
+        int getWidth();
+        int getHeight();
 };
 
 

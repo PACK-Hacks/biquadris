@@ -56,6 +56,9 @@ class Display {
         bool drop();
         bool clockwise();
         bool counterClockwise();
+
+        int getWidth();
+        int getHeight();
 };
 
 

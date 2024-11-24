@@ -1,6 +1,7 @@
 #include "display.h"
 #include <fstream>
-
+#include "textobserver.h"
+#include <memory>
 using namespace std;
 
 int main() {
@@ -11,15 +12,22 @@ int main() {
     d.insertCurrentBlock();
     d.print();
 
-    d.right();
-    d.print();
+    // d.right();
+    // d.print();
 
-    d.down();
-    d.print();
+    // d.down();
+    // d.print();
 
-    d.left();
-    d.print();
+    // d.left();
+    // d.print();
 
-    d.drop();
-    d.print();
-}
+    // d.drop();
+    // d.print();
+
+    // vector obserers for the observer instances
+    std::vector<Observer*> observers;
+
+    auto d1 = std::make_unique<Display>(d);
+
+    TextObserver t{d1};
+  }

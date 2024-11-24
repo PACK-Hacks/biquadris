@@ -16,7 +16,7 @@ Display::~Display() {
 }
 
 // Returns the character of the
-char Display::getState(int row, int col) {
+char Display::getState(int row, int col) const {
     // If there is a cell at that position on the board, return its character
     if (board[row][col]) {
         return board[row][col]->getChar();
@@ -224,6 +224,13 @@ void Display::print() {
         cout << "-";
     }
     cout << "+" << endl;
+}
+
+int Display::getWidth() {
+    return WIDTH;
+}
+int Display::getHeight() {
+    return HEIGHT;
 }
 
 // // reserve three extra rows for different cell types at top of the baord for rotationn

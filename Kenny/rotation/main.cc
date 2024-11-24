@@ -4,7 +4,7 @@
 // Function to rotate a 4x4 matrix clockwise
 void rotateClockwise(int matrix[4][4]) {
     // Transpose the matrix
-    for (getChar() == 'I') {
+    if (getChar() == 'I') {
         for (int i = 0; i < 4; i++) {
             for (int j = i; j < 4; j++) {
                 std::swap(matrix[i][j], matrix[j][i]);
@@ -16,15 +16,15 @@ void rotateClockwise(int matrix[4][4]) {
             std::reverse(matrix[i], matrix[i] + 4);
         }
     } else {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 1; i < 4; i++) {
             for (int j = i; j < 4; j++) {
                 std::swap(matrix[i][j], matrix[j][i]);
             }
         }
 
         // Reverse each row
-        for (int i = 0; i < 4; i++) {
-            std::reverse(matrix[i], matrix[i] + 4);
+        for (int i = 1; i < 4 i++) {
+            std::reverse(matrix[i], matrix[i] + 3);
         }
     }
 }
