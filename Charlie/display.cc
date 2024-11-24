@@ -63,8 +63,9 @@ bool Display::moveNextToCurrent() {
 }
 
 
-// Check the validity of a block operation. Returns true if operation leaves the block in a valid destination and false otherwise
-bool Display::operationIsValid(int changeInX, int changeInY) {
+// Finds a starting point to begin the a translation operation. Returns a valid pair of <x, y>
+// coordinates if operation leaves the block in a valid destination and <-1, -1> otherwise
+pair<int, int> Display::operationIsValid(int changeInX, int changeInY) {
     // Check to see if any of the cell coordinates obtained by moving the block is invalid
     for (auto cell : currentBlock->getAllCells()) {
         int destinationX = cell->getX() + changeInX;
@@ -76,32 +77,58 @@ bool Display::operationIsValid(int changeInX, int changeInY) {
 
         // Invalid if the destination is already occupied by a cell on the board
         if (board[destinationY][destinationX]) return false;
+
+
     }
 
     // Otherwise, desitination is valid
     return true;
 }
 
+// Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
+void Display::insertCurrentBlock() {
+    for (auto cell : currentBlock->getAllCells()) {
+        board[cell->getY()][cell->getX()] = unique_ptr<Cell>{cell};
+    }
+}
+
+// Update the position of currentBlock's cells on the board
+void Display::updateCurrentBlock(int changeInX, int changeInY) {
+    // Empty destination, this is for moving the cells of the currentBlock one-by-one
+    int emptyX, emptyY;
+
+    // Find a currentBlock destination position that is empty on the board, there will be at least one
+    for (auto cell : currentBlock->getAllCells()) {
+        if (board[cell->getY()][cell->getX()] == nullptr) {
+            emptyX = cell->getX();
+            emptyY = cell->getY();
+
+            break;
+        }
+    }
+
+    // Move the cells one-by-one
+    for (auto cell : currentBlock->getAllCells()) {
+        emptyX = cell->getX();
+        emptyY = cell->getY();
+    }
+}
+
 
 // Move the currentBlock to the left. Return true if operation is successful and false otherwise
 bool Display::left() {
-    // Remove currentBlock from board 
-    removeCurrentBlock();
-
-    // Cancel operation if invalid and insert currentBlock back to original position
+    // Cancel operation if invalid
     if (!operationIsValid(-1, 0)) {
-        insertCurrentBlock();
         return false;
     }
 
-    // Check to see if any of the cell coordinates obtained by moving the block left is invalid
+    // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        // Updated coordinates of the cells in the currentBlock
         cell->addToX(-1);
     }
 
-    // Insert block 
-    insertCurrentBlock();
+    // Update currentBlock on board
+    updateCurrentBlock(-1, 0);
 
     // Successful operation
     return true;
@@ -224,20 +251,6 @@ void Display::print() {
 // }
 
 
-
-// Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
-void Display::insertCurrentBlock() {
-    for (auto cell : currentBlock->getAllCells()) {
-        board[cell->getY()][cell->getX()] = unique_ptr<Cell>{cell};
-    }
-}
-
-// Remove the currentBlock on the board by ridding positions on the board of corresponding Cell pointers
-void Display::removeCurrentBlock() {
-    for (auto cell : currentBlock->getAllCells()) {
-        board[cell->getY()][cell->getX()] = nullptr;
-    }
-}
 
 
 // class Display {

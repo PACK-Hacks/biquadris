@@ -6,6 +6,10 @@ char Cell::getChar() {
     return letter;
 }
 
+char Cell::getRealChar() {
+    return realLetter;
+}
+
 void Cell::addToX(int n) {
     x += n;
 }

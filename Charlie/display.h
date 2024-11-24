@@ -35,7 +35,7 @@ class Display {
     ifstream &blockFile;
 
     bool clear();
-    bool operationIsValid(int changeInX, int changeInY);
+    pair<int, int> operationIsValid(int changeInX, int changeInY);
 
     public:
         Display(int levelIndex, ifstream &blockFile);
@@ -66,7 +66,7 @@ class Display {
     
         // functions to be private
         void insertCurrentBlock();
-        void removeCurrentBlock();
+        void updateCurrentBlock(int changeInX, int changeInY);
 };
 
 

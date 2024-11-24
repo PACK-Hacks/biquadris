@@ -10,5 +10,8 @@ void hmm(Cell *p) {
 
 int main() {
     unique_ptr<Cell> p = make_unique<Cell>('T');
+
+    Cell *p1 = p.get();
+    unique_ptr<Cell> p2 = move(p);
     hmm(p.get());
 }
