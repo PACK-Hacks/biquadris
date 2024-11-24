@@ -35,12 +35,13 @@ class Display {
     ifstream &blockFile;
 
     bool clear();
+    bool operationIsValid(int changeInX, int changeInY);
 
     public:
         Display(int levelIndex, ifstream &blockFile);
         ~Display();
 
-        char charAt(int row, int col);
+        char getState(int row, int col);
         int getScore();
         bool levelUp();
         bool levelDown();
@@ -65,6 +66,7 @@ class Display {
     
         // functions to be private
         void insertCurrentBlock();
+        void removeCurrentBlock();
 };
 
 

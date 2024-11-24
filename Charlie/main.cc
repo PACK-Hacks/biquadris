@@ -10,4 +10,7 @@ int main() {
 
     d.insertCurrentBlock();
     d.print();
+
+    d.left();
+    d.print();
 }

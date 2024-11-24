@@ -16,7 +16,7 @@ Display::~Display() {
 }
 
 // Returns the character of the
-char Display::charAt(int row, int col) {
+char Display::getState(int row, int col) {
     // If there is a cell at that position on the board, return its character
     if (board[row][col]) {
         return board[row][col]->getChar();
@@ -63,6 +63,51 @@ bool Display::moveNextToCurrent() {
 }
 
 
+// Check the validity of a block operation. Returns true if operation leaves the block in a valid destination and false otherwise
+bool Display::operationIsValid(int changeInX, int changeInY) {
+    // Check to see if any of the cell coordinates obtained by moving the block is invalid
+    for (auto cell : currentBlock->getAllCells()) {
+        int destinationX = cell->getX() + changeInX;
+        int destinationY = cell->getY() + changeInY;
+
+        // Invalid if the destination is out of bounds
+        if (destinationX < 0 || WIDTH <= destinationX) return false;
+        if (destinationY < 0 || HEIGHT <= destinationY) return false;
+
+        // Invalid if the destination is already occupied by a cell on the board
+        if (board[destinationY][destinationX]) return false;
+    }
+
+    // Otherwise, desitination is valid
+    return true;
+}
+
+
+// Move the currentBlock to the left. Return true if operation is successful and false otherwise
+bool Display::left() {
+    // Remove currentBlock from board 
+    removeCurrentBlock();
+
+    // Cancel operation if invalid and insert currentBlock back to original position
+    if (!operationIsValid(-1, 0)) {
+        insertCurrentBlock();
+        return false;
+    }
+
+    // Check to see if any of the cell coordinates obtained by moving the block left is invalid
+    for (auto cell : currentBlock->getAllCells()) {
+        // Updated coordinates of the cells in the currentBlock
+        cell->addToX(-1);
+    }
+
+    // Insert block 
+    insertCurrentBlock();
+
+    // Successful operation
+    return true;
+}
+
+
 
 
 void Display::print() {
@@ -92,10 +137,105 @@ void Display::print() {
     cout << "+" << endl;
 }
 
-// insert the currentBlock on the board
+// // reserve three extra rows for different cell types at top of the baord for rotationn
+// void Display::print() {
+//     // High Score 
+//     cout << endl;
+//     cout << "High Score:     " << highScore << endl;
+
+//     // level
+//     cout << "Level:     " << levelIndex;
+
+//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//     cout << "Level:     " << levelIndex << endl;
+
+//     // score
+//     cout << "Score:     " << score;
+
+//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//     cout << "Score:     " << levelIndex << endl;
+
+
+
+//     // top margin for player1
+//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
+
+//     // seperate
+//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//     // top margin for player1
+//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
+
+//     cout << endl;
+
+//     // board
+//     for (int i = 0; i <= HEIGHT; ++i) {
+
+//         // plaer1 board
+//         for (int j = 0; j <= WIDTH; ++j) {
+//             // out << subject->getState(i, j); // retrieved from Display 
+//             cout << 'T'; // retrieved from Display 
+
+//         }
+
+//         // seperate
+//         for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//         // plaer2 board
+//         for (int j = 0; j <= WIDTH; ++j) {
+//             // out << subject->getState(i, j); // retrieved from Display 
+//             cout << 'L'; // retrieved from Display 
+//         }
+
+//         cout << endl;
+
+//     }
+
+//     // bottom margin for player1
+//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
+
+//     // seperate
+//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//     // bottom margin for player2
+//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
+    
+//     cout << endl;
+
+//     cout << "Next:       "; 
+
+//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
+
+//     cout << "Next:       " << end;
+
+//     // bottom margin
+//     cout << "getNextBook()";
+    
+//     cout << "          ";
+
+//     cout << "getNextBook()" << endl;
+
+
+//     // where is generateNextBlock() called?  
+//     // should there be a nextBlock field? 
+
+// }
+
+
+
+// Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
 void Display::insertCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {
-        board[cell->getX()][cell->getY()] = unique_ptr<Cell>{cell};
+        board[cell->getY()][cell->getX()] = unique_ptr<Cell>{cell};
+    }
+}
+
+// Remove the currentBlock on the board by ridding positions on the board of corresponding Cell pointers
+void Display::removeCurrentBlock() {
+    for (auto cell : currentBlock->getAllCells()) {
+        board[cell->getY()][cell->getX()] = nullptr;
     }
 }
 
