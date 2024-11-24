@@ -67,6 +67,7 @@ class Display {
         // functions to be private
         void insertCurrentBlock();
         void removeCurrentBlock();
+        void place();
 };
 
 
