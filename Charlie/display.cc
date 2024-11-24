@@ -4,11 +4,14 @@
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
     board[5][5] = make_unique<Cell>('T', 5, 5);
 
-    Cell *cell1 = new Cell{'L', 0, 0};
-    Cell *cell2 = new Cell{'L', 1, 0};
-    Cell *cell3 = new Cell{'L', 2, 0};
-    Cell *cell4 = new Cell{'L', 2, 1};
-    currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
+    // Cell *cell1 = new Cell{'L', 0, 0};
+    // Cell *cell2 = new Cell{'L', 1, 0};
+    // Cell *cell3 = new Cell{'L', 2, 0};
+    // Cell *cell4 = new Cell{'L', 2, 1};
+    // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
+
+    currentBlock = make_unique<ZBlock>(false, false);
+    nextBlock = make_unique<SBlock>(true, false);
 };
 
 Display::~Display() {
@@ -29,6 +32,14 @@ char Display::getState(int row, int col) const {
 // Gets the score of the display
 int Display::getScore() {
     return score;
+}
+
+
+// Sets nextBlock on the next block dock
+void Display::setNextBlock() {
+    for (auto cell : nextBlock->getAllCells()) {
+        board[cell->getY() + HEIGHT][cell->getX()] = cell;
+    }
 }
 
 // Level up, returns true if successful, false otherwise
@@ -226,9 +237,18 @@ void Display::print() {
     cout << "+" << endl;
 }
 
+int Display::getNumReserveRows() {
+    return NUM_RESERVE_ROWS;
+}
+
+int Display::getNextBlockDock() {
+    return NEXT_BLOCK_DOCK;
+}
+
 int Display::getWidth() {
     return WIDTH;
 }
+
 int Display::getHeight() {
     return HEIGHT;
 }

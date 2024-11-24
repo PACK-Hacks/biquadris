@@ -6,8 +6,13 @@
 
 class TextObserver : public Observer {
     Display* subject;
-    int width, height;  // boundary fields
+    int numReserveRows, nextBlockDock, width, height;  // boundary fields
     std::ostream &out = std::cout;
+
+    const int SEPARATE = 6;
+
+    void printSeparation();
+    void printTopBoundary();
 
 public:
     TextObserver(Display* subject);

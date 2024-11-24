@@ -2,6 +2,9 @@
 #include "observer.h"
 #include <vector>
 
+Subject::Subject() {}
+Subject::~Subject() {}
+
 // Add new observer
 void Subject::attach( Observer* o ) {
     observers.emplace_back(o);

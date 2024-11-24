@@ -13,15 +13,17 @@
 using namespace std;
 
 class Display: public Subject {
-    const int HEIGHT = 15;
+    const int NUM_RESERVE_ROWS = 3;
+    const int NEXT_BLOCK_DOCK = 4;
+    const int HEIGHT = 18;          // height includes the 15 rows of the board and 3 reserve rows
     const int WIDTH = 11;
     const int MAXLEVEL = 4;
     const int MINLEVEL = 0;
 
     // vector<Cell *> board(11, nullptr);
 
-    shared_ptr<Cell> board[15][11]{nullptr};  // Board of cells resulting from placed blocks
-    Block *nextBlock = nullptr;
+    shared_ptr<Cell> board[22][11]{nullptr};  // Board of cells resulting from placed blocks
+    unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
 
     int score = 0;
@@ -39,10 +41,17 @@ class Display: public Subject {
 
     public:
         Display(int levelIndex, ifstream &blockFile);
-        ~Display() = default;
+        ~Display();
 
         char getState(int row, int col) const override;
         int getScore();
+        int getNumReserveRows();
+        int getNextBlockDock();
+        int getWidth();
+        int getHeight();
+        void setNextBlock();
+
+
         bool levelUp();
         bool levelDown();
 
@@ -68,8 +77,6 @@ class Display: public Subject {
         void insertCurrentBlock();
         void removeCurrentBlock();
         void place();
-        int getWidth();
-        int getHeight();
 };
 
 

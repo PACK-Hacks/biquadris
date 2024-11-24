@@ -10,7 +10,8 @@ int main() {
     Display d{4, blockFile};
 
     d.insertCurrentBlock();
-    d.print();
+    d.setNextBlock();
+    // d.print();
 
     // d.right();
     // d.print();
@@ -27,7 +28,12 @@ int main() {
     // vector obserers for the observer instances
     std::vector<Observer*> observers;
 
-    auto d1 = std::make_unique<Display>(d);
+    // auto d1 = std::make_unique<Display>(d);
 
-    TextObserver t{d1};
+    TextObserver t{&d};
+
+    t.notify();
+
+    // d.down();
+    // t.notify();
   }
