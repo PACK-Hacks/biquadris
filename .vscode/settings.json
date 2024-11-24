@@ -4,6 +4,8 @@
         "string": "cpp",
         "ostream": "cpp",
         "iostream": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "compare": "cpp",
+        "type_traits": "cpp"
     }
 }
