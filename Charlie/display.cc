@@ -97,6 +97,13 @@ void Display::removeCurrentBlock() {
     }
 }
 
+// Confirm placing currentBlock on the board, and reflecting the change in the state of currentBlock
+void Display::place() {
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->place();
+    }
+}
+
 
 // Move the currentBlock to the left. Return true if operation is successful and false otherwise
 bool Display::left() {

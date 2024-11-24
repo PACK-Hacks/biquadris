@@ -10,6 +10,11 @@ char Cell::getRealChar() {
     return realLetter;
 }
 
+// Set the realLetter to letter to reflect the block being placed on the board
+void Cell::place() {
+    realLetter = letter;
+}
+
 void Cell::addToX(int n) {
     x += n;
 }

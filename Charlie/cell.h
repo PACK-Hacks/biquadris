@@ -12,6 +12,7 @@ class Cell {
         Cell(char letter, int x, int y);
         char getChar();
         char getRealChar();
+        void place();
         void addToX(int n);
         void addToY(int n);
         int getX();
