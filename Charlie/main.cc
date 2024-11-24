@@ -19,4 +19,7 @@ int main() {
 
     d.left();
     d.print();
+
+    d.drop();
+    d.print();
 }

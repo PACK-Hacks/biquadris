@@ -143,7 +143,7 @@ bool Display::right() {
     return true;
 }
 
-// Move the currentBlock to the down. Return true if operation is successful and false otherwise
+// Move the currentBlock down. Return true if operation is successful and false otherwise
 bool Display::down() {
     removeCurrentBlock();
 
@@ -164,6 +164,31 @@ bool Display::down() {
     // Successful operation
     return true;
 }
+
+// Drop the currentBlock. Return true if operation is successful and false otherwise
+bool Display::drop() {
+    removeCurrentBlock();
+
+    // Try dropping the block down all the way to lowest row. If unsuccesful, try dropping 
+    // one row higher until the operation is successful
+    int currentBlockAltitude = HEIGHT - currentBlock->getAllCells()[0]->getY();
+
+    while (!operationIsValid(0, currentBlockAltitude)) {
+        currentBlockAltitude--;
+    }
+
+    // Updated coordinates of the cells in the currentBlock
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(currentBlockAltitude);
+    }
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+    // Successful operation
+    return true;
+}
+
 
 
 
