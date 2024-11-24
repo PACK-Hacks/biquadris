@@ -20,7 +20,7 @@ class Display {
 
     // vector<Cell *> board(11, nullptr);
 
-    unique_ptr<Cell> board[15][11]{nullptr};  // Board of cells resulting from placed blocks
+    shared_ptr<Cell> board[15][11]{nullptr};  // Board of cells resulting from placed blocks
     Block *nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
 

@@ -11,6 +11,12 @@ int main() {
     d.insertCurrentBlock();
     d.print();
 
+    d.right();
+    d.print();
+
+    d.down();
+    d.print();
+
     d.left();
     d.print();
 }

@@ -14,13 +14,13 @@ class Block {
 
     int rotationLen;
 
-    vector<Cell *> cells;
+    vector<shared_ptr<Cell>> cells;
 
     public:
         Block(bool active, bool heavy, int bottomLeftX, int bottomLeftY, int rotationLen,
             Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4);
 
-        vector<Cell *> getAllCells() const;
+        vector<shared_ptr<Cell>> getAllCells() const;
 
         // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
 };
