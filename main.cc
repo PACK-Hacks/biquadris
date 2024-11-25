@@ -25,5 +25,15 @@ int main() {
 
     d1.right(4);
     d2.right(4);
+    d2.right(4);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.down();
+    t.notify();
+
+    d2.left();
     t.notify();
   }

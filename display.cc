@@ -178,10 +178,10 @@ bool Display::left(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = currentBlock->isHeavy();
+    int heavy = 2 * currentBlock->isHeavy();
 
-    // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(-n, heavy)) {
+    // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
+    if (!operationIsValid(-n, 0)) {
         insertCurrentBlock();
         return false;
     }
@@ -189,18 +189,27 @@ bool Display::left(int n) {
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToX(-n);
-        cell->addToY(heavy);
     }
 
-    // Change the block's bottomLeftX and bottomLeftY
+    // Change the block's bottomLeftX
     currentBlock->addToBottomLeftX(-n);
-    currentBlock->addToBottomLeftY(heavy);
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        this->drop();
+        return true;
+    }
+
+    // Otherwise, move the block down heavy units
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(heavy);
+    }
 
     // Insert currentBlock on board
     insertCurrentBlock();
 
     // Successful operation
-    return true;
+    return false;
 }
 
 
@@ -209,9 +218,9 @@ bool Display::right(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = currentBlock->isHeavy();
+    int heavy = 2 * currentBlock->isHeavy();
 
-    // Cancel operation if invalid, insert currentBlock back to original position
+    // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
     if (!operationIsValid(n, 0)) {
         insertCurrentBlock();
         return false;
@@ -220,18 +229,27 @@ bool Display::right(int n) {
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToX(n);
-        cell->addToY(heavy);
     }
 
-    // Change the block's bottomLeftX and bottomLeftY
+    // Change the block's bottomLeftX
     currentBlock->addToBottomLeftX(n);
-    currentBlock->addToBottomLeftY(heavy);
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        this->drop();
+        return true;
+    }
+
+    // Otherwise, move the block down heavy units
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(heavy);
+    }
 
     // Insert currentBlock on board
     insertCurrentBlock();
 
     // Successful operation
-    return true;
+    return false;
 }
 
 // Move the currentBlock down n units. Return true if operation places block and false otherwise
@@ -275,6 +293,9 @@ bool Display::drop() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToY(dropHeight - 1);
     }
+
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(dropHeight - 1);
 
     // Insert currentBlock on board
     insertCurrentBlock();
