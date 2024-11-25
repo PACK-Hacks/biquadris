@@ -18,80 +18,96 @@ TextObserver::TextObserver(Display* subject1, Display* subject2)
 //         subject->attach(this);
 // }
 
-int seperate = 10;
 int highScore = 100;
 int levelIndex = 0;
 int score = 0;
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
 void TextObserver::notify() {
-    // Hisch Score 
-    out << "High Score:     " << highScore;
+    out << endl;
+
+    // High Score 
+    out << "High Score:     " << highScore << endl;
 
     // level
-    out << "Level:     " << levelIndex;
+    out << "Level:    " << levelIndex;
 
-    for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
 
-    out << "Level:     " << levelIndex;
+    out << "Level:    " << levelIndex << endl;
 
     // score
-    out << "Score:     " << score;
+    out << "Score:    " << score;
 
-    for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
 
-    out << "Score:     " << score;
+    out << "Score:    " << score << endl;
 
 
     // top margin for player1
-    for (int i = 0; i <= numReserveRows; ++i) out << '-'; // reserve three extra rows
+    for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
-    for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
 
     // top margin for player1
-    for (int i = 0; i <= numReserveRows; ++i) out << '-'; // reserve three extra rows
+    for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
 
+    cout << endl;
     // board
-    for (int i = 0; i <= bottom; ++i) {
+    for (int i = 0; i < height; ++i) {
 
         // plaer1 board
-        for (int j = 0; j <= right; ++j) {
-            out << subject->getState(i, j); // retrieved from Display 
+        for (int j = 0; j < width; ++j) {
+            out << subject1->getState(i, j); // retrieved from Display 
         }
 
         // seperate
-        for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+        for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+
 
         // plaer2 board
-        for (int j = 0; j <= right; ++j) {
-            out << subject->getState(i, j); // retrieved from Display 
+        for (int j = 0; j < width; ++j) {
+            out << subject2->getState(i, j); // retrieved from Display 
         }
-
+        out << endl;
     }
 
     // bottom margin for player1
-    for (int i = 0; i <= right; ++i) out << '-'; // reserve three extra rows
+    for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
-    for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
 
     // bottom margin for player2
-    for (int i = 0; i <= right; ++i) out << '-'; // reserve three extra rows
+    for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
     
+    out << endl;
     
-    out << "Next:       "; 
+    out << "Next:      "; 
 
-    for (int i = 0; i <= seperate; ++i) out << ' '; // reserve three extra rows
+    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
 
-    out << "Next:       ";
+    out << "Next:      " << endl;
 
     // bottom margin
-    out << "getNextBook()";
-    
-    out << "          ";
+    for (int j = 0; j < width; ++j) {
+        out << subject1->getState(height, j); // retrieved from Display
+        out << subject2->getState(height, j); // retrieved from Display
 
-    out << "getNextBook()";
+    }
+    out << endl;
+    for (int i = 1; i < nextBlockDock; ++i) {
+        for (int j = 0; j < width; ++j) {
+            out << subject1->getState(i + height, j); // retrieved from Display
+        }
+        for (int i = 0; i < SEPARATE; i++) out << " ";
+        for (int j = 0; j < width; ++j) {
+            out << subject2->getState(i + height, j); // retrieved from Display
+        }
+        out << endl;
+    }
+    out << endl << endl;
 
     // where is generateNextBlock() called?  
     // should there be a nextBlock field? 

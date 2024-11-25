@@ -11,7 +11,7 @@ class TextObserver : public Observer {
     int numReserveRows, nextBlockDock, width, height;  // boundary fields
     std::ostream &out = std::cout;
 
-    const int SEPARATE = 6;
+    const int SEPARATE = 10;
 
     void printSeparation();
     void printTopBoundary();
