@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     ifstream blockFile{"blank.txt"};
 
-    Display d{1, blockFile};
+    Display d{0, blockFile};
 
     d.insertCurrentBlock();
     d.setNextBlock();
@@ -35,5 +35,32 @@ int main() {
     t.notify();
 
     d.drop();
+    t.notify();
+
+    // Moving next to current and generating next
+    d.moveNextToCurrent();
+    t.notify();
+
+    d.insertCurrentBlock();
+    d.generateNextBlock("empty");
+    d.setNextBlock();
+    t.notify();
+
+    d.drop();
+    t.notify();
+
+    d.moveNextToCurrent();
+    d.insertCurrentBlock();
+    d.generateNextBlock("empty");
+    d.setNextBlock();
+    t.notify();
+
+    d.right();
+    d.right();
+    d.drop();
+    d.moveNextToCurrent();
+    d.insertCurrentBlock();
+    d.generateNextBlock("empty");
+    d.setNextBlock();
     t.notify();
   }

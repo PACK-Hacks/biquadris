@@ -10,7 +10,7 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
 
     level = levels[levelIndex].get();
 
-    board[5][5] = make_unique<Cell>('T', 5, 5);
+    // board[5][5] = make_unique<Cell>('T', 5, 5);
 
     // Cell *cell1 = new Cell{'L', 0, 0};
     // Cell *cell2 = new Cell{'L', 1, 0};
@@ -20,6 +20,7 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
 
     currentBlock = unique_ptr<Block>(level->makeBlock(heavy));
     nextBlock = make_unique<SBlock>(false);
+    // nextBlock = unique_ptr<Block>(level->makeBlock(heavy));
 };
 
 Display::~Display() {
@@ -68,6 +69,13 @@ void Display::dropDummyCell() {
 
 // Sets nextBlock on the next block dock
 void Display::setNextBlock() {
+    // Clear next block dock
+    for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            board[i + HEIGHT][j] = nullptr;
+        }
+    }
+
     for (auto cell : nextBlock->getAllCells()) {
         board[cell->getY() + HEIGHT][cell->getX()] = cell;
     }
@@ -101,7 +109,12 @@ void Display::setNextBlock() {
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
-    
+    currentBlock = move(nextBlock);
+}
+
+// Generate the nextBlock
+void Display::generateNextBlock(string special) {
+    nextBlock = unique_ptr<Block>(level->makeBlock(heavy));
 }
 
 
@@ -144,6 +157,12 @@ void Display::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
+
+    currentBlock = nullptr;
+
+    // Reset display to default values
+    heavy = false;
+    blind = false;
 }
 
 
@@ -233,6 +252,9 @@ bool Display::drop() {
 
     // Insert currentBlock on board
     insertCurrentBlock();
+
+    // Place block
+    place();
 
     // Successful operation
     return true;

@@ -63,7 +63,6 @@ class Display: public Subject {
         bool moveNextToCurrent();
         void generateNextBlock(string special);
         Block *getCurrentBlock();
-        void setCurrentBlock(Block *block);
 
         // returns true if the action causes the block to be dropped
         bool left();
@@ -81,6 +80,7 @@ class Display: public Subject {
         void insertCurrentBlock();
         void removeCurrentBlock();
         void place();
+        void setCurrentBlock(Block *block);
 };
 
 
