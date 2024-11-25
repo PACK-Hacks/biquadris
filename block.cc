@@ -13,7 +13,12 @@ Block::Block(bool heavy, int rotationLen,
 // Block destructor
 Block::~Block() {}
 
-// get all cells in the Block
+// Sets heavy field
+void Block::setHeavy(bool heavy) {
+    heavy = heavy;
+}
+
+// Gets all cells in the Block
 vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;
 }

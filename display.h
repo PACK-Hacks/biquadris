@@ -29,7 +29,6 @@ class Display: public Subject {
     int score = 0;
     bool blind = false;
     bool heavy = false; // maybe
-    bool force = false; // maybe
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
     vector<unique_ptr<Level>> levels; // something
@@ -52,7 +51,11 @@ class Display: public Subject {
         int getHeight();
         bool getHeavy();
         int getTurnsSinceClear();
+
         void setNextBlock();
+        void setHeavy(bool heavy=true);
+        void setBlind(bool blind=true);
+        void resetSpecial();
 
         void dropDummyCell();
 
@@ -61,8 +64,10 @@ class Display: public Subject {
 
         // returns true if the action causes the block to be dropped
         bool moveNextToCurrent();
-        void generateNextBlock(string special);
+        void generateNextBlock();
         Block *getCurrentBlock();
+        void setCurrentBlock(char block);
+        void setCurrentHeavy(bool heavy=true);
 
         // returns true if the action causes the block to be dropped
         bool left();
@@ -80,7 +85,6 @@ class Display: public Subject {
         void insertCurrentBlock();
         void removeCurrentBlock();
         void place();
-        void setCurrentBlock(Block *block);
 };
 
 

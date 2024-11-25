@@ -18,7 +18,7 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
     // Cell *cell4 = new Cell{'L', 2, 1};
     // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
 
-    currentBlock = unique_ptr<Block>(level->makeBlock(heavy));
+    currentBlock = unique_ptr<Block>(level->makeBlock());
     nextBlock = make_unique<SBlock>(false);
     // nextBlock = unique_ptr<Block>(level->makeBlock(heavy));
 };
@@ -51,6 +51,16 @@ bool Display::getHeavy() {
 // Gets number of turns since last clear
 int Display::getTurnsSinceClear() {
     return turnsSinceClear;
+}
+
+// Sets the heavy field
+void setHeavy(bool heavy) {
+    heavy = heavy;
+}
+
+// Sets the blind field
+void setBlind(bool blind) {
+    blind = blind;
 }
 
 // It teleports through right now
@@ -114,8 +124,19 @@ bool Display::moveNextToCurrent() {
 }
 
 // Generate the nextBlock
-void Display::generateNextBlock(string special) {
-    nextBlock = unique_ptr<Block>(level->makeBlock(heavy));
+void Display::generateNextBlock() {
+    nextBlock = unique_ptr<Block>(level->makeBlock());
+}
+
+
+// Override the currentBlock
+void Display::setCurrentBlock(char block) {
+    currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
+}
+
+// Override the currentBlock's heavy field
+void Display::setCurrentHeavy(bool heavy) {
+    currentBlock->setHeavy(heavy);
 }
 
 

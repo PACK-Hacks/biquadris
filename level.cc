@@ -7,28 +7,28 @@ Level::Level(bool heavy, ifstream &blockFile) : heavy{heavy}, blockFile{blockFil
 Level::~Level() {};
 
 // Generating a pointer to a choosen block
-Block *Level::makeChosenBlock(char c, bool forceHeavy) {
+Block *Level::makeChosenBlock(char block) {
     // create a heavy block if the heavy field of the level is true or if the block is forced to be heavy
-    if (c == 'I') {
-        return new IBlock{heavy || forceHeavy}; 
+    if (block == 'I') {
+        return new IBlock{heavy}; 
     }
-    else if (c == 'O') {
-        return new OBlock{heavy || forceHeavy}; 
+    else if (block == 'O') {
+        return new OBlock{heavy}; 
     }
-    else if (c == 'L') {
-        return new LBlock{heavy || forceHeavy}; 
+    else if (block == 'L') {
+        return new LBlock{heavy}; 
     }
-    else if (c == 'J') {
-        return new JBlock{heavy || forceHeavy}; 
+    else if (block == 'J') {
+        return new JBlock{heavy}; 
     }
-    else if (c == 'T') {
-        return new TBlock{heavy || forceHeavy}; 
+    else if (block == 'T') {
+        return new TBlock{heavy}; 
     }
-    else if (c == 'S') {
-        return new SBlock{heavy || forceHeavy}; 
+    else if (block == 'S') {
+        return new SBlock{heavy}; 
     }
-    else if (c == 'Z') {
-        return new ZBlock{heavy || forceHeavy}; 
+    else if (block == 'Z') {
+        return new ZBlock{heavy}; 
     }
 }
 
@@ -40,12 +40,12 @@ Level0::Level0(ifstream &blockFile) : Level{false, blockFile} {};
 Level0::~Level0() {}
 
 // Block generation of Level0
-Block *Level0::makeBlock(bool forceHeavy) {
+Block *Level0::makeBlock() {
     char block;
     blockFile >> block;
 
     // Create block according to file
-    return makeChosenBlock(block, forceHeavy);
+    return makeChosenBlock(block);
 }
 
 // Level1 constructor
@@ -55,29 +55,29 @@ Level1::Level1(ifstream &blockFile) : Level{false, blockFile} {};
 Level1::~Level1() {}
 
 // Block generation of Level1
-Block *Level1::makeBlock(bool forceHeavy) {
+Block *Level1::makeBlock() {
     int randNum = rand() % 12;    // Random number from 0-11
 
     if (randNum < 1) {
-        return new SBlock{forceHeavy};
+        return new SBlock{false};
     }
     else if (randNum < 2) {
-        return new ZBlock{forceHeavy};
+        return new ZBlock{false};
     }
     else if (randNum < 4) {
-        return new IBlock{forceHeavy};
+        return new IBlock{false};
     }
     else if (randNum < 6) {
-        return new OBlock{forceHeavy};
+        return new OBlock{false};
     }
     else if (randNum < 8) {
-        return new LBlock{forceHeavy};
+        return new LBlock{false};
     }
     else if (randNum < 10) {
-        return new JBlock{forceHeavy};
+        return new JBlock{false};
     }
     else if (randNum < 12) {
-        return new TBlock{forceHeavy};
+        return new TBlock{false};
     }
 }
 
@@ -88,29 +88,29 @@ Level2::Level2(ifstream &blockFile) : Level{false, blockFile} {};
 Level2::~Level2() {}
 
 // Block generation of Level2
-Block *Level2::makeBlock(bool forceHeavy) {
+Block *Level2::makeBlock() {
     int randNum = rand() % 7;    // Random number from 0-6
 
     if (randNum == 0) {
-        return new SBlock{forceHeavy};
+        return new SBlock{false};
     }
     else if (randNum == 1) {
-        return new ZBlock{forceHeavy};
+        return new ZBlock{false};
     }
     else if (randNum == 2) {
-        return new IBlock{forceHeavy};
+        return new IBlock{false};
     }
     else if (randNum == 3) {
-        return new OBlock{forceHeavy};
+        return new OBlock{false};
     }
     else if (randNum == 4) {
-        return new LBlock{forceHeavy};
+        return new LBlock{false};
     }
     else if (randNum == 5) {
-        return new JBlock{forceHeavy};
+        return new JBlock{false};
     }
     else if (randNum == 6) {
-        return new TBlock{forceHeavy};
+        return new TBlock{false};
     }
 }
 
@@ -121,7 +121,7 @@ Level3::Level3(ifstream &blockFile) : Level{true, blockFile} {};
 Level3::~Level3() {}
 
 // Block generation of Level3
-Block *Level3::makeBlock(bool forceHeavy) {
+Block *Level3::makeBlock() {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {
@@ -154,7 +154,7 @@ Level4::Level4(ifstream &blockFile) : Level{true, blockFile} {};
 Level4::~Level4() {}
 
 // Block generation of Level4
-Block *Level4::makeBlock(bool forceHeavy) {
+Block *Level4::makeBlock() {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {

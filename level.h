@@ -15,8 +15,8 @@ class Level {
         Level(bool heavy, ifstream &blockFile);
         virtual ~Level()=0;
 
-        virtual Block *makeBlock(bool forceHeavy)=0;
-        Block *makeChosenBlock(char c, bool forceHeavy);
+        virtual Block *makeBlock()=0;
+        Block *makeChosenBlock(char block);
 };
 
 class Level0 final: public Level {
@@ -24,7 +24,7 @@ class Level0 final: public Level {
         Level0(ifstream &blockFile);
         ~Level0();
 
-        Block *makeBlock(bool forceHeavy) override;
+        Block *makeBlock() override;
 };
 
 class Level1 final: public Level {
@@ -32,7 +32,7 @@ class Level1 final: public Level {
         Level1(ifstream &blockFile);
         ~Level1();
 
-        Block *makeBlock(bool forceHeavy) override;
+        Block *makeBlock() override;
 };
 
 class Level2 final: public Level {
@@ -40,7 +40,7 @@ class Level2 final: public Level {
         Level2(ifstream &blockFile);
         ~Level2();
 
-        Block *makeBlock(bool forceHeavy) override;
+        Block *makeBlock() override;
 };
 
 class Level3 final: public Level {
@@ -48,7 +48,7 @@ class Level3 final: public Level {
         Level3(ifstream &blockFile);
         ~Level3();
 
-        Block *makeBlock(bool forceHeavy) override;
+        Block *makeBlock() override;
 };
 
 class Level4 final: public Level {
@@ -56,7 +56,7 @@ class Level4 final: public Level {
         Level4(ifstream &blockFile);
         ~Level4();
 
-        Block *makeBlock(bool forceHeavy) override;
+        Block *makeBlock() override;
 };
 
 #endif

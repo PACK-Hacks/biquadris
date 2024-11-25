@@ -21,6 +21,7 @@ class Block {
             Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4);
         virtual ~Block()=0;
 
+        void setHeavy(bool heavy);
         vector<shared_ptr<Cell>> getAllCells() const;
 
 

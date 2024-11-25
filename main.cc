@@ -42,7 +42,7 @@ int main() {
     t.notify();
 
     d.insertCurrentBlock();
-    d.generateNextBlock("empty");
+    d.generateNextBlock();
     d.setNextBlock();
     t.notify();
 
@@ -51,7 +51,7 @@ int main() {
 
     d.moveNextToCurrent();
     d.insertCurrentBlock();
-    d.generateNextBlock("empty");
+    d.generateNextBlock();
     d.setNextBlock();
     t.notify();
 
@@ -60,7 +60,19 @@ int main() {
     d.drop();
     d.moveNextToCurrent();
     d.insertCurrentBlock();
-    d.generateNextBlock("empty");
+    d.generateNextBlock();
     d.setNextBlock();
+    t.notify();
+
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
+    d.right();
     t.notify();
   }
