@@ -5,12 +5,17 @@
 using namespace std;
 
 int main() {
-    ifstream blockFile{"blank.txt"};
+    ifstream blockFile1{"blank.txt"};
+    ifstream blockFile2{"blank2.txt"};
 
-    Display d{0, blockFile};
+    Display d1{0, blockFile1};
+    Display d2{0, blockFile2};
 
-    d.insertCurrentBlock();
-    d.setNextBlock();
+    d1.insertCurrentBlock();
+    d1.setNextBlock();
+
+    d2.insertCurrentBlock();
+    d2.setNextBlock();
     // d.print();
 
     // d.right();
@@ -30,49 +35,47 @@ int main() {
 
     // auto d1 = std::make_unique<Display>(d);
 
-    TextObserver t{&d};
+    TextObserver t{&d1, &d2};
 
     t.notify();
 
-    d.drop();
+    d1.drop();
+    t.notify();
+
+    d2.drop();
     t.notify();
 
     // Moving next to current and generating next
-    d.moveNextToCurrent();
+    d1.moveNextToCurrent();
+    d2.moveNextToCurrent();
+
     t.notify();
 
-    d.insertCurrentBlock();
-    d.generateNextBlock();
-    d.setNextBlock();
+    d1.insertCurrentBlock();
+    d1.generateNextBlock();
+    d1.setNextBlock();
+
+    d2.insertCurrentBlock();
+    d2.generateNextBlock();
+    d2.setNextBlock();
+
     t.notify();
 
-    d.drop();
+    d1.drop();
     t.notify();
 
-    d.moveNextToCurrent();
-    d.insertCurrentBlock();
-    d.generateNextBlock();
-    d.setNextBlock();
-    t.notify();
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
 
-    d.right();
-    d.right();
-    d.drop();
-    d.moveNextToCurrent();
-    d.insertCurrentBlock();
-    d.generateNextBlock();
-    d.setNextBlock();
-    t.notify();
-
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    d.right();
-    t.notify();
+    // d1.right();
+    // d1.right();
+    // d1.drop();
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
   }
