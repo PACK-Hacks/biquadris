@@ -8,7 +8,6 @@ TextObserver::TextObserver(Display* subject1, Display* subject2)
     width{subject1->getWidth()}, height{subject1->getHeight()} {
         subject1->attach(this);
         subject2->attach(this);
-
 }
 
 
@@ -91,13 +90,14 @@ void TextObserver::notify() {
     out << "Next:      " << endl;
 
     // bottom margin
+
+    // what is this????
     for (int j = 0; j < width; ++j) {
         out << subject1->getState(height, j); // retrieved from Display
         out << subject2->getState(height, j); // retrieved from Display
-
     }
-    out << endl;
-    for (int i = 1; i < nextBlockDock; ++i) {
+
+    for (int i = 0; i < nextBlockDock; ++i) {
         for (int j = 0; j < width; ++j) {
             out << subject1->getState(i + height, j); // retrieved from Display
         }
@@ -108,10 +108,8 @@ void TextObserver::notify() {
         out << endl;
     }
     out << endl << endl;
-
     // where is generateNextBlock() called?  
     // should there be a nextBlock field? 
-
 }
 
 // void TextObserver::notify() {

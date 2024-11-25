@@ -37,6 +37,7 @@ class Display: public Subject {
 
     bool clear();
     bool operationIsValid(int changeInX, int changeInY);
+    int validRotate();
 
     public:
         Display(int levelIndex, ifstream &blockFile);

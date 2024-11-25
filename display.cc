@@ -146,6 +146,19 @@ bool Display::operationIsValid(int changeInX, int changeInY) {
     return true;
 }
 
+// int Display::validRotate() {
+//     int botLeftConerRow = 0;
+//     int botLeftConerCol = 0; 
+
+//     for (auto cell: currentBlock->getAllCells()) {
+//         if (botLeftConerRow < cell->getX()) botLeftConerRow = cell->getX();
+//         if (botLeftConerCol < cell->getY()) botLeftConerRow = cell->getY();
+//     }
+//     return left
+
+// }
+
+
 // Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
 void Display::insertCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {

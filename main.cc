@@ -23,7 +23,53 @@ int main() {
 
     t.notify();
 
+<<<<<<< HEAD
     d1.right(4);
     d2.right(4);
     t.notify();
+=======
+    // d1.right();
+
+    // d1.right();
+    // d1.right();
+
+    d1.drop();
+    // t.notify();
+
+    // d2.drop();
+    // t.notify();
+
+    // // Moving next to current and generating next
+    d1.moveNextToCurrent();
+    // d2.moveNextToCurrent();
+
+    // t.notify();
+
+    d1.insertCurrentBlock();
+    d1.generateNextBlock("empty");
+    d1.setNextBlock();
+
+    // d2.insertCurrentBlock();
+    // d2.generateNextBlock("empty");
+    // d2.setNextBlock();
+
+    // t.notify();
+    // d1.drop();
+    t.notify();
+
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
+
+    // d1.right();
+    // d1.right();
+    // d1.drop();
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
+>>>>>>> 2de3e64 (done with textobservers, need to fix nextBlock UI)
   }
