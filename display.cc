@@ -53,6 +53,7 @@ int Display::getTurnsSinceClear() {
     return turnsSinceClear;
 }
 
+// It teleports through right now
 // Drops a 1x1 block on the center column
 void Display::dropDummyCell() {
     const int centerX = WIDTH / 2 + 1;
@@ -239,7 +240,7 @@ bool Display::drop() {
 
     // Try dropping the block down all the way to lowest row. If unsuccesful, try dropping 
     // one row higher until the operation is successful
-    int currentBlockAltitude = HEIGHT - currentBlock->getAllCells()[0]->getY();
+    int dropHeight = HEIGHT - currentBlock->getAllCells()[0]->getY();
 
     while (!operationIsValid(0, currentBlockAltitude)) {
         currentBlockAltitude--;
