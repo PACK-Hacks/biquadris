@@ -28,6 +28,16 @@ vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;
 }
 
+// Adds n units to bottomLeftX
+void Block::addToBottomLeftX(int n) {
+    bottomLeftX += n;
+}
+
+// Adds n units to bottomLeftY
+void Block::addToBottomLeftY(int n) {
+    bottomLeftY += n;
+}
+
 // Block::Block(bool active, bool heavy, int rotationLen, int bottomLeftX, int bottomLeftY, 
 //     unique_ptr<Cell> cell1, unique_ptr<Cell> cell2, unique_ptr<Cell> cell3, unique_ptr<Cell> cell4) :
 //     active{active}, heavy{heavy}, rotationLen{rotationLen}, bottomLeftX{bottomLeftX}, bottomLeftY{bottomLeftY} {}

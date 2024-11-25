@@ -192,6 +192,10 @@ bool Display::left(int n) {
         cell->addToY(heavy);
     }
 
+    // Change the block's bottomLeftX and bottomLeftY
+    currentBlock->addToBottomLeftX(-n);
+    currentBlock->addToBottomLeftY(heavy);
+
     // Insert currentBlock on board
     insertCurrentBlock();
 
@@ -219,6 +223,10 @@ bool Display::right(int n) {
         cell->addToY(heavy);
     }
 
+    // Change the block's bottomLeftX and bottomLeftY
+    currentBlock->addToBottomLeftX(n);
+    currentBlock->addToBottomLeftY(heavy);
+
     // Insert currentBlock on board
     insertCurrentBlock();
 
@@ -240,6 +248,9 @@ bool Display::down(int n) {
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToY(n);
     }
+
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(n);
 
     // Insert currentBlock on board
     insertCurrentBlock();

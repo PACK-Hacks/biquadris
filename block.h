@@ -10,7 +10,7 @@ class Block {
     bool isNextBlock;
     bool heavy;
     int bottomLeftX = 0;
-    int bottomLeftY = 0;
+    int bottomLeftY = 3;
 
     int rotationLen;
 
@@ -24,6 +24,9 @@ class Block {
         void setHeavy(bool heavy);
         bool isHeavy();
         vector<shared_ptr<Cell>> getAllCells() const;
+
+        void addToBottomLeftX(int n);
+        void addToBottomLeftY(int n);
 
 
         // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
