@@ -44,6 +44,13 @@ class Player {
             blocks.emplace_back('T');
         }
 
+    char string_to_char(string s) {
+        istringstream iss{s};
+        char c;
+        iss >> c;
+        return c;
+    }
+
     bool find_block(char b) { // Could be more efficient?
         for (int i = 0; i < blocks.size(); i++) {
             if (blocks[i] == b) {
@@ -55,9 +62,6 @@ class Player {
 
     string runTurn(string special) {
 
-
-
-
         bool status = display.moveNextToCurrent(); // Assume moves it onto the board
 
         if (status == false) { // When block was attempted to be placed on board, there was something covering
@@ -67,7 +71,26 @@ class Player {
             return "";
         }
 
-        display.generateNextBlock(special);
+        display.generateNextBlock();
+
+        if (special != "") { // Check for specials
+            istringstream iss{special};
+            string curr_special;
+            while (iss >> curr_special) {
+                if (curr_special == "heavy") {
+                    display.setHeavy(); // sets heavy to true
+                } else if (curr_special == "blind") {
+                    display.setBlind();
+                } else if (curr_special == "force") {
+                    char c;
+                    iss >> curr_special;
+                    display.setCurrentBlock(c);
+                }
+            }
+        }
+        
+        
+        
 
         bool endTurn = false;
 
@@ -97,28 +120,31 @@ class Player {
                 break;
             } else if (command == levelup) {
                 bool canLevelUp;
-                canLevelUp = levelup();
+                canLevelUp = display.levelup();
                 if (canLevelUp == false) {
-                    cout << "You cannot level up! You are already at level 4!" << endl;
+                    cout << "You cannot level up! You are already at the max level!" << endl;
                 }
             } else if (command == leveldown) {
                 bool canLevelDown;
-                canLevelDown = levelDown();
-                if (canLevelUp == false) {
-                    cout << "You cannot level down! You are already at level 0!" << endl;
+                canLevelDown = display.levelDown();
+                if (canLevelDown == false) {
+                    cout << "You cannot level down! You are already at the lowest level!" << endl;
                 }
             } else if (command == norandom) {
                 string file_name;
                 cin >> file_name;
-                ifstream f{file_name};
+                ifstream f{file_name}; // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
                 display.norandom(f);
             } else if (command == random) {
                 display.random();
-            } else if (command == i) {
-                display.setCurrentBlock(i); // Find a way to make this so we dont need different else if statements for each block type
+            } else if (command.length() == 1 && find_block(string_to_char(command))) {
+                char c = string_to_char(command);
+                display.setCurrentBlock(c); 
             } else if (command == restart) {
                 game->restart();
-            } 
+            } else {
+                cout << "Please enter a valid command" << endl;
+            }
         }
 
         for (int i = 0; i < display.getWidth(); i++) {
@@ -127,6 +153,8 @@ class Player {
             }
         } // Check all columns in third row to see if there is a cell there, if so, player loses
         if (display.getScore() > highScore) highScore = display.getScore();
+
+        display.resetSpecial();
 
         if (display.getSpecial() == true) {
             cout << "You have earned a special!" << endl;
