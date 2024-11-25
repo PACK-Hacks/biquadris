@@ -43,11 +43,6 @@ int Display::getScore() {
     return score;
 }
 
-// Gets the heavy field of the display
-bool Display::getHeavy() {
-    return heavy;
-}
-
 // Gets number of turns since last clear
 int Display::getTurnsSinceClear() {
     return turnsSinceClear;
@@ -183,24 +178,51 @@ void Display::place() {
     currentBlock = nullptr;
 
     // Reset display to default values
-    heavy = false;
     blind = false;
 }
 
 
-// Move the currentBlock to the left. Return true if operation is successful and false otherwise
-bool Display::left() {
+// Move the currentBlock to the left n units. Return true if operation places block and false otherwise
+bool Display::left(int n) {
     removeCurrentBlock();
 
+    // // The heavy variable will be 
+    // int heavy = currentBlock->isHeavy();
+
     // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(-1, 0)) {
+    if (!operationIsValid(-n, 0)) {
         insertCurrentBlock();
         return false;
     }
 
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(-1);
+        cell->addToX(-n);
+    }
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+
+
+    // Successful operation
+    return true;
+}
+
+
+// Move the currentBlock to the right n units. Return true if operation places block and false otherwise
+bool Display::right(int n) {
+    removeCurrentBlock();
+
+    // Cancel operation if invalid, insert currentBlock back to original position
+    if (!operationIsValid(n, 0)) {
+        insertCurrentBlock();
+        return false;
+    }
+
+    // Updated coordinates of the cells in the currentBlock
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToX(n);
     }
 
     // Insert currentBlock on board
@@ -210,20 +232,19 @@ bool Display::left() {
     return true;
 }
 
-
-// Move the currentBlock to the right. Return true if operation is successful and false otherwise
-bool Display::right() {
+// Move the currentBlock down n units. Return true if operation places block and false otherwise
+bool Display::down(int n) {
     removeCurrentBlock();
 
     // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(1, 0)) {
+    if (!operationIsValid(0, n)) {
         insertCurrentBlock();
         return false;
     }
 
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(1);
+        cell->addToY(n);
     }
 
     // Insert currentBlock on board
@@ -233,29 +254,7 @@ bool Display::right() {
     return true;
 }
 
-// Move the currentBlock down. Return true if operation is successful and false otherwise
-bool Display::down() {
-    removeCurrentBlock();
-
-    // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(0, 1)) {
-        insertCurrentBlock();
-        return false;
-    }
-
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(1);
-    }
-
-    // Insert currentBlock on board
-    insertCurrentBlock();
-
-    // Successful operation
-    return true;
-}
-
-// Drop the currentBlock. Return true if operation is successful and false otherwise
+// Drop the currentBlock. Return true
 bool Display::drop() {
     removeCurrentBlock();
 

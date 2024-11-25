@@ -64,6 +64,22 @@ int main() {
     d1.drop();
     t.notify();
 
+    d1.moveNextToCurrent();
+    d1.insertCurrentBlock();
+    d1.generateNextBlock();
+    d1.setNextBlock();
+    t.notify();
+
+    d1.right(4);
+    t.notify();
+
+    d1.down(11);
+    t.notify();
+
+    d1.left(5);
+    d1.right();
+    t.notify();
+
     // d1.moveNextToCurrent();
     // d1.insertCurrentBlock();
     // d1.generateNextBlock("empty");

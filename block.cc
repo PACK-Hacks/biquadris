@@ -18,6 +18,11 @@ void Block::setHeavy(bool heavy) {
     heavy = heavy;
 }
 
+// Gets heavy field of Block
+bool Block::isHeavy() {
+    return heavy;
+}
+
 // Gets all cells in the Block
 vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;

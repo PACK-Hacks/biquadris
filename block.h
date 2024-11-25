@@ -22,6 +22,7 @@ class Block {
         virtual ~Block()=0;
 
         void setHeavy(bool heavy);
+        bool isHeavy();
         vector<shared_ptr<Cell>> getAllCells() const;
 
 
