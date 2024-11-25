@@ -31,7 +31,8 @@ class Display: public Subject {
     bool heavy = false; // maybe
     bool force = false; // maybe
     bool lost = false;  // maybe
-    vector<Level *> levels = {}; // something
+    int turnsSinceClear = 0;
+    vector<unique_ptr<Level>> levels; // something
     int levelIndex;
     Level *level;
     ifstream &blockFile;
@@ -49,8 +50,11 @@ class Display: public Subject {
         int getNextBlockDock();
         int getWidth();
         int getHeight();
+        bool getHeavy();
+        int getTurnsSinceClear();
         void setNextBlock();
 
+        void dropDummyCell();
 
         bool levelUp();
         bool levelDown();

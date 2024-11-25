@@ -10,6 +10,9 @@ Block::Block(bool isNextBlock, bool heavy, int rotationLen,
         cells.emplace_back(shared_ptr<Cell>{cell4});
 }
 
+// Block destructor
+Block::~Block() {}
+
 // get all cells in the Block
 vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;

@@ -19,6 +19,7 @@ class Block {
     public:
         Block(bool isNextBlock, bool heavy, int rotationLen,
             Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4);
+        virtual ~Block()=0;
 
         vector<shared_ptr<Cell>> getAllCells() const;
 
@@ -26,37 +27,38 @@ class Block {
         // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
 };
 
-class IBlock: public Block {
+class IBlock final: public Block {
     public:
         IBlock(bool isNextBlock, bool heavy);
+        // add destructor
 };
 
-class OBlock: public Block {
+class OBlock final: public Block {
     public:
         OBlock(bool isNextBlock, bool heavy);
 };
 
-class LBlock: public Block {
+class LBlock final: public Block {
     public:
         LBlock(bool isNextBlock, bool heavy);
 };
 
-class JBlock: public Block {
+class JBlock final: public Block {
     public:
         JBlock(bool isNextBlock, bool heavy);
 };
 
-class TBlock: public Block {
+class TBlock final: public Block {
     public:
         TBlock(bool isNextBlock, bool heavy);
 };
 
-class SBlock: public Block {
+class SBlock final: public Block {
     public:
         SBlock(bool isNextBlock, bool heavy);
 };
 
-class ZBlock: public Block {
+class ZBlock final: public Block {
     public:
         ZBlock(bool isNextBlock, bool heavy);
 };

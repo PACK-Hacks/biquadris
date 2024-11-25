@@ -2,6 +2,14 @@
 
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
+    levels.emplace_back(make_unique<Level0>(this, blockFile));
+    levels.emplace_back(make_unique<Level1>(this, blockFile));
+    levels.emplace_back(make_unique<Level2>(this, blockFile));
+    levels.emplace_back(make_unique<Level3>(this, blockFile));
+    levels.emplace_back(make_unique<Level4>(this, blockFile));
+
+    level = levels[levelIndex].get();
+
     board[5][5] = make_unique<Cell>('T', 5, 5);
 
     // Cell *cell1 = new Cell{'L', 0, 0};
@@ -10,8 +18,8 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
     // Cell *cell4 = new Cell{'L', 2, 1};
     // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
 
-    currentBlock = make_unique<ZBlock>(false, false);
-    nextBlock = make_unique<SBlock>(true, false);
+    currentBlock = make_unique<ZBlock>(false);
+    nextBlock = make_unique<SBlock>(false);
 };
 
 Display::~Display() {
@@ -34,6 +42,29 @@ int Display::getScore() {
     return score;
 }
 
+// Gets the heavy field of the display
+bool Display::getHeavy() {
+    return heavy;
+}
+
+// Gets number of turns since last clear
+int Display::getTurnsSinceClear() {
+    return turnsSinceClear;
+}
+
+// Drops a 1x1 block on the center column
+void Display::dropDummyCell() {
+    const int centerX = WIDTH / 2 + 1;
+
+    // Find the lowest empty row in the center column
+    int destY = HEIGHT;
+    while (board[destY][centerX]) {
+        destY--;
+    }
+
+    // Populate it with a dummy cell
+    board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+}
 
 // Sets nextBlock on the next block dock
 void Display::setNextBlock() {
