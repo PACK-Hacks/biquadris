@@ -2,11 +2,11 @@
 
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
-    levels.emplace_back(make_unique<Level0>(this, blockFile));
-    levels.emplace_back(make_unique<Level1>(this, blockFile));
-    levels.emplace_back(make_unique<Level2>(this, blockFile));
-    levels.emplace_back(make_unique<Level3>(this, blockFile));
-    levels.emplace_back(make_unique<Level4>(this, blockFile));
+    levels.emplace_back(make_unique<Level0>(blockFile));
+    levels.emplace_back(make_unique<Level1>(blockFile));
+    levels.emplace_back(make_unique<Level2>(blockFile));
+    levels.emplace_back(make_unique<Level3>(blockFile));
+    levels.emplace_back(make_unique<Level4>(blockFile));
 
     level = levels[levelIndex].get();
 
@@ -18,7 +18,7 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
     // Cell *cell4 = new Cell{'L', 2, 1};
     // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
 
-    currentBlock = make_unique<ZBlock>(false);
+    currentBlock = unique_ptr<Block>(level->makeBlock(heavy));
     nextBlock = make_unique<SBlock>(false);
 };
 
@@ -73,31 +73,31 @@ void Display::setNextBlock() {
     }
 }
 
-// Level up, returns true if successful, false otherwise
-bool Display::levelUp() {
-    // Return false if the user is already at the max level
-    if (levelIndex == MAXLEVEL) {
-        return false;
-    }
+// // Level up, returns true if successful, false otherwise
+// bool Display::levelUp() {
+//     // Return false if the user is already at the max level
+//     if (levelIndex == MAXLEVEL) {
+//         return false;
+//     }
 
-    // Otherwise, update the level accordingly
-    levelIndex++;
-    level = levels[levelIndex];
-    return true;
-}
+//     // Otherwise, update the level accordingly
+//     levelIndex++;
+//     level = levels[levelIndex];
+//     return true;
+// }
 
-// Level down, returns true if successful, false otherwise
-bool Display::levelDown() {
-    // Return false if the user is already at the min level
-    if (levelIndex == MINLEVEL) {
-        return false;
-    }
+// // Level down, returns true if successful, false otherwise
+// bool Display::levelDown() {
+//     // Return false if the user is already at the min level
+//     if (levelIndex == MINLEVEL) {
+//         return false;
+//     }
 
-    // Otherwise, update the level accordingly
-    levelIndex--;
-    level = levels[levelIndex];
-    return true;
-}
+//     // Otherwise, update the level accordingly
+//     levelIndex--;
+//     level = levels[levelIndex];
+//     return true;
+// }
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {

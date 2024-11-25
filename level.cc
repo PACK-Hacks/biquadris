@@ -1,15 +1,13 @@
 #include "level.h"
 
 // Level constructor
-Level::Level(Display *display, bool heavy, ifstream &blockFile) : display{display}, heavy{heavy}, blockFile{blockFile} {};
+Level::Level(bool heavy, ifstream &blockFile) : heavy{heavy}, blockFile{blockFile} {};
 
 // Level destructor
 Level::~Level() {};
 
 // Generating a pointer to a choosen block
-Block *Level::makeChosenBlock(char c) {
-    bool forceHeavy = display->getHeavy();
-
+Block *Level::makeChosenBlock(char c, bool forceHeavy) {
     // create a heavy block if the heavy field of the level is true or if the block is forced to be heavy
     if (c == 'I') {
         return new IBlock{heavy || forceHeavy}; 
@@ -36,23 +34,28 @@ Block *Level::makeChosenBlock(char c) {
 
 
 // Level0 constructor
-Level0::Level0(Display *display, ifstream &blockFile) : Level{display, false, blockFile} {};
+Level0::Level0(ifstream &blockFile) : Level{false, blockFile} {};
+
+// Level0 destructor
+Level0::~Level0() {}
 
 // Block generation of Level0
-Block *Level0::makeBlock() {
+Block *Level0::makeBlock(bool forceHeavy) {
     char block;
     blockFile >> block;
 
     // Create block according to file
-    return makeChosenBlock(block);
+    return makeChosenBlock(block, forceHeavy);
 }
 
 // Level1 constructor
-Level1::Level1(Display *display, ifstream &blockFile) : Level{display, false, blockFile} {};
+Level1::Level1(ifstream &blockFile) : Level{false, blockFile} {};
+
+// Level1 destructor
+Level1::~Level1() {}
 
 // Block generation of Level1
-Block *Level1::makeBlock() {
-    bool forceHeavy = display->getHeavy();
+Block *Level1::makeBlock(bool forceHeavy) {
     int randNum = rand() % 12;    // Random number from 0-11
 
     if (randNum < 1) {
@@ -79,11 +82,13 @@ Block *Level1::makeBlock() {
 }
 
 // Level2 constructor
-Level2::Level2(Display *display, ifstream &blockFile) : Level{display, false, blockFile} {};
+Level2::Level2(ifstream &blockFile) : Level{false, blockFile} {};
+
+// Level2 destructor
+Level2::~Level2() {}
 
 // Block generation of Level2
-Block *Level2::makeBlock() {
-    bool forceHeavy = display->getHeavy();
+Block *Level2::makeBlock(bool forceHeavy) {
     int randNum = rand() % 7;    // Random number from 0-6
 
     if (randNum == 0) {
@@ -110,10 +115,13 @@ Block *Level2::makeBlock() {
 }
 
 // Level3 constructor
-Level3::Level3(Display *display, ifstream &blockFile) : Level{display, true, blockFile} {};
+Level3::Level3(ifstream &blockFile) : Level{true, blockFile} {};
+
+// Level3 destructor
+Level3::~Level3() {}
 
 // Block generation of Level3
-Block *Level3::makeBlock() {
+Block *Level3::makeBlock(bool forceHeavy) {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {
@@ -140,17 +148,13 @@ Block *Level3::makeBlock() {
 }
 
 // Level4 constructor
-Level4::Level4(Display *display, ifstream &blockFile) : Level{display, true, blockFile} {};
+Level4::Level4(ifstream &blockFile) : Level{true, blockFile} {};
+
+// Level4 destructor
+Level4::~Level4() {}
 
 // Block generation of Level4
-Block *Level4::makeBlock() {
-    int turnsSinceClear = display->getTurnsSinceClear();
-
-    // If it have been 5, 10, 15... turns since the last clear, spawn a dummy cell
-    if (turnsSinceClear > 0 && turnsSinceClear % 5 == 0) {
-        display->dropDummyCell();
-    }
-
+Block *Level4::makeBlock(bool forceHeavy) {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {

@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     ifstream blockFile{"blank.txt"};
 
-    Display d{4, blockFile};
+    Display d{1, blockFile};
 
     d.insertCurrentBlock();
     d.setNextBlock();
