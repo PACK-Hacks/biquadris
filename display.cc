@@ -10,17 +10,8 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
 
     level = levels[levelIndex].get();
 
-    // board[5][5] = make_unique<Cell>('T', 5, 5);
-
-    // Cell *cell1 = new Cell{'L', 0, 0};
-    // Cell *cell2 = new Cell{'L', 1, 0};
-    // Cell *cell3 = new Cell{'L', 2, 0};
-    // Cell *cell4 = new Cell{'L', 2, 1};
-    // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
-
     currentBlock = unique_ptr<Block>(level->makeBlock());
-    nextBlock = make_unique<SBlock>(false);
-    // nextBlock = unique_ptr<Block>(level->makeBlock(heavy));
+    nextBlock = unique_ptr<Block>(level->makeBlock());
 };
 
 Display::~Display() {
@@ -186,11 +177,11 @@ void Display::place() {
 bool Display::left(int n) {
     removeCurrentBlock();
 
-    // // The heavy variable will be 
-    // int heavy = currentBlock->isHeavy();
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = currentBlock->isHeavy();
 
     // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(-n, 0)) {
+    if (!operationIsValid(-n, heavy)) {
         insertCurrentBlock();
         return false;
     }
@@ -198,12 +189,11 @@ bool Display::left(int n) {
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToX(-n);
+        cell->addToY(heavy);
     }
 
     // Insert currentBlock on board
     insertCurrentBlock();
-
-
 
     // Successful operation
     return true;
@@ -214,6 +204,9 @@ bool Display::left(int n) {
 bool Display::right(int n) {
     removeCurrentBlock();
 
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = currentBlock->isHeavy();
+
     // Cancel operation if invalid, insert currentBlock back to original position
     if (!operationIsValid(n, 0)) {
         insertCurrentBlock();
@@ -223,6 +216,7 @@ bool Display::right(int n) {
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToX(n);
+        cell->addToY(heavy);
     }
 
     // Insert currentBlock on board
