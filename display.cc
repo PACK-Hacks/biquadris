@@ -240,15 +240,15 @@ bool Display::drop() {
 
     // Try dropping the block down all the way to lowest row. If unsuccesful, try dropping 
     // one row higher until the operation is successful
-    int dropHeight = HEIGHT - currentBlock->getAllCells()[0]->getY();
+    int dropHeight = 1;
 
-    while (!operationIsValid(0, currentBlockAltitude)) {
-        currentBlockAltitude--;
+    while (operationIsValid(0, dropHeight)) {
+        dropHeight++;
     }
 
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(currentBlockAltitude);
+        cell->addToY(dropHeight - 1);
     }
 
     // Insert currentBlock on board
