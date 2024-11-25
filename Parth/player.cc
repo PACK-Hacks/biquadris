@@ -54,6 +54,10 @@ class Player {
     }
 
     string runTurn(string special) {
+
+
+
+
         bool status = display.moveNextToCurrent(); // Assume moves it onto the board
 
         if (status == false) { // When block was attempted to be placed on board, there was something covering
