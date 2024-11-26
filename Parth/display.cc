@@ -18,6 +18,7 @@ Display::~Display() {
 
 }
 
+
 // Returns the character of the
 char Display::getState(int row, int col) const {
     // If there is a cell at that position on the board, return its character

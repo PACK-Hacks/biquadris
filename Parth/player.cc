@@ -14,7 +14,7 @@ class Player {
     string scriptfile1;
     int startLevel;
     Display display;
-    unique_ptr<Game> game;
+    Game *game;
 
     string left = "left"; // Extension, allow users to change command values
     string right = "right";
@@ -31,7 +31,7 @@ class Player {
     vector<char> blocks;
 
 
-    Player(bool text, int seed, string scriptfile, int startLevel, unique_ptr<Game> game):
+    Player(bool text, int seed, string scriptfile, int startLevel, Game *game):
         highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile1{scriptfile1}, 
         startLevel{startLevel}, display{startLevel, scriptfile}, game{game} {
             display.generateNextBlock("");
@@ -187,45 +187,7 @@ class Player {
         }
 
 
-
-
-
-    //     if (special == "") {
-
-            
-
-
-    //     } else {
-    //         istringstream iss{special};
-    //         string s;
-
-    //         block = level->getBlock();
-    //         heavy = level->getHeavy();
-    //         dummy = level->getDummy();
-
-    //         while (iss >> s) {
-    //             if (s == "blind") {     // set nextBlind to false in drop method
-    //                 isBlind = true;
-    //             }
-    //             if (s == "force") {
-    //                 iss >> isBlock;
-    //             } 
-    //             if (s == "heavy") {
-    //                 heavy = true;
-    //             }
-    //         }
-
-    //         // display.board() = new Board{block, isHeavy, isBlind, dummy, ...};
-    //     }
-
-
-
-    //     string command;
-    //     // create variables for each command, which can be modified by the user 
-    //     Level *lvl = 
-
-
-    //     Decorator currentBlock{nextHeavy}
+        
 
 
     }
