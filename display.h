@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <algorithm>
 #include "level.h"
 #include "block.h"
 #include "cell.h"
@@ -37,7 +38,8 @@ class Display: public Subject {
 
     bool clear();
     bool operationIsValid(int changeInX, int changeInY);
-    int validRotate();
+    // bool validRotate(vector<shared_ptr<Cell>> allCell);
+    bool validPos();
 
     public:
         Display(int levelIndex, ifstream &blockFile);

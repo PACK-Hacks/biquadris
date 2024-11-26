@@ -2,16 +2,16 @@
 #include <algorithm> // For std::reverse
 #include "display.h"
 
-// Function to rotate a 4x4 matrix 
+// Function to rotate a 4x4 board 
 
 void insertCurrentBlock();
 void removeCurrentBlock();
 int WIDTH = 0;
 
-int rotateClockwise(int matrix[4][4]) {
+bool rotateClockwise() {
     // check boundaries first
 
-    // Transpose the matrix
+    // Transpose the board
     // handle 'I' block
 
     removeCurrentBlock();
@@ -31,13 +31,13 @@ int rotateClockwise(int matrix[4][4]) {
         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
 
             for (int j = i; j < 4; j++) {
-                std::swap(cell[i][j], matrix[j][i]);
+                std::swap(cell[i][j], board[j][i]);
             }
         }
 
         // Reverse each row
         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-            std::reverse(matrix[i], matrix[i] + 4);
+            std::reverse(board[i], board[i] + 4);
         }
     }
     
@@ -54,23 +54,23 @@ int rotateClockwise(int matrix[4][4]) {
 
         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
             for (int j = i; j < 3; j++) {
-                std::swap(matrix[i][j], matrix[j][i]);
+                std::swap(board[i][j], board[j][i]);
             }
         }
 
         // Reverse each row
         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
-            std::reverse(matrix[i], matrix[i] + 3);
+            std::reverse(board[i], board[i] + 3);
         }
     }
     return true;
 }
 
-// Function to print the matrix
-void printMatrix(int matrix[4][4]) {
+// Function to print the board
+void printMatrix(int board[4][4]) {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            std::cout << matrix[i][j] << ' ';
+            std::cout << board[i][j] << ' ';
         }
         std::cout << std::endl;
     }

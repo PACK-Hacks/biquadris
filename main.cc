@@ -22,12 +22,9 @@ int main() {
     TextObserver t{&d1, &d2};
 
     t.notify();
-
-<<<<<<< HEAD
-    d1.right(4);
-    d2.right(4);
+    d1.clockwise();
     t.notify();
-=======
+
     // d1.right();
 
     // d1.right();
@@ -40,14 +37,14 @@ int main() {
     // t.notify();
 
     // // Moving next to current and generating next
-    d1.moveNextToCurrent();
+    // d1.moveNextToCurrent();
     // d2.moveNextToCurrent();
 
     // t.notify();
 
-    d1.insertCurrentBlock();
-    d1.generateNextBlock("empty");
-    d1.setNextBlock();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
 
     // d2.insertCurrentBlock();
     // d2.generateNextBlock("empty");
@@ -71,5 +68,4 @@ int main() {
     // d1.generateNextBlock("empty");
     // d1.setNextBlock();
     // t.notify();
->>>>>>> 2de3e64 (done with textobservers, need to fix nextBlock UI)
   }
