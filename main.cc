@@ -22,36 +22,19 @@ int main() {
     TextObserver t{&d1, &d2};
 
     t.notify();
-    d1.clockwise();
+
+    d1.right(4);
+    d2.right(4);
+    d2.right(4);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.right(0);
+    d2.down();
     t.notify();
 
-    // d1.right();
-
-    // d1.right();
-    // d1.right();
-
-    d1.drop();
-    // t.notify();
-
-    // d2.drop();
-    // t.notify();
-
-    // // Moving next to current and generating next
-    // d1.moveNextToCurrent();
-    // d2.moveNextToCurrent();
-
-    // t.notify();
-
-    // d1.insertCurrentBlock();
-    // d1.generateNextBlock("empty");
-    // d1.setNextBlock();
-
-    // d2.insertCurrentBlock();
-    // d2.generateNextBlock("empty");
-    // d2.setNextBlock();
-
-    // t.notify();
-    // d1.drop();
+    d2.left();
     t.notify();
 
     // d1.moveNextToCurrent();
