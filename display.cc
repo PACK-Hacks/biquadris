@@ -356,20 +356,24 @@ bool Display::drop() {
 
 
 bool Display::clockwise() {
+    removeCurrentBlock();
     currentBlock->clockwise();
 
     // invalid
-    if (validPos()) {
+    if (!validPos()) {
         cout << "fail";
         currentBlock->counterClockwise();
+        // Insert currentBlock on board
+        insertCurrentBlock();
         return false;
     }
     cout << "success";
 
+    // Insert currentBlock on board
+    insertCurrentBlock();
 
     //valid 
     return true;
-
 }
 
 

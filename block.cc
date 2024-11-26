@@ -126,9 +126,9 @@ void Block::clockwise() {
         int transposedY = localX;
 
         // Reverse: Flip the i (row index)
-        int reversedX = 2 - transposedX;
+        int reversedX = -transposedX;
 
-        // Convert back to global coordinates
+        // Convert back to global coordinates relative
         int newX = bottomLeftX + reversedX;
         int newY = bottomLeftY + transposedY;
 
