@@ -40,12 +40,12 @@ int Display::getTurnsSinceClear() {
 }
 
 // Sets the heavy field
-void setHeavy(bool heavy) {
+void Display::setHeavy(bool heavy) {
     heavy = heavy;
 }
 
 // Sets the blind field
-void setBlind(bool blind) {
+void Display::setBlind(bool blind) {
     blind = blind;
 }
 
