@@ -30,15 +30,15 @@ class Player {
     string restart = "restart";
     vector<char> blocks;
 
+    char string_to_char(string s);
 
+    bool find_block(char b);
+
+    public:
     Player(bool text, int seed, string scriptfile, int startLevel, Game *game);
 
     string runTurn(string special);
 
     bool getLost();
-
-    char string_to_char(string s);
-
-    bool find_block(char b);
 
 };
