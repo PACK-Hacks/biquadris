@@ -7,6 +7,6 @@ class Game {
     
     // Remember to onstruct players with next block in player constructor
 
-    Player runGame() {}
+    string runGame() {}
 
 };
