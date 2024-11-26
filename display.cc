@@ -163,7 +163,7 @@ bool Display::validPos() {
   
         // Invalid if the destination is out of bounds
         if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
-        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl; return false;}
+        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl;  return false;}
 
         // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
         if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
