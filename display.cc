@@ -37,7 +37,6 @@ int Display::getScore() {
 // Gets number of turns since last clear
 int Display::getTurnsSinceClear() {
     return turnsSinceClear;
-    
 }
 
 // Returns true if Dummy is needed in Level 4
@@ -49,12 +48,12 @@ bool Display::needDummy() {
 
 
 // Sets the heavy field
-void setHeavy(bool heavy) {
+void Display::setHeavy(bool heavy) {
     heavy = heavy;
 }
 
 // Sets the blind field
-void setBlind(bool blind) {
+void Display::setBlind(bool blind) {
     blind = blind;
 }
 
@@ -385,6 +384,17 @@ bool Display::clockwise() {
     //valid 
     return true;
 }
+
+// takes in block from the file: relevent in level 3 and 4 only
+void Display::norandom(ifstream &f) {
+    
+}
+
+// restore randomness: relevent in level 3 and 4 only
+void Display::random() {
+    
+}
+
 
 
 // bool Display::clockwise() {

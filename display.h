@@ -64,6 +64,8 @@ class Display: public Subject {
 
         bool levelUp();
         bool levelDown();
+        void norandom(ifstream &f);
+        void random();
 
         // returns true if the action causes the block to be dropped
         bool moveNextToCurrent();
