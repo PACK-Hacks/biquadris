@@ -8,8 +8,6 @@
 using namespace std;
 
 
-
-
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{text, seed, scriptfile1, startlevel, this}, p2{text, seed, scriptfile2, startlevel, this} {}
 // Remember to onstruct players with next block in player constructor

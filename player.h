@@ -1,3 +1,6 @@
+#ifndef __PLAYER__
+#define __PLAYER__
+
 #include <memory>
 #include "display.h"
 #include <string>
@@ -42,3 +45,5 @@ class Player {
     bool getLost();
 
 };
+
+#endif
