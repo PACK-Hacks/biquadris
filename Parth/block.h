@@ -9,56 +9,76 @@ using namespace std;
 class Block {
     bool isNextBlock;
     bool heavy;
-    int bottomLeftX = 0;
-    int bottomLeftY = 0;
-
     int rotationLen;
 
-    vector<shared_ptr<Cell>> cells;
+    protected:
+        int bottomLeftX = 0;
+        int bottomLeftY = 3;
+        vector<shared_ptr<Cell>> cells;
 
     public:
-        Block(bool isNextBlock, bool heavy, int rotationLen,
+        Block(bool heavy, int rotationLen,
             Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4);
+        virtual ~Block()=0;
 
+
+        void setHeavy(bool heavy);
+        bool isHeavy();
         vector<shared_ptr<Cell>> getAllCells() const;
 
+        void addToBottomLeftX(int n);
+        void addToBottomLeftY(int n);
+        
+        // virtual void clockwise() = 0;
+        // virtual void counterClockwise() = 0;
+         virtual void clockwise();
+         virtual void counterClockwise();
 
         // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
 };
 
-class IBlock: public Block {
+class IBlock final: public Block {
     public:
-        IBlock(bool isNextBlock, bool heavy);
+        IBlock(bool heavy);
+        // add destructor
+        // void clockwise() override;
+        // void counterClockwise() override;
 };
 
-class OBlock: public Block {
+class OBlock final: public Block {
     public:
-        OBlock(bool isNextBlock, bool heavy);
+        OBlock(bool heavy);
+        // add destructor
 };
 
-class LBlock: public Block {
+class LBlock final: public Block {
     public:
-        LBlock(bool isNextBlock, bool heavy);
+        LBlock(bool heavy);
+        // add destructor
 };
 
-class JBlock: public Block {
+class JBlock final: public Block {
     public:
-        JBlock(bool isNextBlock, bool heavy);
+        JBlock(bool heavy);
+        // add destructor
 };
 
-class TBlock: public Block {
+class TBlock final: public Block {
     public:
-        TBlock(bool isNextBlock, bool heavy);
+        TBlock(bool heavy);
+        // add destructor
 };
 
-class SBlock: public Block {
+class SBlock final: public Block {
     public:
-        SBlock(bool isNextBlock, bool heavy);
+        SBlock(bool heavy);
+        // add destructor
 };
 
-class ZBlock: public Block {
+class ZBlock final: public Block {
     public:
-        ZBlock(bool isNextBlock, bool heavy);
+        ZBlock(bool heavy);
+        // add destructor
 };
 
 

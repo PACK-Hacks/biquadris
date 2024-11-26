@@ -1,42 +1,3 @@
-// #include "iostream"
-// #include "vector"
-// #include "player.h"
-
-
-// using namespace std;
-
-// void runRound(vector<Player*> players) {
-//     for ( auto p : players ) {
-//         p->runTurn();
-
-//     }
-// }
-
-// int main(int argc, char *argv[]) {
-
-//     int startLevel = 0; //////
-//     vector<Player*> players;
-     
-//     players.emplace_back(new Player{}); //
-//     players.emplace_back(new Player{}); //
-
-//     string command;
-    
-//     startGame()
-//     bool lost = false;
-//     while(!lost) {
-//         runRound(players);
-//         // for ( auto player : players ) {
-//         //     if (player->lost) cout << player->name << " loses" << endl;
-//         //     lost = true;
-//         //     break;
-//         // }
-//     }
-// }
-
-
-
-
 #include "display.h"
 #include <fstream>
 #include "textobserver.h"
@@ -44,35 +5,42 @@
 using namespace std;
 
 int main() {
-    ifstream blockFile{"blank.txt"};
+    ifstream blockFile1{"blank.txt"};
+    ifstream blockFile2{"blank2.txt"};
 
-    Display d{4, blockFile};
+    Display d1{0, blockFile1};
+    Display d2{4, blockFile2};
 
-    d.insertCurrentBlock();
-    d.setNextBlock();
-    // d.print();
+    d1.insertCurrentBlock();
+    d1.setNextBlock();
 
-    // d.right();
-    // d.print();
-
-    // d.down();
-    // d.print();
-
-    // d.left();
-    // d.print();
-
-    // d.drop();
-    // d.print();
-
+    d2.insertCurrentBlock();
+    d2.setNextBlock();
     // vector obserers for the observer instances
     std::vector<Observer*> observers;
 
-    // auto d1 = std::make_unique<Display>(d);
-
-    TextObserver t{&d};
+    TextObserver t{&d1, &d2};
 
     t.notify();
 
-    d.drop();
+    d1.clockwise();
     t.notify();
+
+    d1.clockwise();
+    t.notify();
+
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
+
+    // d1.right();
+    // d1.right();
+    // d1.drop();
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
   }

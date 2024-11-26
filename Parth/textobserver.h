@@ -5,17 +5,19 @@
 #include <iostream>
 
 class TextObserver : public Observer {
-    Display* subject;
+    Display* subject1;
+    Display* subject2;
+
     int numReserveRows, nextBlockDock, width, height;  // boundary fields
     std::ostream &out = std::cout;
 
-    const int SEPARATE = 6;
+    const int SEPARATE = 10;
 
     void printSeparation();
     void printTopBoundary();
 
 public:
-    TextObserver(Display* subject);
+    TextObserver(Display* subject1, Display* subject2);
     void notify() override;
     // requested with render command
     // ~TextObserver() override;

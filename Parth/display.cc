@@ -2,22 +2,21 @@
 
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
-    board[5][5] = make_unique<Cell>('T', 5, 5);
+    levels.emplace_back(make_unique<Level0>(blockFile));
+    levels.emplace_back(make_unique<Level1>(blockFile));
+    levels.emplace_back(make_unique<Level2>(blockFile));
+    levels.emplace_back(make_unique<Level3>(blockFile));
+    levels.emplace_back(make_unique<Level4>(blockFile));
 
-    // Cell *cell1 = new Cell{'L', 0, 0};
-    // Cell *cell2 = new Cell{'L', 1, 0};
-    // Cell *cell3 = new Cell{'L', 2, 0};
-    // Cell *cell4 = new Cell{'L', 2, 1};
-    // currentBlock = make_unique<Block>(true, false, 0, 0, 3, cell1, cell2, cell3, cell4);
+    level = levels[levelIndex].get();
 
-    currentBlock = make_unique<ZBlock>(false, false);
-    nextBlock = make_unique<SBlock>(true, false);
+    currentBlock = unique_ptr<Block>(level->makeBlock());
+    nextBlock = unique_ptr<Block>(level->makeBlock());
 };
 
 Display::~Display() {
 
 }
-
 
 // Returns the character of the
 char Display::getState(int row, int col) const {
@@ -35,43 +34,95 @@ int Display::getScore() {
     return score;
 }
 
+// Gets number of turns since last clear
+int Display::getTurnsSinceClear() {
+    return turnsSinceClear;
+}
+
+// Sets the heavy field
+void setHeavy(bool heavy) {
+    heavy = heavy;
+}
+
+// Sets the blind field
+void setBlind(bool blind) {
+    blind = blind;
+}
+
+// It teleports through right now
+// Drops a 1x1 block on the center column
+void Display::dropDummyCell() {
+    const int centerX = WIDTH / 2 + 1;
+
+    // Find the lowest empty row in the center column
+    int destY = HEIGHT;
+    while (board[destY][centerX]) {
+        destY--;
+    }
+
+    // Populate it with a dummy cell
+    board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+}
 
 // Sets nextBlock on the next block dock
 void Display::setNextBlock() {
+    // Clear next block dock
+    for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            board[i + HEIGHT][j] = nullptr;
+        }
+    }
+
     for (auto cell : nextBlock->getAllCells()) {
         board[cell->getY() + HEIGHT][cell->getX()] = cell;
     }
 }
 
-// Level up, returns true if successful, false otherwise
-bool Display::levelUp() {
-    // Return false if the user is already at the max level
-    if (levelIndex == MAXLEVEL) {
-        return false;
-    }
+// // Level up, returns true if successful, false otherwise
+// bool Display::levelUp() {
+//     // Return false if the user is already at the max level
+//     if (levelIndex == MAXLEVEL) {
+//         return false;
+//     }
 
-    // Otherwise, update the level accordingly
-    levelIndex++;
-    level = levels[levelIndex];
-    return true;
-}
+//     // Otherwise, update the level accordingly
+//     levelIndex++;
+//     level = levels[levelIndex];
+//     return true;
+// }
 
-// Level down, returns true if successful, false otherwise
-bool Display::levelDown() {
-    // Return false if the user is already at the min level
-    if (levelIndex == MINLEVEL) {
-        return false;
-    }
+// // Level down, returns true if successful, false otherwise
+// bool Display::levelDown() {
+//     // Return false if the user is already at the min level
+//     if (levelIndex == MINLEVEL) {
+//         return false;
+//     }
 
-    // Otherwise, update the level accordingly
-    levelIndex--;
-    level = levels[levelIndex];
-    return true;
-}
+//     // Otherwise, update the level accordingly
+//     levelIndex--;
+//     level = levels[levelIndex];
+//     return true;
+// }
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
-    
+    currentBlock = move(nextBlock);
+}
+
+// Generate the nextBlock
+void Display::generateNextBlock() {
+    nextBlock = unique_ptr<Block>(level->makeBlock());
+}
+
+
+// Override the currentBlock
+void Display::setCurrentBlock(char block) {
+    currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
+}
+
+// Override the currentBlock's heavy field
+void Display::setCurrentHeavy(bool heavy) {
+    currentBlock->setHeavy(heavy);
 }
 
 
@@ -94,6 +145,53 @@ bool Display::operationIsValid(int changeInX, int changeInY) {
     // Otherwise, destination is valid
     return true;
 }
+bool Display::validPos() {
+
+    // // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
+    // for (int i = 0; i < 4; i++) {
+    //     int x = (currentBlock->getAllCells())[i]->getX();
+    //     int y = (currentBlock->getAllCells())[i]->getY();
+    //     if (board[x][y] && board[x][y]->getRealChar() != '/') return false;
+    // }
+    
+    // // Otherwise, destination is valid
+    // return true;
+
+    for (auto cell : currentBlock->getAllCells()) {
+        int x = cell->getX();
+        int y = cell->getY();
+  
+        // Invalid if the destination is out of bounds
+        if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
+        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl; return false;}
+
+        // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
+        if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
+    }
+    return true;
+}
+
+
+
+
+// bool Display::ValidRotate(vector<shared_ptr<Cell>> allCell) {
+//     for (auto c : allCell) {
+//         if (board[c->getX][c->getY] &&
+//                 board[c->getX][c->gety]->getRealChar() != '/') return false;
+//     }
+
+// int Display::validRotate() {
+//     int botLeftConerRow = 0;
+//     int botLeftConerCol = 0; 
+
+//     for (auto cell: currentBlock->getAllCells()) {
+//         if (botLeftConerRow < cell->getX()) botLeftConerRow = cell->getX();
+//         if (botLeftConerCol < cell->getY()) botLeftConerRow = cell->getY();
+//     }
+//     return left
+
+// }
+
 
 // Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
 void Display::insertCurrentBlock() {
@@ -114,23 +212,110 @@ void Display::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
+
+    currentBlock = nullptr;
+
+    // Reset display to default values
+    blind = false;
 }
 
 
-// Move the currentBlock to the left. Return true if operation is successful and false otherwise
-bool Display::left() {
+// Move the currentBlock to the left n units. Return true if operation places block and false otherwise
+bool Display::left(int n) {
     removeCurrentBlock();
 
-    // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(-1, 0)) {
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = 2 * currentBlock->isHeavy();
+
+    // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
+    if (!operationIsValid(-n, 0)) {
         insertCurrentBlock();
         return false;
     }
 
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(-1);
+        cell->addToX(-n);
     }
+
+    // Change the block's bottomLeftX
+    currentBlock->addToBottomLeftX(-n);
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        this->drop();
+        return true;
+    }
+
+    // Otherwise, move the block down heavy units
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(heavy);
+    }
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+    // Successful operation
+    return false;
+}
+
+
+// Move the currentBlock to the right n units. Return true if operation places block and false otherwise
+bool Display::right(int n) {
+    removeCurrentBlock();
+
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = 2 * currentBlock->isHeavy();
+
+    // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
+    if (!operationIsValid(n, 0)) {
+        insertCurrentBlock();
+        return false;
+    }
+
+    // Updated coordinates of the cells in the currentBlock
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToX(n);
+    }
+
+    // Change the block's bottomLeftX
+    currentBlock->addToBottomLeftX(n);
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        this->drop();
+        return true;
+    }
+
+    // Otherwise, move the block down heavy units
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(heavy);
+    }
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+    // Successful operation
+    return false;
+}
+
+// Move the currentBlock down n units. Return true if operation places block and false otherwise
+bool Display::down(int n) {
+    removeCurrentBlock();
+
+    // Cancel operation if invalid, insert currentBlock back to original position
+    if (!operationIsValid(0, n)) {
+        insertCurrentBlock();
+        return false;
+    }
+
+    // Updated coordinates of the cells in the currentBlock
+    for (auto cell : currentBlock->getAllCells()) {
+        cell->addToY(n);
+    }
+
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(n);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -139,74 +324,117 @@ bool Display::left() {
     return true;
 }
 
-
-// Move the currentBlock to the right. Return true if operation is successful and false otherwise
-bool Display::right() {
-    removeCurrentBlock();
-
-    // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(1, 0)) {
-        insertCurrentBlock();
-        return false;
-    }
-
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(1);
-    }
-
-    // Insert currentBlock on board
-    insertCurrentBlock();
-
-    // Successful operation
-    return true;
-}
-
-// Move the currentBlock down. Return true if operation is successful and false otherwise
-bool Display::down() {
-    removeCurrentBlock();
-
-    // Cancel operation if invalid, insert currentBlock back to original position
-    if (!operationIsValid(0, 1)) {
-        insertCurrentBlock();
-        return false;
-    }
-
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(1);
-    }
-
-    // Insert currentBlock on board
-    insertCurrentBlock();
-
-    // Successful operation
-    return true;
-}
-
-// Drop the currentBlock. Return true if operation is successful and false otherwise
+// Drop the currentBlock. Return true
 bool Display::drop() {
     removeCurrentBlock();
 
     // Try dropping the block down all the way to lowest row. If unsuccesful, try dropping 
     // one row higher until the operation is successful
-    int currentBlockAltitude = HEIGHT - currentBlock->getAllCells()[0]->getY();
+    int dropHeight = 1;
 
-    while (!operationIsValid(0, currentBlockAltitude)) {
-        currentBlockAltitude--;
+    while (operationIsValid(0, dropHeight)) {
+        dropHeight++;
     }
 
     // Updated coordinates of the cells in the currentBlock
     for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(currentBlockAltitude);
+        cell->addToY(dropHeight - 1);
     }
+
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(dropHeight - 1);
 
     // Insert currentBlock on board
     insertCurrentBlock();
 
+    // Place block
+    place();
+
     // Successful operation
     return true;
 }
+
+
+bool Display::clockwise() {
+    removeCurrentBlock();
+    currentBlock->clockwise();
+
+    // invalid
+    if (!validPos()) {
+        cout << "fail";
+        currentBlock->counterClockwise();
+        // Insert currentBlock on board
+        insertCurrentBlock();
+        return false;
+    }
+    cout << "success";
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+    //valid 
+    return true;
+}
+
+
+// bool Display::clockwise() {
+//     // check boundaries first
+
+//     // Transpose the board
+//     // handle 'I' block
+
+//     removeCurrentBlock();
+
+//     // handle 'I' block
+//     if (  ) {
+//     // check if center is (width - 4) else invalid
+//         if (!(WIDTH - bottomLeftX >= 3)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+//         // transpose
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+
+//             for (int j = i; j < 4; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 4);
+//         }
+//     }
+    
+//     // handle 'O' block
+//     else if ( currentBlock->getAllCells() ) {
+//         insertCurrentBlock();
+//     }
+
+//     else {
+//         if (!(WIDTH - bottomLeftX >= 2)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             for (int j = i; j < 3; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 3);
+//         }
+//     }
+//     return true;
+// }
+
+
+
+
+
 
 
 
