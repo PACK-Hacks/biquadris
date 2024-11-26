@@ -23,18 +23,10 @@ int main() {
 
     t.notify();
 
-    d1.right(4);
-    d2.right(4);
-    d2.right(4);
-    d2.right(0);
-    d2.right(0);
-    d2.right(0);
-    d2.right(0);
-    d2.right(0);
-    d2.down();
+    d1.clockwise();
     t.notify();
 
-    d2.left();
+    d1.clockwise();
     t.notify();
 
     // d1.moveNextToCurrent();
