@@ -31,6 +31,7 @@ class Display: public Subject {
     bool blind = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
+
     vector<unique_ptr<Level>> levels; // something
     int levelIndex;
     Level *level;
@@ -58,6 +59,8 @@ class Display: public Subject {
         void setBlind(bool blind=true);
 
         void dropDummyCell();
+        bool needDummy();
+
 
         bool levelUp();
         bool levelDown();

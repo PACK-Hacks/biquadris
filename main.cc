@@ -26,6 +26,12 @@ int main() {
     d1.clockwise();
     t.notify();
 
+    d1.dropDummyCell();
+
+    d1.dropDummyCell();
+
+    d2.dropDummyCell();
+
     d1.clockwise();
     t.notify();
 

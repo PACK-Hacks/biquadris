@@ -37,7 +37,16 @@ int Display::getScore() {
 // Gets number of turns since last clear
 int Display::getTurnsSinceClear() {
     return turnsSinceClear;
+    
 }
+
+// Returns true if Dummy is needed in Level 4
+bool Display::needDummy() {
+    turnsSinceClear++;
+    if (turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
+    return false;
+}
+
 
 // Sets the heavy field
 void setHeavy(bool heavy) {
@@ -52,13 +61,14 @@ void setBlind(bool blind) {
 // It teleports through right now
 // Drops a 1x1 block on the center column
 void Display::dropDummyCell() {
-    const int centerX = WIDTH / 2 + 1;
+    const int centerX = WIDTH / 2;
 
     // Find the lowest empty row in the center column
-    int destY = HEIGHT;
-    while (board[destY][centerX]) {
-        destY--;
+    int destY = 0;
+    while (board[destY][centerX] == nullptr && destY < HEIGHT) {
+        destY++;
     }
+    destY--;
 
     // Populate it with a dummy cell
     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
