@@ -1,3 +1,6 @@
+#ifndef __GAME__
+#define __GAME__
+
 class Game {
     Player p1;
     Player p2;
@@ -10,3 +13,5 @@ class Game {
     string runGame() {}
 
 };
+
+#endif
