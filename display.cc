@@ -145,6 +145,53 @@ bool Display::operationIsValid(int changeInX, int changeInY) {
     // Otherwise, destination is valid
     return true;
 }
+bool Display::validPos() {
+
+    // // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
+    // for (int i = 0; i < 4; i++) {
+    //     int x = (currentBlock->getAllCells())[i]->getX();
+    //     int y = (currentBlock->getAllCells())[i]->getY();
+    //     if (board[x][y] && board[x][y]->getRealChar() != '/') return false;
+    // }
+    
+    // // Otherwise, destination is valid
+    // return true;
+
+    for (auto cell : currentBlock->getAllCells()) {
+        int x = cell->getX();
+        int y = cell->getY();
+  
+        // Invalid if the destination is out of bounds
+        if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
+        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl; return false;}
+
+        // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
+        if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
+    }
+    return true;
+}
+
+
+
+
+// bool Display::ValidRotate(vector<shared_ptr<Cell>> allCell) {
+//     for (auto c : allCell) {
+//         if (board[c->getX][c->getY] &&
+//                 board[c->getX][c->gety]->getRealChar() != '/') return false;
+//     }
+
+// int Display::validRotate() {
+//     int botLeftConerRow = 0;
+//     int botLeftConerCol = 0; 
+
+//     for (auto cell: currentBlock->getAllCells()) {
+//         if (botLeftConerRow < cell->getX()) botLeftConerRow = cell->getX();
+//         if (botLeftConerCol < cell->getY()) botLeftConerRow = cell->getY();
+//     }
+//     return left
+
+// }
+
 
 // Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
 void Display::insertCurrentBlock() {
@@ -306,6 +353,84 @@ bool Display::drop() {
     // Successful operation
     return true;
 }
+
+
+bool Display::clockwise() {
+    currentBlock->clockwise();
+
+    // invalid
+    if (validPos()) {
+        cout << "fail";
+        currentBlock->counterClockwise();
+        return false;
+    }
+    cout << "success";
+
+
+    //valid 
+    return true;
+
+}
+
+
+// bool Display::clockwise() {
+//     // check boundaries first
+
+//     // Transpose the board
+//     // handle 'I' block
+
+//     removeCurrentBlock();
+
+//     // handle 'I' block
+//     if (  ) {
+//     // check if center is (width - 4) else invalid
+//         if (!(WIDTH - bottomLeftX >= 3)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+//         // transpose
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+
+//             for (int j = i; j < 4; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 4);
+//         }
+//     }
+    
+//     // handle 'O' block
+//     else if ( currentBlock->getAllCells() ) {
+//         insertCurrentBlock();
+//     }
+
+//     else {
+//         if (!(WIDTH - bottomLeftX >= 2)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             for (int j = i; j < 3; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 3);
+//         }
+//     }
+//     return true;
+// }
+
+
+
+
+
 
 
 

@@ -91,3 +91,86 @@ ZBlock::ZBlock(bool heavy) : Block{heavy, 3,
     new Cell{'Z', 1, 2},
     new Cell{'Z', 1, 3},
     new Cell{'Z', 2, 3}} {}
+
+
+// clockwise - returns vector<shared_ptr<Cell>>  of the changed block. 
+void Block::clockwise() {
+
+    // vector<shared_ptr<Cell>> testCells;
+
+    // Cell(char letter, int x, int y);
+
+    // Cell *cell1{cells[0]->getChar(), cells[0]->getX(), cells[0]->getY()};
+    // Cell *cell2{cells[1]->getChar(), cells[1]->getX(), cells[1]->getY()};
+    // Cell *cell3{cells[2]->getChar(), cells[2]->getX(), cells[2]->getY()};
+    // Cell *cell4{cells[3]->getChar(), cells[3]->getX(), cells[3]->getY()};
+
+    // testCells.emplace_back(cell1);
+    // testCells.emplace_back(cell2);
+    // testCells.emplace_back(cell3);
+    // testCells.emplace_back(cell4);
+
+    // construct cell 
+
+    for (int i = 0; i < 4; i++) {
+        int x = cells[i]->getX();
+        int y = cells[i]->getY();
+
+        int localX = x - bottomLeftX; // Convert to 0-based relative to bottom-left
+        int localY = y - bottomLeftY; // Convert to 0-based relative to bottom-left
+
+        // Validate i and j are within the 3x3 matrix
+
+        // Transpose: swap localI and localJ
+        int transposedX = localY;
+        int transposedY = localX;
+
+        // Reverse: Flip the i (row index)
+        int reversedX = 2 - transposedX;
+
+        // Convert back to global coordinates
+        int newX = bottomLeftX + reversedX;
+        int newY = bottomLeftY + transposedY;
+
+
+        // Cell *cell1{cells[0]->getChar(), cells[0]->getX(), cells[0]->getY()};
+        // cells[i]->x = newX;
+        // cells[i]->y = newY;
+        cells[i]->addToX(newX - x);
+        cells[i]->addToY(newY - y);
+    }
+
+    // returns vector<shared_ptr<Cell>> allCell
+}
+
+void Block::counterClockwise() {
+    clockwise();
+    clockwise();
+    clockwise();
+}
+
+
+// void IBlock::clockwise() {
+
+
+//     if (!(WIDTH - bottomLeftX >= 3)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+//         // transpose
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+
+//             for (int j = i; j < 4; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 4);
+//         }
+
+    
+//     // returns vector<shared_ptr<Cell>> allCell
+    
+// }

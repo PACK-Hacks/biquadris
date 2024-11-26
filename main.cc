@@ -36,4 +36,19 @@ int main() {
 
     d2.left();
     t.notify();
+
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
+
+    // d1.right();
+    // d1.right();
+    // d1.drop();
+    // d1.moveNextToCurrent();
+    // d1.insertCurrentBlock();
+    // d1.generateNextBlock("empty");
+    // d1.setNextBlock();
+    // t.notify();
   }
