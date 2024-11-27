@@ -298,6 +298,9 @@ bool Display::left(int n) {
         cell->addToY(heavy);
     }
 
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(heavy);
+
     // Insert currentBlock on board
     insertCurrentBlock();
 
@@ -344,6 +347,9 @@ bool Display::right(int n) {
     for (auto cell : currentBlock->getAllCells()) {
         cell->addToY(heavy);
     }
+
+    // Change the block's bottomLeftY
+    currentBlock->addToBottomLeftY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -410,7 +416,12 @@ bool Display::drop() {
 
 bool Display::clockwise() {
     removeCurrentBlock();
+
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = currentBlock->isHeavy();
+
     currentBlock->clockwise();
+
 
     // invalid
     if (!validPos()) {
@@ -420,10 +431,24 @@ bool Display::clockwise() {
         return false;
     }
 
+    cout << "dfnkk" << endl;
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        drop();
+        return true;
+    }
+
+    cout << "we're here" << endl;
+    // // Otherwise, move the block down heavy units
+    // for (auto cell : currentBlock->getAllCells()) {
+    //     cell->addToY(heavy);
+    // }
+    cout << "and here" << endl;
+
     // Insert currentBlock on board
     insertCurrentBlock();
 
-    // heavy implementation
     // valid 
     return false;
 }
