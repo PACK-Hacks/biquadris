@@ -388,8 +388,9 @@ bool Display::clockwise() {
     // Insert currentBlock on board
     insertCurrentBlock();
 
-    //valid 
-    return true;
+    // heavy implementation
+    // valid 
+    return false;
 }
 
 bool Display::counterClockwise() {
@@ -407,8 +408,9 @@ bool Display::counterClockwise() {
     // Insert currentBlock on board
     insertCurrentBlock();
 
-    //valid 
-    return true;
+    // heavy implementation
+    // valid 
+    return false;
 }
 
 // takes in block from the file: relevent in level 3 and 4 only
