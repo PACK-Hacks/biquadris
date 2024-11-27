@@ -282,13 +282,8 @@ bool Display::left(int n) {
         return false;
     }
 
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(-n);
-    }
-
-    // Change the block's bottomLeftX
-    currentBlock->addToBottomLeftX(-n);
+    // Move block right -n units
+    currentBlock->moveBlockX(-n);
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
@@ -297,12 +292,7 @@ bool Display::left(int n) {
     }
 
     // Otherwise, move the block down heavy units
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(heavy);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(heavy);
+    currentBlock->moveBlockY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -332,13 +322,8 @@ bool Display::right(int n) {
         return false;
     }
 
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToX(n);
-    }
-
-    // Change the block's bottomLeftX
-    currentBlock->addToBottomLeftX(n);
+    // Move block right n units
+    currentBlock->moveBlockX(n);
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
@@ -347,12 +332,7 @@ bool Display::right(int n) {
     }
 
     // Otherwise, move the block down heavy units
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(heavy);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(heavy);
+    currentBlock->moveBlockY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -371,13 +351,8 @@ bool Display::down(int n) {
         return false;
     }
 
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(n);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(n);
+    // Move the block down
+    currentBlock->moveBlockY(n);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -398,13 +373,7 @@ bool Display::drop() {
         dropHeight++;
     }
 
-    // Updated coordinates of the cells in the currentBlock
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(dropHeight - 1);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(dropHeight - 1);
+    currentBlock->moveBlockY(dropHeight - 1);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -441,12 +410,7 @@ bool Display::clockwise() {
     }
 
     // Otherwise, move the block down heavy units
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(heavy);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(heavy);
+    currentBlock->moveBlockY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -460,7 +424,7 @@ bool Display::counterClockwise() {
 
     // If the block is heavy, the block will be shifted down by one unit
     int heavy = currentBlock->isHeavy();
-    
+
     currentBlock->counterClockwise();
 
     // invalid
@@ -472,12 +436,7 @@ bool Display::counterClockwise() {
     }
 
     // Otherwise, move the block down heavy units
-    for (auto cell : currentBlock->getAllCells()) {
-        cell->addToY(heavy);
-    }
-
-    // Change the block's bottomLeftY
-    currentBlock->addToBottomLeftY(heavy);
+    currentBlock->moveBlockY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -547,82 +506,6 @@ void Display::insertBlindBlock() {
         }
     }
 }
-
-// void Display::dropDummyCell() {
-//     const int centerX = WIDTH / 2;
-
-//     // Find the lowest empty row in the center column
-//     int destY = 0;
-//     while (board[destY][centerX] == nullptr && destY < HEIGHT) {
-//         destY++;
-//     }
-//     destY--;
-
-//     // Populate it with a dummy cell
-//     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
-// }
-
-
-
-
-// bool Display::clockwise() {
-//     // check boundaries first
-
-//     // Transpose the board
-//     // handle 'I' block
-
-//     removeCurrentBlock();
-
-//     // handle 'I' block
-//     if (  ) {
-//     // check if center is (width - 4) else invalid
-//         if (!(WIDTH - bottomLeftX >= 3)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-//         // transpose
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-
-//             for (int j = i; j < 4; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 4);
-//         }
-//     }
-    
-//     // handle 'O' block
-//     else if ( currentBlock->getAllCells() ) {
-//         insertCurrentBlock();
-//     }
-
-//     else {
-//         if (!(WIDTH - bottomLeftX >= 2)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-
-//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
-//             for (int j = i; j < 3; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 3);
-//         }
-//     }
-//     return true;
-// }
-
-
-
-
-
 
 
 
