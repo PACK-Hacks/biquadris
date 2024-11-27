@@ -9,12 +9,13 @@ using namespace std;
 class Level {
     protected:
         bool heavy;
+        int level;
         ifstream &blockFile;
         string blockFileString;
         char getNextBlockChar();
 
     public:
-        Level(bool heavy, ifstream &blockFile, string blockFileString);
+        Level(bool heavy, int level, ifstream &blockFile, string blockFileString);
         virtual ~Level()=0;
 
         virtual Block *makeBlock()=0;

@@ -11,6 +11,7 @@ class Block {
     bool isNextBlock;
     bool heavy;
     int rotationLen;
+    int level;
 
     protected:
         int bottomLeftX = 0;
@@ -18,13 +19,16 @@ class Block {
         vector<shared_ptr<Cell>> cells;
 
     public:
-        Block(bool heavy, int rotationLen,
+        Block(bool heavy, int rotationLen, int level,
             Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4);
         virtual ~Block()=0;
 
 
         void setHeavy(bool heavy);
         bool isHeavy();
+
+        int getLevel();
+
         vector<shared_ptr<Cell>> getAllCells() const;
 
         void addToBottomLeftX(int n);
@@ -40,7 +44,7 @@ class Block {
 
 class IBlock final: public Block {
     public:
-        IBlock(bool heavy);
+        IBlock(bool heavy, int level);
         // add destructor
         // void clockwise() override;
         // void counterClockwise() override;
@@ -48,37 +52,37 @@ class IBlock final: public Block {
 
 class OBlock final: public Block {
     public:
-        OBlock(bool heavy);
+        OBlock(bool heavy, int level);
         // add destructor
 };
 
 class LBlock final: public Block {
     public:
-        LBlock(bool heavy);
+        LBlock(bool heavy, int level);
         // add destructor
 };
 
 class JBlock final: public Block {
     public:
-        JBlock(bool heavy);
+        JBlock(bool heavy, int level);
         // add destructor
 };
 
 class TBlock final: public Block {
     public:
-        TBlock(bool heavy);
+        TBlock(bool heavy, int level);
         // add destructor
 };
 
 class SBlock final: public Block {
     public:
-        SBlock(bool heavy);
+        SBlock(bool heavy, int level);
         // add destructor
 };
 
 class ZBlock final: public Block {
     public:
-        ZBlock(bool heavy);
+        ZBlock(bool heavy, int level);
         // add destructor
 };
 

@@ -28,6 +28,7 @@ class Display: public Subject {
     shared_ptr<Cell> board[22][11]{nullptr};  // Board of cells resulting from placed blocks
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
+    vector<unique_ptr<Block>> activePlacedBlocks;
 
     int score = 0;
     bool blind = false;
