@@ -42,6 +42,11 @@ int Display::getScore() {
     return score;
 }
 
+// Gets the level of the Display
+int Display::getLevel() {
+    return levelIndex;
+}
+
 // Gets number of turns since last clear
 int Display::getTurnsSinceClear() {
     return turnsSinceClear;
@@ -203,27 +208,6 @@ bool Display::validPos() {
 }
 
 
-
-
-// bool Display::ValidRotate(vector<shared_ptr<Cell>> allCell) {
-//     for (auto c : allCell) {
-//         if (board[c->getX][c->getY] &&
-//                 board[c->getX][c->gety]->getRealChar() != '/') return false;
-//     }
-
-// int Display::validRotate() {
-//     int botLeftConerRow = 0;
-//     int botLeftConerCol = 0; 
-
-//     for (auto cell: currentBlock->getAllCells()) {
-//         if (botLeftConerRow < cell->getX()) botLeftConerRow = cell->getX();
-//         if (botLeftConerCol < cell->getY()) botLeftConerRow = cell->getY();
-//     }
-//     return left
-
-// }
-
-
 // Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
 void Display::insertCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {
@@ -244,9 +228,13 @@ void Display::place() {
         cell->place();
     }
 
-    clear(currentBlock->getBottomLeftCoor().second, currentBlock->getRotationLen());
+    int currentBlockFloor = currentBlock->getBottomLeftCoor().second;
+    int currentBlockRotationLen = currentBlock->getRotationLen();
 
-    currentBlock = nullptr;
+    // Move currentBlock to activePlacedBlocks
+    activePlacedBlocks.emplace_back(move(currentBlock));
+
+    clear(currentBlockFloor, currentBlockRotationLen);
 
     // Reset display to default values
     blind = false;
@@ -488,6 +476,9 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
         }
     }
 
+    // Update score
+    score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
+
     // reset turnsSinceClear if any rows are cleared
     if (numRowsClear >= 1) turnsSinceClear = 0;
 
@@ -556,184 +547,3 @@ int Display::getHeight() {
 bool Display::getLost() {
     return lost;
 }
-
-// // reserve three extra rows for different cell types at top of the baord for rotationn
-// void Display::print() {
-//     // High Score 
-//     cout << endl;
-//     cout << "High Score:     " << highScore << endl;
-
-//     // level
-//     cout << "Level:     " << levelIndex;
-
-//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//     cout << "Level:     " << levelIndex << endl;
-
-//     // score
-//     cout << "Score:     " << score;
-
-//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//     cout << "Score:     " << levelIndex << endl;
-
-
-
-//     // top margin for player1
-//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
-
-//     // seperate
-//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//     // top margin for player1
-//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
-
-//     cout << endl;
-
-//     // board
-//     for (int i = 0; i <= HEIGHT; ++i) {
-
-//         // plaer1 board
-//         for (int j = 0; j <= WIDTH; ++j) {
-//             // out << subject->getState(i, j); // retrieved from Display 
-//             cout << 'T'; // retrieved from Display 
-
-//         }
-
-//         // seperate
-//         for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//         // plaer2 board
-//         for (int j = 0; j <= WIDTH; ++j) {
-//             // out << subject->getState(i, j); // retrieved from Display 
-//             cout << 'L'; // retrieved from Display 
-//         }
-
-//         cout << endl;
-
-//     }
-
-//     // bottom margin for player1
-//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
-
-//     // seperate
-//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//     // bottom margin for player2
-//     for (int i = 0; i <= WIDTH; ++i) cout << '-'; // reserve three extra rows
-    
-//     cout << endl;
-
-//     cout << "Next:       "; 
-
-//     for (int i = 0; i <= seperate; ++i) cout << ' '; // reserve three extra rows
-
-//     cout << "Next:       " << end;
-
-//     // bottom margin
-//     cout << "getNextBook()";
-    
-//     cout << "          ";
-
-//     cout << "getNextBook()" << endl;
-
-
-//     // where is generateNextBlock() called?  
-//     // should there be a nextBlock field? 
-
-// }
-
-
-
-
-// class Display {
-//     const int width = 11;
-//     const int height = 15;
-    
-//     clear() {
-//         // track num of cleared rows
-//         score += calcScore(numCleared);
-//     }
-
-//     place() {  // runs clearing code, and char conversion, turning the block state 
-//                 // from moving to placed
-//         clear();    // check rows of each cell 1, 2, 3, 4, for each distinct row,
-//                     // check if it's clearable, make all cells on row nullptr use getCellAt,
-//                     // call fall with row and shift num
-//     }
-
-
-//     public:
-//         render();
-//         drop() {
-//             // move block down
-//             // once you hit the bottom
-//             place();
-//         }
-
-//         // When a block is being moved, store its characters as '\', once it's placed  
-//         // turn it into the proper characters. Easier to check collisions.
-//         // charAt decrypts
-//         right() {
-//             clearBlockFromBoard()
-            
-//             currentBlock.cell1->addX(1);
-//             currentBlock.cell2->addX(1);
-//             currentBlock.cell3->addX(1);
-//             currentBlock.cell4->addX(1);
-
-//             if (currentBlock.heavy) {
-//                 currentBlock.cell1->addY(1);
-//                 currentBlock.cell2->addY(1);
-//                 currentBlock.cell3->addY(1);
-//                 currentBlock.cell4->addY(1);
-//             }
-            
-//             insertBlockFromBoard()
-//         }
-//         void moveNextToCurrent() {
-//             currentBlock = nextBlock;
-//         }
-
-//         void generateNextBlock(string special) {
-//             if (special == "") {
-//                 nextBlock = level->makeBlock(file);     // ifstream initialized with file name in the constructor
-//             } 
-//             else if (special == "blind") {
-//                 blind = true;
-//             }
-//             else if (special == "force") {
-//                 // get the forced shape
-//                 char forcedBlock;
-//                 nextBlock = level->makeChosenBlock(block, shape);
-//             }
-
-//             // else {
-//             //     stringstream iss{special};
-//             //     string s;
-
-//             //     block = level->getBlock();
-//             //     heavy = level->getHeavy();
-//             //     dummy = level->getDummy();
-
-
-//             //     char forcedBlock;
-
-//             //     while (iss >> s) {
-//             //         if (s == "blind") {     // set nextBlind to false in drop method
-//             //             isBlind = true;
-//             //         }
-//             //         if (s == "force") {
-//             //             iss >> forcedBlock;
-//             //         } 
-//             //         if (s == "heavy") {
-//             //             heavy = true;
-//             //         }
-//             //     }
-//             // }
-//         }
-
-    
-
-
-// };

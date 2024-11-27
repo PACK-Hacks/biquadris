@@ -58,6 +58,7 @@ class Display: public Subject {
 
         char getState(int row, int col) const override;
         int getScore();
+        int getLevel();
         int getNumReserveRows();
         int getNextBlockDock();
         int getWidth();
