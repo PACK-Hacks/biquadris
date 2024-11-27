@@ -53,7 +53,6 @@ string Player::runTurn(string special, TextObserver &to) {
     display.generateNextBlock();
 
     to.notify();
-    
 
     if (special != "") { // Check for specials
         istringstream iss{special};
@@ -78,7 +77,8 @@ string Player::runTurn(string special, TextObserver &to) {
 
     string command;
 
-    while(cin >> command && !endTurn) {     // fstream >> command
+
+    while(*in >> command && !endTurn) {     // fstream >> command
         if (command == left) {
             endTurn = display.left();
             to.notify();
@@ -112,7 +112,7 @@ string Player::runTurn(string special, TextObserver &to) {
             // }
         } else if (command == norandom) {
             string file_name;
-            cin >> file_name;
+            *in >> file_name;
              // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
             display.norandom(file_name);
         } else if (command == random) {
@@ -122,10 +122,18 @@ string Player::runTurn(string special, TextObserver &to) {
             display.setCurrentBlock(c); 
         } else if (command == restart) {
             return "restart";
+        } else if (command == sequence) {
+            *in >> command;
+            sequenceStream = ifstream{command};
+            in = &sequenceStream;
         } else {
             cout << "Please enter a valid command" << endl;
         }
+        if ((*in).eof()) {
+            in = &cin;
+        }
     }
+    if (display.needDummy()) display.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
     lost = display.getLost();
@@ -140,19 +148,19 @@ string Player::runTurn(string special, TextObserver &to) {
         cout << "You have earned a special!" << endl;
         cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
         string s;
-        cin >> s;
+        *in >> s;
         while (s != "heavy" && s != "force" && s != "blind") {
             cout << "There is no such special!" << endl;
             cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
-            cin >> s;
+            *in >> s;
         }
         if (s == "force") {
             cout << "Which block would you like to force on your opponent? (I, J, L, O, S, Z, T)?" << endl;
             char b;
-            cin >> b;
+            *in >> b;
             while (!find_block(b)) {
                 cout << "Incorrect input! Enter a valid block (I, J, L, O, S, Z, T)." << endl;
-                cin >> b;
+                *in >> b;
             }
             string b_string{b};
             cout << "Your turn is now over" << endl;
@@ -165,7 +173,7 @@ string Player::runTurn(string special, TextObserver &to) {
         cout << "Your turn is now over" << endl;
         return "";
     }
-
+    
 
     
 

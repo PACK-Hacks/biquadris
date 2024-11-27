@@ -25,7 +25,7 @@ void TextObserver::printSeparation() {
 }
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
-void TextObserver::notify() {
+void TextObserver::notify(int id) {
     out << endl;
 
     // High Score 
@@ -61,23 +61,65 @@ void TextObserver::notify() {
 
     cout << endl;
     // board
-    for (int i = 0; i < height; ++i) {
+        for (int i = 0; i < height; ++i) {
 
-        // plaer1 board
-        for (int j = 0; j < width; ++j) {
-            out << subject1->getState(i, j); // retrieved from Display 
+            // when blind is active cover row 3 to 12 column 3 to 9
+            if ( 3 + 2 <= i && i <= 11 + 3 ) {
+                for (int j = 0; j < width; ++j) {
+                    if (id == 1 && 2 <= j && j <= 8) {
+                        out << '?';
+                        continue;
+                    }
+                    out << subject1->getState(i, j); // retrieved from Display 
+                }
+
+                // seperate
+                printSeparation(); // reserve three extra rows
+
+                // plaer2 board
+                for (int j = 0; j < width; ++j) {
+                    if (id == 2  && 2 <= j && j <= 8) {
+                        out << '?';
+                        continue;
+                    }
+                    out << subject2->getState(i, j); // retrieved from Display 
+                }
+                out << endl;
+                continue;
+            }
+            // plaer1 board
+            for (int j = 0; j < width; ++j) {
+                out << subject1->getState(i, j); // retrieved from Display 
+            }
+
+            // seperate
+            printSeparation(); // reserve three extra rows
+
+
+            // plaer2 board
+            for (int j = 0; j < width; ++j) {
+                out << subject2->getState(i, j); // retrieved from Display 
+            }
+            out << endl;
         }
 
-        // seperate
-        printSeparation(); // reserve three extra rows
+        // for (int i = 0; i < height; ++i) {
+
+        //     // plaer1 board
+        //     for (int j = 0; j < width; ++j) {
+        //         out << subject1->getState(i, j); // retrieved from Display 
+        //     }
+
+        //     // seperate
+        //     printSeparation(); // reserve three extra rows
 
 
-        // plaer2 board
-        for (int j = 0; j < width; ++j) {
-            out << subject2->getState(i, j); // retrieved from Display 
-        }
-        out << endl;
-    }
+        //     // plaer2 board
+        //     for (int j = 0; j < width; ++j) {
+        //         out << subject2->getState(i, j); // retrieved from Display 
+        //     }
+        //     out << endl;
+        // }
 
     // bottom margin for player1
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
@@ -113,24 +155,7 @@ void TextObserver::notify() {
     // should there be a nextBlock field? 
 }
 
-// void TextObserver::notify() {
-//     out << '+';
-//     for (int j = left; j <= right; ++j) out << '-'; // reserve three extra rows
-//     out << '+' << std::endl;
 
-//     for (int i = top; i <= bottom; ++i) {
-//         out << '|';
-//         for (int j = left; j <= right; ++j) {
-//             out << subject->getState(i, j); // retrieved from Display 
-//         }
-//         out << '|' << std::endl;
-//     }
-//     out << '+';
-//     for (int j = left; j <= right; ++j) out << '-';
-//     out << '+' << std::endl;
-// }
 
-// memeory deltion is delegated to Observer
-// TextObserver::~TextObserver() {
-//     subject->detach(this);
-// }
+
+
