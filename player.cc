@@ -114,17 +114,17 @@ string Player::runTurn(string special, TextObserver &to) {
             to.notify();
             break;
         } else if (command == levelup) {
-            // bool canLevelUp;
-            // canLevelUp = display.levelup();
-            // if (canLevelUp == false) {
-            //     cout << "You cannot level up! You are already at the max level!" << endl;
-            // }
+            bool canLevelUp;
+            canLevelUp = display.levelUp();
+            if (canLevelUp == false) {
+                cout << "You cannot level up! You are already at the max level!" << endl;
+            }
         } else if (command == leveldown) {
-            // bool canLevelDown;
-            // canLevelDown = display.levelDown();
-            // if (canLevelDown == false) {
-            //     cout << "You cannot level down! You are already at the lowest level!" << endl;
-            // }
+            bool canLevelDown;
+            canLevelDown = display.levelDown();
+            if (canLevelDown == false) {
+                cout << "You cannot level down! You are already at the lowest level!" << endl;
+            }
         } else if (command == norandom) {
             string file_name;
             *in >> file_name;
