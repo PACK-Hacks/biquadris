@@ -4,9 +4,10 @@
 #include <memory>
 #include "display.h"
 #include <string>
-#include "game.h"
 #include <sstream>
 #include <iostream>
+#include <fstream>
+#include "textobserver.h"
 
 using namespace std;
 
@@ -17,8 +18,8 @@ class Player {
     int seed;
     string scriptfile;
     int startLevel;
+    ifstream scriptStream;
     Display display;
-    Game *game;
 
     string left = "left"; // Extension, allow users to change command values
     string right = "right";
@@ -39,11 +40,13 @@ class Player {
     bool find_block(char b);
 
     public:
-    Player(bool text, int seed, string scriptfile, int startLevel, Game *game);
+    Player(bool text, int seed, string scriptfile, int startLevel);
 
-    string runTurn(string special);
+    string runTurn(string special, TextObserver &to);
 
     bool getLost();
+
+    Display *getDisplay();
 
 };
 

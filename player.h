@@ -1,9 +1,14 @@
+#ifndef __PLAYER__
+#define __PLAYER__
+
 #include <memory>
 #include "display.h"
 #include <string>
-#include "game.h"
 #include <sstream>
 #include <iostream>
+#include <fstream>
+#include "textobserver.h"
+
 using namespace std;
 
 class Player {
@@ -11,10 +16,10 @@ class Player {
     bool lost;
     string text;
     int seed;
-    string scriptfile1;
+    string scriptfile;
     int startLevel;
+    ifstream scriptStream;
     Display display;
-    unique_ptr<Game> game;
 
     string left = "left"; // Extension, allow users to change command values
     string right = "right";
@@ -28,17 +33,21 @@ class Player {
     string random = "random";
     string sequence = "sequence";
     string restart = "restart";
-    string i = "I";
-    string j = "J";
-    string l = "L";
-    string o = "O";
-    string s = "S";
-    string z = "Z";
-    string t = "T";
+    vector<char> blocks;
 
+    char string_to_char(string s);
 
-    Player(bool text, int seed, string scriptfile, int startLevel, unique_ptr<Game> game);
+    bool find_block(char b);
 
-    string runTurn(string special);
+    public:
+    Player(bool text, int seed, string scriptfile, int startLevel);
+
+    string runTurn(string special, TextObserver &to);
+
+    bool getLost();
+
+    Display *getDisplay();
 
 };
+
+#endif

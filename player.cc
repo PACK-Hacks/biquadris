@@ -14,6 +14,7 @@ Player::Player(bool text, int seed, string scriptfile, int startLevel):
     startLevel{startLevel}, scriptStream{scriptfile},
     display{startLevel, scriptStream} {
         display.generateNextBlock();
+        
         blocks.emplace_back('I');
         blocks.emplace_back('J');
         blocks.emplace_back('L');
@@ -43,14 +44,17 @@ string Player::runTurn(string special, TextObserver &to) {
 
     bool status = display.moveNextToCurrent(); // Assume moves it onto the board
 
-    if (status == false) { // When block was attempted to be placed on board, there was something covering
-                            // one of the default spots, and so the player automatically loses
-        lost = true;
-        // display.render(lost); // ?
-        return "";
-    }
+    // if (status == false) { // When block was attempted to be placed on board, there was something covering
+    //                         // one of the default spots, and so the player automatically loses
+    //     lost = true;
+    //     // display.render(lost); // ?
+    //     return "";
+    // }
 
     display.generateNextBlock();
+
+    to.notify();
+    
 
     if (special != "") { // Check for specials
         istringstream iss{special};

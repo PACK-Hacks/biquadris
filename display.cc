@@ -9,9 +9,6 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
     levels.emplace_back(make_unique<Level4>(blockFile));
 
     level = levels[levelIndex].get();
-
-    currentBlock = unique_ptr<Block>(level->makeBlock());
-    nextBlock = unique_ptr<Block>(level->makeBlock());
 };
 
 Display::~Display() {
@@ -39,26 +36,35 @@ int Display::getTurnsSinceClear() {
     return turnsSinceClear;
 }
 
+// Returns true if Dummy is needed in Level 4
+bool Display::needDummy() {
+    turnsSinceClear++;
+    if (turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
+    return false;
+}
+
+
 // Sets the heavy field
-void setHeavy(bool heavy) {
+void Display::setHeavy(bool heavy) {
     heavy = heavy;
 }
 
 // Sets the blind field
-void setBlind(bool blind) {
+void Display::setBlind(bool blind) {
     blind = blind;
 }
 
 // It teleports through right now
 // Drops a 1x1 block on the center column
 void Display::dropDummyCell() {
-    const int centerX = WIDTH / 2 + 1;
+    const int centerX = WIDTH / 2;
 
     // Find the lowest empty row in the center column
-    int destY = HEIGHT;
-    while (board[destY][centerX]) {
-        destY--;
+    int destY = 0;
+    while (board[destY][centerX] == nullptr && destY < HEIGHT) {
+        destY++;
     }
+    destY--;
 
     // Populate it with a dummy cell
     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
@@ -107,17 +113,29 @@ void Display::setNextBlock() {
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
     currentBlock = move(nextBlock);
+    insertCurrentBlock();
 }
 
 // Generate the nextBlock
 void Display::generateNextBlock() {
     nextBlock = unique_ptr<Block>(level->makeBlock());
+    // Clear next block dock
+    for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            board[i + HEIGHT][j] = nullptr;
+        }
+    }
+
+    for (auto cell : nextBlock->getAllCells()) {
+        board[cell->getY() + HEIGHT][cell->getX()] = cell;
+    }
 }
 
 
 // Override the currentBlock
 void Display::setCurrentBlock(char block) {
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
+    insertCurrentBlock();
 }
 
 // Override the currentBlock's heavy field
@@ -163,7 +181,7 @@ bool Display::validPos() {
   
         // Invalid if the destination is out of bounds
         if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
-        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl; return false;}
+        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl;  return false;}
 
         // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
         if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
@@ -321,7 +339,7 @@ bool Display::down(int n) {
     insertCurrentBlock();
 
     // Successful operation
-    return true;
+    return false;
 }
 
 // Drop the currentBlock. Return true
@@ -392,6 +410,72 @@ bool Display::counterClockwise() {
     //valid 
     return true;
 }
+
+// takes in block from the file: relevent in level 3 and 4 only
+void Display::norandom(ifstream &f) {
+    
+}
+
+// restore randomness: relevent in level 3 and 4 only
+void Display::random() {
+    
+}
+
+
+
+// bool Display::clockwise() {
+//     // check boundaries first
+
+//     // Transpose the board
+//     // handle 'I' block
+
+//     removeCurrentBlock();
+
+//     // handle 'I' block
+//     if (  ) {
+//     // check if center is (width - 4) else invalid
+//         if (!(WIDTH - bottomLeftX >= 3)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+//         // transpose
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+
+//             for (int j = i; j < 4; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 4);
+//         }
+//     }
+    
+//     // handle 'O' block
+//     else if ( currentBlock->getAllCells() ) {
+//         insertCurrentBlock();
+//     }
+
+//     else {
+//         if (!(WIDTH - bottomLeftX >= 2)) {
+//             insertCurrentBlock();
+//             return false;
+//         }
+
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             for (int j = i; j < 3; j++) {
+//                 std::swap(board[i][j], board[j][i]);
+//             }
+//         }
+
+//         // Reverse each row
+//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
+//             std::reverse(board[i], board[i] + 3);
+//         }
+//     }
+//     return true;
+// }
 
 
 

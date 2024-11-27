@@ -19,7 +19,6 @@ string Game::runGame() {
     string special;
 
     
-
     while (true) {
         special = p1.runTurn(special, to);
         if (special == "restart") restart();
