@@ -2,6 +2,7 @@
 #define __BLOCK__
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include "cell.h"
 
 using namespace std;
@@ -31,8 +32,8 @@ class Block {
         
         // virtual void clockwise() = 0;
         // virtual void counterClockwise() = 0;
-         virtual void clockwise();
-         virtual void counterClockwise();
+        virtual void clockwise();
+        virtual void counterClockwise();
 
         // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
 };

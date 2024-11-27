@@ -361,13 +361,11 @@ bool Display::clockwise() {
 
     // invalid
     if (!validPos()) {
-        cout << "fail";
         currentBlock->counterClockwise();
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;
     }
-    cout << "success";
 
     // Insert currentBlock on board
     insertCurrentBlock();
@@ -376,60 +374,24 @@ bool Display::clockwise() {
     return true;
 }
 
+bool Display::counterClockwise() {
+    removeCurrentBlock();
+    currentBlock->counterClockwise();
 
-// bool Display::clockwise() {
-//     // check boundaries first
+    // invalid
+    if (!validPos()) {
+        currentBlock->clockwise();
+        // Insert currentBlock on board
+        insertCurrentBlock();
+        return false;
+    }
 
-//     // Transpose the board
-//     // handle 'I' block
+    // Insert currentBlock on board
+    insertCurrentBlock();
 
-//     removeCurrentBlock();
-
-//     // handle 'I' block
-//     if (  ) {
-//     // check if center is (width - 4) else invalid
-//         if (!(WIDTH - bottomLeftX >= 3)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-//         // transpose
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-
-//             for (int j = i; j < 4; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 4);
-//         }
-//     }
-    
-//     // handle 'O' block
-//     else if ( currentBlock->getAllCells() ) {
-//         insertCurrentBlock();
-//     }
-
-//     else {
-//         if (!(WIDTH - bottomLeftX >= 2)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-
-//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
-//             for (int j = i; j < 3; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 2; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 3);
-//         }
-//     }
-//     return true;
-// }
+    //valid 
+    return true;
+}
 
 
 

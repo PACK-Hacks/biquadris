@@ -26,7 +26,7 @@ int main() {
     d1.clockwise();
     t.notify();
 
-    d1.clockwise();
+    d1.counterClockwise();
     t.notify();
 
     // d1.moveNextToCurrent();
