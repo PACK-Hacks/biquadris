@@ -36,6 +36,14 @@ int Display::getTurnsSinceClear() {
     return turnsSinceClear;
 }
 
+// Returns true if Dummy is needed in Level 4
+bool Display::needDummy() {
+    turnsSinceClear++;
+    if (turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
+    return false;
+}
+
+
 // Sets the heavy field
 void Display::setHeavy(bool heavy) {
     heavy = heavy;
@@ -49,13 +57,14 @@ void Display::setBlind(bool blind) {
 // It teleports through right now
 // Drops a 1x1 block on the center column
 void Display::dropDummyCell() {
-    const int centerX = WIDTH / 2 + 1;
+    const int centerX = WIDTH / 2;
 
     // Find the lowest empty row in the center column
-    int destY = HEIGHT;
-    while (board[destY][centerX]) {
-        destY--;
+    int destY = 0;
+    while (board[destY][centerX] == nullptr && destY < HEIGHT) {
+        destY++;
     }
+    destY--;
 
     // Populate it with a dummy cell
     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
@@ -172,7 +181,7 @@ bool Display::validPos() {
   
         // Invalid if the destination is out of bounds
         if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
-        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl; return false;}
+        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl;  return false;}
 
         // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
         if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
@@ -384,6 +393,17 @@ bool Display::clockwise() {
     //valid 
     return true;
 }
+
+// takes in block from the file: relevent in level 3 and 4 only
+void Display::norandom(ifstream &f) {
+    
+}
+
+// restore randomness: relevent in level 3 and 4 only
+void Display::random() {
+    
+}
+
 
 
 // bool Display::clockwise() {
