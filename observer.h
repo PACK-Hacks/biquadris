@@ -5,7 +5,7 @@
 
 class Observer {
  public:
-  virtual void notify() = 0;
+  virtual void notify(int id = 0) = 0;
   virtual ~Observer() = default;
 };
 
