@@ -262,7 +262,7 @@ bool Display::left(int n) {
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
-        this->drop();
+        drop();
         return true;
     }
 
@@ -302,7 +302,7 @@ bool Display::right(int n) {
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
-        this->drop();
+        drop();
         return true;
     }
 

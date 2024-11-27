@@ -1,4 +1,5 @@
 #include "block.h"
+#include <iostream>
 
 // Block constructor
 Block::Block(bool heavy, int rotationLen,
@@ -95,11 +96,12 @@ ZBlock::ZBlock(bool heavy) : Block{heavy, 3,
 
 // clockwise - returns vector<shared_ptr<Cell>>  of the changed block. 
 void Block::clockwise() {
-    // Track the how far right the rotation leaves the cell
-    // by tracking the leftmost value of the resulting cells
+    // std::cout << "Bottom Left Coor: ()" << bottomLeftX << ", " << bottomLeftY << ")" <<;
+    // Track the how far down the rotation leaves the cell
+    // by tracking the downmost value of the resulting cells
     // these will be used as offsets to translate the cells 
     // to the bottomLeft coordinates
-    int relOffsetX = rotationLen;
+    int relOffsetY = rotationLen;
 
     for (auto cell : cells) {
         int x = cell->getX();
@@ -123,12 +125,12 @@ void Block::clockwise() {
         cell->addToY(relY - reversedY);
 
         // Update offset
-        relOffsetX = min(relOffsetX, cell->getX());
+        relOffsetY = min(relOffsetY, reversedY);
     }
 
     // Translate cells to preserve bottomLeft coordinates
     for (auto cell : cells) {
-        cell->addToX(-relOffsetX);
+        cell->addToY(relOffsetY);
     }
 }
 
@@ -161,7 +163,7 @@ void Block::counterClockwise() {
         cell->addToY(relY - relTransposedY);
 
         // Update offset
-        relOffsetX = min(relOffsetX, cell->getX());
+        relOffsetX = min(relOffsetX, reversedX);
     }
 
     // Translate cells to preserve bottomLeft coordinates
@@ -169,29 +171,3 @@ void Block::counterClockwise() {
         cell->addToX(-relOffsetX);
     }
 }
-
-
-// void IBlock::clockwise() {
-
-
-//     if (!(WIDTH - bottomLeftX >= 3)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-//         // transpose
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-
-//             for (int j = i; j < 4; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 4);
-//         }
-
-    
-//     // returns vector<shared_ptr<Cell>> allCell
-    
-// }
