@@ -149,7 +149,8 @@ void Display::setCurrentBlock(char block) {
 
 // Override the currentBlock's heavy field
 void Display::setCurrentHeavy(bool heavy) {
-    currentBlock->setHeavy(heavy);
+    // currentBlock->setHeavy(heavy);
+    specialHeavy = heavy;
 }
 
 
@@ -245,6 +246,9 @@ void Display::place() {
 
     // Reset display to default values
     blind = false;
+    specialHeavy = false;
+
+    // Determine loses
 }
 
 
@@ -252,8 +256,15 @@ void Display::place() {
 bool Display::left(int n) {
     removeCurrentBlock();
 
+    // Determine if what kind of heavy exists, special heavy or block heavy
+    int heavy;
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = 2 * currentBlock->isHeavy();
+    heavy = currentBlock->isHeavy();
+
+    // If there is a special heavy, the block will be shifted by two
+    if (specialHeavy) {
+        heavy = SPECIAL_HEAVY_DROP;
+    }
 
     // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
     if (!operationIsValid(-n, 0)) {
@@ -292,8 +303,15 @@ bool Display::left(int n) {
 bool Display::right(int n) {
     removeCurrentBlock();
 
+    // Determine if what kind of heavy exists, special heavy or block heavy
+    int heavy;
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = 2 * currentBlock->isHeavy();
+    heavy = currentBlock->isHeavy();
+
+    // If there is a special heavy, the block will be shifted by two
+    if (specialHeavy) {
+        heavy = SPECIAL_HEAVY_DROP;
+    }
 
     // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
     if (!operationIsValid(n, 0)) {

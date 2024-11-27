@@ -21,6 +21,8 @@ class Display: public Subject {
     const int MAXLEVEL = 4;
     const int MINLEVEL = 0;
 
+    const int SPECIAL_HEAVY_DROP = 2;
+
     // vector<Cell *> board(11, nullptr);
 
     shared_ptr<Cell> board[22][11]{nullptr};  // Board of cells resulting from placed blocks
@@ -29,6 +31,7 @@ class Display: public Subject {
 
     int score = 0;
     bool blind = false;
+    bool specialHeavy = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
 
