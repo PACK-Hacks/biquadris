@@ -62,7 +62,7 @@ bool Display::needDummy() {
 
 // Sets the heavy field
 void Display::setHeavy(bool heavy) {
-    heavy = heavy;
+    specialHeavy = heavy;
 }
 
 // Sets the blind field
@@ -301,6 +301,7 @@ bool Display::right(int n) {
 
     // If there is a special heavy, the block will be shifted by two
     if (specialHeavy) {
+        cout << "Charlie 2" << endl;
         heavy = SPECIAL_HEAVY_DROP;
     }
 

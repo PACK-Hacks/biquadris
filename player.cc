@@ -59,6 +59,7 @@ string Player::runTurn(string special, TextObserver &to) {
         string curr_special;
         while (iss >> curr_special) {
             if (curr_special == "heavy") {
+                cout << "Charlieeeee" << endl;
                 display.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
                 display.setBlind();
@@ -127,6 +128,11 @@ string Player::runTurn(string special, TextObserver &to) {
             // }
         } else if (command == norandom) {
             string file_name;
+            if ((*in).fail()) {
+                (*in).clear();
+                (*in).ignore();
+                in = &cin;
+            }
             *in >> file_name;
              // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
             display.norandom(file_name);
@@ -138,6 +144,11 @@ string Player::runTurn(string special, TextObserver &to) {
         } else if (command == restart) {
             return "restart";
         } else if (command == sequence) {
+            if ((*in).fail()) {
+                (*in).clear();
+                (*in).ignore();
+                in = &cin;
+            }
             *in >> command;
             sequenceStream = ifstream{command};
             in = &sequenceStream;
@@ -161,19 +172,19 @@ string Player::runTurn(string special, TextObserver &to) {
         cout << "You have earned a special!" << endl;
         cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
         string s;
-        *in >> s;
+        cin >> s;
         while (s != "heavy" && s != "force" && s != "blind") {
             cout << "There is no such special!" << endl;
             cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
-            *in >> s;
+            cin >> s;
         }
         if (s == "force") {
             cout << "Which block would you like to force on your opponent? (I, J, L, O, S, Z, T)?" << endl;
             char b;
-            *in >> b;
+            cin >> b;
             while (!find_block(b)) {
                 cout << "Incorrect input! Enter a valid block (I, J, L, O, S, Z, T)." << endl;
-                *in >> b;
+                cin >> b;
             }
             string b_string{b};
             cout << "Your turn is now over" << endl;
