@@ -1,12 +1,13 @@
 #include "display.h"
 
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
-Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, blockFile{blockFile} {
-    levels.emplace_back(make_unique<Level0>(blockFile));
-    levels.emplace_back(make_unique<Level1>(blockFile));
-    levels.emplace_back(make_unique<Level2>(blockFile));
-    levels.emplace_back(make_unique<Level3>(blockFile));
-    levels.emplace_back(make_unique<Level4>(blockFile));
+Display::Display(int levelIndex, string blockFileString) : levelIndex{levelIndex}, blockFileString{blockFileString},
+blockFile{blockFileString} {
+    levels.emplace_back(make_unique<Level0>(blockFile, blockFileString));
+    levels.emplace_back(make_unique<Level1>(blockFile, blockFileString));
+    levels.emplace_back(make_unique<Level2>(blockFile, blockFileString));
+    levels.emplace_back(make_unique<Level3>(blockFile, blockFileString));
+    levels.emplace_back(make_unique<Level4>(blockFile, blockFileString));
 
     level = levels[levelIndex].get();
 };

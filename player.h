@@ -18,7 +18,6 @@ class Player {
     int seed;
     string scriptfile;
     int startLevel;
-    ifstream scriptStream;
     Display display;
 
     string left = "left"; // Extension, allow users to change command values

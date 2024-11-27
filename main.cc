@@ -11,3 +11,4 @@ int main() {
     Game g{true, 0, "blank.txt", "blank2.txt", 0}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
     g.runGame();
 }
+
