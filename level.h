@@ -9,11 +9,8 @@ using namespace std;
 class Level {
     protected:
         bool heavy;
-<<<<<<< HEAD
         bool norandom = false;
-=======
         int level;
->>>>>>> 450a986f955c38820580f11bb8f02427aafb6455
         ifstream &blockFile;
         string blockFileString;
         ifstream &norandomFile;
@@ -23,11 +20,7 @@ class Level {
         
 
     public:
-<<<<<<< HEAD
         Level(bool heavy, ifstream &blockFile, string blockFileString, ifstream &norandomFile, string norandomFileString);
-=======
-        Level(bool heavy, int level, ifstream &blockFile, string blockFileString);
->>>>>>> 450a986f955c38820580f11bb8f02427aafb6455
         virtual ~Level()=0;
 
         virtual Block *makeBlock() = 0;
