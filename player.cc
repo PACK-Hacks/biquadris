@@ -53,7 +53,6 @@ string Player::runTurn(string special, TextObserver &to) {
     display.generateNextBlock();
 
     to.notify();
-    
 
     if (special != "") { // Check for specials
         istringstream iss{special};
@@ -134,6 +133,7 @@ string Player::runTurn(string special, TextObserver &to) {
             in = &cin;
         }
     }
+    if (display.needDummy()) display.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
     lost = display.getLost();
@@ -173,7 +173,7 @@ string Player::runTurn(string special, TextObserver &to) {
         cout << "Your turn is now over" << endl;
         return "";
     }
-
+    
 
     
 

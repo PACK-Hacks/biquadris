@@ -31,8 +31,9 @@ class Block {
 
         vector<shared_ptr<Cell>> getAllCells() const;
 
-        void addToBottomLeftX(int n);
-        void addToBottomLeftY(int n);
+        void moveBlockX(int n);
+        void moveBlockY(int n);
+        
         pair<int, int> getBottomLeftCoor();
         int getRotationLen();
         

@@ -34,13 +34,21 @@ vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;
 }
 
-// Adds n units to bottomLeftX
-void Block::addToBottomLeftX(int n) {
+// Moves the block to the right n units
+void Block::moveBlockX(int n) {
+    for (auto cell : cells) {
+        cell->addToX(n);
+    }
+
     bottomLeftX += n;
 }
 
-// Adds n units to bottomLeftY
-void Block::addToBottomLeftY(int n) {
+// Moves the block down n units
+void Block::moveBlockY(int n) {
+    for (auto cell : cells) {
+        cell->addToY(n);
+    }
+
     bottomLeftY += n;
 }
 

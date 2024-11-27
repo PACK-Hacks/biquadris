@@ -18,7 +18,7 @@ class TextObserver : public Observer {
 
 public:
     TextObserver(Display* subject1, Display* subject2);
-    void notify() override;
+    void notify(int id = 0) override;
     // requested with render command
     // ~TextObserver() override;
 };
