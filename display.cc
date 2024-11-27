@@ -15,6 +15,14 @@ blockFile{blockFileString} {
 Display::~Display() {
 
 }
+bool Display::getSpecial() {
+    return special;
+}
+void Display::setSpecial(bool sp) {
+    special = sp;
+}
+
+
 
 // Returns the character of the
 char Display::getState(int row, int col) const {
@@ -231,8 +239,9 @@ void Display::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
-
     currentBlock = nullptr;
+
+    clear();
 
     // Reset display to default values
     blind = false;
@@ -389,8 +398,9 @@ bool Display::clockwise() {
     // Insert currentBlock on board
     insertCurrentBlock();
 
-    //valid 
-    return true;
+    // heavy implementation
+    // valid 
+    return false;
 }
 
 bool Display::counterClockwise() {
@@ -408,8 +418,9 @@ bool Display::counterClockwise() {
     // Insert currentBlock on board
     insertCurrentBlock();
 
-    //valid 
-    return true;
+    // heavy implementation
+    // valid 
+    return false;
 }
 
 // takes in block from the file: relevent in level 3 and 4 only
@@ -421,6 +432,45 @@ void Display::norandom(ifstream &f) {
 void Display::random() {
     
 }
+
+void Display::clear() {
+    int numRowsClear; 
+    
+    // baic clear . can be optimized by looping thoruhg y range of the block
+    for (int i = 0; i < HEIGHT; i++) {
+        bool clear = true; 
+        for (int j = 0; j < WIDTH; j++) {
+            if (board[i][j] == nullptr) clear = false;
+        }
+        if (clear)  {
+            for  (int j = 0; j < WIDTH; j++) {
+                board[i][j] == nullptr;
+            }
+
+            for (int n = i; n > 0; n--) {
+                for (int m = 0; m < WIDTH; m++) {
+                    board[n][m] = board[n-1][m]; 
+                }
+            }
+            numRowsClear++;
+        }
+    }
+
+    // reset turnsSinceClear if any rows are cleared
+    if (numRowsClear >= 1) turnsSinceClear = 0;
+
+
+    // if clears two or more rows, prompts the player a special action
+
+    if (numRowsClear >= 2) {
+        special = true;
+        // out << "pick your special action" << endl;
+        // in >> special;
+        // if(special == "force") in >> forceBlock;
+    }
+    special = false;
+}
+
 
 
 

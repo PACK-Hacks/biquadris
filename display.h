@@ -39,10 +39,16 @@ class Display: public Subject {
     ifstream blockFile;
     
 
-    bool clear();
+    void clear();
     bool operationIsValid(int changeInX, int changeInY);
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();
+
+    // std::ostream &out = std::cout;
+    // std::istream &in = std::cin;
+    // string special;
+
+    bool special = false;
 
     public:
         Display(int levelIndex, string blockFileString);
@@ -92,6 +98,11 @@ class Display: public Subject {
         void insertCurrentBlock();
         void removeCurrentBlock();
         void place();
+
+
+        bool getSpecial();
+        void setSpecial(bool sp);
+
 };
 
 

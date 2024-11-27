@@ -21,6 +21,11 @@ int highScore = 100;
 int levelIndex = 0;
 int score = 0;
 
+// Print separation
+void TextObserver::printSeparation() {
+    for (int i = 0; i < SEPARATE; ++i) out << ' ';
+}
+
 // reserve three extra rows for different cell types at top of the baord for rotationn
 void TextObserver::notify() {
     out << endl;
@@ -31,14 +36,14 @@ void TextObserver::notify() {
     // level
     out << "Level:    " << levelIndex;
 
-    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+    printSeparation(); // reserve three extra rows
 
     out << "Level:    " << levelIndex << endl;
 
     // score
     out << "Score:    " << score;
 
-    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+    printSeparation(); // reserve three extra rows
 
     out << "Score:    " << score << endl;
 
@@ -47,7 +52,7 @@ void TextObserver::notify() {
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
-    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+    printSeparation(); // reserve three extra rows
 
     // top margin for player1
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
@@ -62,7 +67,7 @@ void TextObserver::notify() {
         }
 
         // seperate
-        for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+        printSeparation(); // reserve three extra rows
 
 
         // plaer2 board
@@ -76,7 +81,7 @@ void TextObserver::notify() {
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
 
     // seperate
-    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+    printSeparation(); // reserve three extra rows
 
     // bottom margin for player2
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
@@ -85,18 +90,12 @@ void TextObserver::notify() {
     
     out << "Next:      "; 
 
-    for (int i = 0; i < SEPARATE; ++i) out << ' '; // reserve three extra rows
+    printSeparation(); // reserve three extra rows
 
     out << "Next:      " << endl;
 
-    // bottom margin
 
-    // what is this????
-    for (int j = 0; j < width; ++j) {
-        out << subject1->getState(height, j); // retrieved from Display
-        out << subject2->getState(height, j); // retrieved from Display
-    }
-
+    // Printing the next block dock
     for (int i = 0; i < nextBlockDock; ++i) {
         for (int j = 0; j < width; ++j) {
             out << subject1->getState(i + height, j); // retrieved from Display
