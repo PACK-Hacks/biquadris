@@ -92,7 +92,7 @@ string Player::runTurn(string special, TextObserver &to) {
             endTurn = display.clockwise();
             to.notify();
         } else if (command == counterclockwise) {
-            // endTurn = display.counterClockwise();
+            endTurn = display.counterClockwise();
             to.notify();
         } else if (command == drop) {
             endTurn = display.drop();
