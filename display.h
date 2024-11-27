@@ -35,7 +35,9 @@ class Display: public Subject {
     vector<unique_ptr<Level>> levels; // something
     int levelIndex;
     Level *level;
-    ifstream &blockFile;
+    string blockFileString;
+    ifstream blockFile;
+    
 
     bool clear();
     bool operationIsValid(int changeInX, int changeInY);
@@ -43,7 +45,7 @@ class Display: public Subject {
     bool validPos();
 
     public:
-        Display(int levelIndex, ifstream &blockFile);
+        Display(int levelIndex, string blockFileString);
         ~Display();
 
         char getState(int row, int col) const override;

@@ -11,8 +11,7 @@ using namespace std;
 
 Player::Player(bool text, int seed, string scriptfile, int startLevel):
     highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
-    startLevel{startLevel}, scriptStream{scriptfile},
-    display{startLevel, scriptStream} {
+    startLevel{startLevel}, display{startLevel, scriptfile} {
         display.generateNextBlock();
         
         blocks.emplace_back('I');

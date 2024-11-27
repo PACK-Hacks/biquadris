@@ -1,10 +1,22 @@
 #include "level.h"
 
 // Level constructor
-Level::Level(bool heavy, ifstream &blockFile) : heavy{heavy}, blockFile{blockFile} {};
+Level::Level(bool heavy, ifstream &blockFile, const string blockFileString) : 
+heavy{heavy}, blockFile{blockFile}, blockFileString{blockFileString} {};
 
 // Level destructor
 Level::~Level() {};
+
+
+// Helper function to read the next block character with reset logic
+char Level::getNextBlockChar() {
+    char block;
+    if (!(blockFile >> block)) { // If reading fails (possibly due to EOF)
+        blockFile = ifstream{blockFileString};
+        blockFile >> block;
+    }
+    return block;
+}
 
 // Generating a pointer to a choosen block
 Block *Level::makeChosenBlock(char block) {
@@ -34,22 +46,22 @@ Block *Level::makeChosenBlock(char block) {
 
 
 // Level0 constructor
-Level0::Level0(ifstream &blockFile) : Level{false, blockFile} {};
+Level0::Level0(ifstream &blockFile, const string &blockFileString) : 
+Level{false, blockFile, blockFileString} {};
 
 // Level0 destructor
 Level0::~Level0() {}
 
 // Block generation of Level0
 Block *Level0::makeBlock() {
-    char block;
-    blockFile >> block;
-
     // Create block according to file
+    char block = getNextBlockChar();
     return makeChosenBlock(block);
 }
 
 // Level1 constructor
-Level1::Level1(ifstream &blockFile) : Level{false, blockFile} {};
+Level1::Level1(ifstream &blockFile, const string &blockFileString) : 
+Level{false, blockFile, blockFileString} {};
 
 // Level1 destructor
 Level1::~Level1() {}
@@ -82,7 +94,8 @@ Block *Level1::makeBlock() {
 }
 
 // Level2 constructor
-Level2::Level2(ifstream &blockFile) : Level{false, blockFile} {};
+Level2::Level2(ifstream &blockFile, const string &blockFileString) : 
+Level{false, blockFile, blockFileString} {};
 
 // Level2 destructor
 Level2::~Level2() {}
@@ -115,7 +128,8 @@ Block *Level2::makeBlock() {
 }
 
 // Level3 constructor
-Level3::Level3(ifstream &blockFile) : Level{true, blockFile} {};
+Level3::Level3(ifstream &blockFile, const string &blockFileString) : 
+Level{true, blockFile, blockFileString} {};
 
 // Level3 destructor
 Level3::~Level3() {}
@@ -148,7 +162,8 @@ Block *Level3::makeBlock() {
 }
 
 // Level4 constructor
-Level4::Level4(ifstream &blockFile) : Level{true, blockFile} {};
+Level4::Level4(ifstream &blockFile, const string &blockFileString) : 
+Level{true, blockFile, blockFileString} {};
 
 // Level4 destructor
 Level4::~Level4() {}

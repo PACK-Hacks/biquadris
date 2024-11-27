@@ -10,9 +10,11 @@ class Level {
     protected:
         bool heavy;
         ifstream &blockFile;
+        string blockFileString;
+        char getNextBlockChar();
 
     public:
-        Level(bool heavy, ifstream &blockFile);
+        Level(bool heavy, ifstream &blockFile, string blockFileString);
         virtual ~Level()=0;
 
         virtual Block *makeBlock()=0;
@@ -21,7 +23,7 @@ class Level {
 
 class Level0 final: public Level {
     public:
-        Level0(ifstream &blockFile);
+        Level0(ifstream &blockFile, const string &blockFileString);
         ~Level0();
 
         Block *makeBlock() override;
@@ -29,7 +31,7 @@ class Level0 final: public Level {
 
 class Level1 final: public Level {
     public:
-        Level1(ifstream &blockFile);
+        Level1(ifstream &blockFile, const string &blockFileString);
         ~Level1();
 
         Block *makeBlock() override;
@@ -37,7 +39,7 @@ class Level1 final: public Level {
 
 class Level2 final: public Level {
     public:
-        Level2(ifstream &blockFile);
+        Level2(ifstream &blockFile, const string &blockFileString);
         ~Level2();
 
         Block *makeBlock() override;
@@ -45,7 +47,7 @@ class Level2 final: public Level {
 
 class Level3 final: public Level {
     public:
-        Level3(ifstream &blockFile);
+        Level3(ifstream &blockFile, const string &blockFileString);
         ~Level3();
 
         Block *makeBlock() override;
@@ -53,7 +55,7 @@ class Level3 final: public Level {
 
 class Level4 final: public Level {
     public:
-        Level4(ifstream &blockFile);
+        Level4(ifstream &blockFile, const string &blockFileString);
         ~Level4();
 
         Block *makeBlock() override;
