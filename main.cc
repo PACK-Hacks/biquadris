@@ -2,45 +2,12 @@
 #include <fstream>
 #include "textobserver.h"
 #include <memory>
+#include "game.h"
+#include "player.h"
+
 using namespace std;
 
 int main() {
-    ifstream blockFile1{"blank.txt"};
-    ifstream blockFile2{"blank2.txt"};
-
-    Display d1{0, blockFile1};
-    Display d2{4, blockFile2};
-
-    d1.insertCurrentBlock();
-    d1.setNextBlock();
-
-    d2.insertCurrentBlock();
-    d2.setNextBlock();
-    // vector obserers for the observer instances
-    std::vector<Observer*> observers;
-
-    TextObserver t{&d1, &d2};
-
-    t.notify();
-
-    d1.clockwise();
-    t.notify();
-
-    d1.clockwise();
-    t.notify();
-
-    // d1.moveNextToCurrent();
-    // d1.insertCurrentBlock();
-    // d1.generateNextBlock("empty");
-    // d1.setNextBlock();
-    // t.notify();
-
-    // d1.right();
-    // d1.right();
-    // d1.drop();
-    // d1.moveNextToCurrent();
-    // d1.insertCurrentBlock();
-    // d1.generateNextBlock("empty");
-    // d1.setNextBlock();
-    // t.notify();
-  }
+    Game g{true, 0, "blank.txt", "blank2.txt", 0}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
+    g.runGame();
+}

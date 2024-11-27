@@ -9,9 +9,6 @@ Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, 
     levels.emplace_back(make_unique<Level4>(blockFile));
 
     level = levels[levelIndex].get();
-
-    currentBlock = unique_ptr<Block>(level->makeBlock());
-    nextBlock = unique_ptr<Block>(level->makeBlock());
 };
 
 Display::~Display() {
@@ -107,17 +104,29 @@ void Display::setNextBlock() {
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
     currentBlock = move(nextBlock);
+    insertCurrentBlock();
 }
 
 // Generate the nextBlock
 void Display::generateNextBlock() {
     nextBlock = unique_ptr<Block>(level->makeBlock());
+    // Clear next block dock
+    for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            board[i + HEIGHT][j] = nullptr;
+        }
+    }
+
+    for (auto cell : nextBlock->getAllCells()) {
+        board[cell->getY() + HEIGHT][cell->getX()] = cell;
+    }
 }
 
 
 // Override the currentBlock
 void Display::setCurrentBlock(char block) {
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
+    insertCurrentBlock();
 }
 
 // Override the currentBlock's heavy field
@@ -321,7 +330,7 @@ bool Display::down(int n) {
     insertCurrentBlock();
 
     // Successful operation
-    return true;
+    return false;
 }
 
 // Drop the currentBlock. Return true
