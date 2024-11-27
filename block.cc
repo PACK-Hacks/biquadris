@@ -95,58 +95,79 @@ ZBlock::ZBlock(bool heavy) : Block{heavy, 3,
 
 // clockwise - returns vector<shared_ptr<Cell>>  of the changed block. 
 void Block::clockwise() {
+    // Track the how far right the rotation leaves the cell
+    // by tracking the leftmost value of the resulting cells
+    // these will be used as offsets to translate the cells 
+    // to the bottomLeft coordinates
+    int relOffsetX = rotationLen;
 
-    // vector<shared_ptr<Cell>> testCells;
+    for (auto cell : cells) {
+        int x = cell->getX();
+        int y = cell->getY();
 
-    // Cell(char letter, int x, int y);
+        // Process: take transpose and flip vertically
 
-    // Cell *cell1{cells[0]->getChar(), cells[0]->getX(), cells[0]->getY()};
-    // Cell *cell2{cells[1]->getChar(), cells[1]->getX(), cells[1]->getY()};
-    // Cell *cell3{cells[2]->getChar(), cells[2]->getX(), cells[2]->getY()};
-    // Cell *cell4{cells[3]->getChar(), cells[3]->getX(), cells[3]->getY()};
+        // Coordinate values relative to the bottom left coordinates
+        int relX = x - bottomLeftX;
+        int relY = bottomLeftY - y;
 
-    // testCells.emplace_back(cell1);
-    // testCells.emplace_back(cell2);
-    // testCells.emplace_back(cell3);
-    // testCells.emplace_back(cell4);
+        // Relative transpose taken by swapping the relative coordinates
+        int relTransposedX = relY;
+        int relTransposedY = relX;
 
-    // construct cell 
+        // Flip the y value to reflect horizontal flip
+        int reversedY = (rotationLen - 1) - relTransposedY;
 
-    for (int i = 0; i < 4; i++) {
-        int x = cells[i]->getX();
-        int y = cells[i]->getY();
+        // Change cells with translation values
+        cell->addToX(relTransposedX - relX);
+        cell->addToY(relY - reversedY);
 
-        int localX = x - bottomLeftX; // Convert to 0-based relative to bottom-left
-        int localY = y - bottomLeftY; // Convert to 0-based relative to bottom-left
-
-        // Validate i and j are within the 3x3 matrix
-
-        // Transpose: swap localI and localJ
-        int transposedX = localY;
-        int transposedY = localX;
-
-        // Reverse: Flip the i (row index)
-        int reversedX = -transposedX;
-
-        // Convert back to global coordinates relative
-        int newX = bottomLeftX + reversedX;
-        int newY = bottomLeftY + transposedY;
-
-
-        // Cell *cell1{cells[0]->getChar(), cells[0]->getX(), cells[0]->getY()};
-        // cells[i]->x = newX;
-        // cells[i]->y = newY;
-        cells[i]->addToX(newX - x);
-        cells[i]->addToY(newY - y);
+        // Update offset
+        relOffsetX = min(relOffsetX, cell->getX());
     }
 
-    // returns vector<shared_ptr<Cell>> allCell
+    // Translate cells to preserve bottomLeft coordinates
+    for (auto cell : cells) {
+        cell->addToX(-relOffsetX);
+    }
 }
 
 void Block::counterClockwise() {
-    clockwise();
-    clockwise();
-    clockwise();
+    // Track the how far right the rotation leaves the cell
+    // by tracking the leftmost value of the resulting cells
+    // these will be used as offsets to translate the cells 
+    // to the bottomLeft coordinates
+    int relOffsetX = rotationLen;
+
+    for (auto cell : cells) {
+        int x = cell->getX();
+        int y = cell->getY();
+
+        // Process: take transpose and flip horizontally
+
+        // Coordinate values relative to the bottom left coordinates
+        int relX = x - bottomLeftX;
+        int relY = bottomLeftY - y;
+
+        // Relative transpose taken by swapping the relative coordinates
+        int relTransposedX = relY;
+        int relTransposedY = relX;
+
+        // Flip the x value to reflect horizontal flip
+        int reversedX = (rotationLen - 1) - relTransposedX;
+
+        // Change cells with translation values
+        cell->addToX(reversedX - relX);
+        cell->addToY(relY - relTransposedY);
+
+        // Update offset
+        relOffsetX = min(relOffsetX, cell->getX());
+    }
+
+    // Translate cells to preserve bottomLeft coordinates
+    for (auto cell : cells) {
+        cell->addToX(-relOffsetX);
+    }
 }
 
 

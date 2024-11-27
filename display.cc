@@ -380,13 +380,30 @@ bool Display::clockwise() {
 
     // invalid
     if (!validPos()) {
-        cout << "fail";
         currentBlock->counterClockwise();
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;
     }
-    cout << "success";
+
+    // Insert currentBlock on board
+    insertCurrentBlock();
+
+    //valid 
+    return true;
+}
+
+bool Display::counterClockwise() {
+    removeCurrentBlock();
+    currentBlock->counterClockwise();
+
+    // invalid
+    if (!validPos()) {
+        currentBlock->clockwise();
+        // Insert currentBlock on board
+        insertCurrentBlock();
+        return false;
+    }
 
     // Insert currentBlock on board
     insertCurrentBlock();
