@@ -61,13 +61,8 @@ Block *Level::makeChosenBlock(char block) {
 
 
 // Level0 constructor
-<<<<<<< HEAD
 Level0::Level0(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
 Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
-=======
-Level0::Level0(ifstream &blockFile, const string &blockFileString) : 
-Level{false, 0, blockFile, blockFileString} {};
->>>>>>> 450a986f955c38820580f11bb8f02427aafb6455
 
 // Level0 destructor
 Level0::~Level0() {}

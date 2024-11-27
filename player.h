@@ -19,6 +19,8 @@ class Player {
     string scriptfile;
     int startLevel;
     Display display;
+    istream *in = &cin;
+    ifstream sequenceStream;
 
     string left = "left"; // Extension, allow users to change command values
     string right = "right";
@@ -27,7 +29,7 @@ class Player {
     string clockwise = "clockwise";
     string counterclockwise = "counterclockwise";
     string levelup = "levelup";
-    string leveldown = "leveldown";
+    string leveldown = "leveldown"; 
     string norandom = "norandom";
     string random = "random";
     string sequence = "sequence";
