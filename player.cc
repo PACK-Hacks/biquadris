@@ -136,7 +136,9 @@ string Player::runTurn(string special, TextObserver &to) {
 
     // display.resetSpecial();
 
-    if (false) { // change condiiton to display.getSpecial() == true
+    if (display.getSpecial() == true) { // change condiiton to display.getSpecial() == true
+        display.setSpecial(false);
+        
         cout << "You have earned a special!" << endl;
         cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
         string s;
