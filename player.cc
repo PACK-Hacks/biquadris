@@ -78,7 +78,22 @@ string Player::runTurn(string special, TextObserver &to) {
     string command;
 
 
-    while(*in >> command && !endTurn) {     // fstream >> command
+    while(!endTurn) {     // fstream >> command
+
+        if (!(*in >> command)) {
+            if (in == &sequenceStream) {
+                // Sequence file exhausted; switch back to cin
+                sequenceStream.clear();      // Clear EOF flag
+                sequenceStream.ignore();
+                in = &cin;
+                cout << "Sequence file exhausted. Switching back to standard input." << endl;
+                continue; // Continue the loop to read from cin
+            } else {
+                // If reading from cin fails, perhaps due to EOF, terminate the turn
+                break;
+            }
+        }
+
         if (command == left) {
             endTurn = display.left();
             to.notify();
@@ -129,9 +144,7 @@ string Player::runTurn(string special, TextObserver &to) {
         } else {
             cout << "Please enter a valid command" << endl;
         }
-        if ((*in).eof()) {
-            in = &cin;
-        }
+
     }
     if (display.needDummy()) display.dropDummyCell();
 
