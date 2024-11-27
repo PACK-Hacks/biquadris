@@ -43,7 +43,7 @@ class Display: public Subject {
     ifstream blockFile;
     
 
-    void clear();
+    void clear(int bottomRowToScan, int numRowstoScan);
     bool operationIsValid(int changeInX, int changeInY);
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();

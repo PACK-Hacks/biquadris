@@ -33,6 +33,8 @@ class Block {
 
         void addToBottomLeftX(int n);
         void addToBottomLeftY(int n);
+        pair<int, int> getBottomLeftCoor();
+        int getRotationLen();
         
         // virtual void clockwise() = 0;
         // virtual void counterClockwise() = 0;

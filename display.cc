@@ -240,15 +240,22 @@ void Display::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
-    currentBlock = nullptr;
 
-    clear();
+    clear(currentBlock->getBottomLeftCoor().second, currentBlock->getRotationLen());
+
+    currentBlock = nullptr;
 
     // Reset display to default values
     blind = false;
     specialHeavy = false;
 
-    // Determine loses
+    // If there are any cells in the reserve rows, set lost to true
+    for (int i = 0; i < WIDTH; ++i) {
+        if (board[2][i]) {
+            lost = true;
+            break;
+        }
+    }
 }
 
 
@@ -451,25 +458,31 @@ void Display::random() {
     
 }
 
-void Display::clear() {
+void Display::clear(int bottomRowToScan, int numRowstoScan) {
     int numRowsClear = 0; 
+    int topRowToScan = bottomRowToScan - numRowstoScan + 1;
     
-    // baic clear . can be optimized by looping thoruhg y range of the block
-    for (int i = 0; i < HEIGHT; i++) {
+    // basic clear
+    for (int i = topRowToScan; i <= bottomRowToScan; i++) {
+        // The row needs to be clear if none of its cells are empty
         bool clear = true; 
         for (int j = 0; j < WIDTH; j++) {
             if (board[i][j] == nullptr) clear = false;
         }
+        
         if (clear)  {
+            // Clear the row by setting the cells to nullptr
             for  (int j = 0; j < WIDTH; j++) {
                 board[i][j] == nullptr;
             }
 
+            // Shift every cell in the rows above down by one
             for (int n = i; n > 0; n--) {
                 for (int m = 0; m < WIDTH; m++) {
                     board[n][m] = board[n-1][m]; 
                 }
             }
+
             numRowsClear++;
         }
     }

@@ -44,6 +44,16 @@ void Block::addToBottomLeftY(int n) {
     bottomLeftY += n;
 }
 
+// Gets the bottom left coordinates of the Block
+pair<int, int> Block::getBottomLeftCoor() {
+    return pair<int, int>{bottomLeftX, bottomLeftY};
+}
+
+// Gets the rotation length
+int Block::getRotationLen() {
+    return rotationLen;
+}
+
 // Block::Block(bool active, bool heavy, int rotationLen, int bottomLeftX, int bottomLeftY, 
 //     unique_ptr<Cell> cell1, unique_ptr<Cell> cell2, unique_ptr<Cell> cell3, unique_ptr<Cell> cell4) :
 //     active{active}, heavy{heavy}, rotationLen{rotationLen}, bottomLeftX{bottomLeftX}, bottomLeftY{bottomLeftY} {}
