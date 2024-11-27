@@ -1,8 +1,8 @@
 #include "level.h"
 
 // Level constructor
-Level::Level(bool heavy, int level, ifstream &blockFile, const string blockFileString) : 
-heavy{heavy}, level{level}, blockFile{blockFile}, blockFileString{blockFileString} {};
+Level::Level(bool heavy, ifstream &blockFile, const string blockFileString, ifstream &norandomFile, string norandomFileString) : 
+heavy{heavy}, blockFile{blockFile}, blockFileString{blockFileString}, norandomFile{norandomFile}, norandomFileString{norandomFileString} {};
 
 // Level destructor
 Level::~Level() {};
@@ -16,6 +16,21 @@ char Level::getNextBlockChar() {
         blockFile >> block;
     }
     return block;
+}
+
+char Level::getNextBlockCharNoRandom() {
+    char block;
+    if (!(norandomFile >> block)) { // If reading fails (possibly due to EOF)
+        norandomFile = ifstream{norandomFileString};
+        norandomFile >> block;
+    }
+    return block;
+}
+
+
+void Level::setNoRandom(string file_name, ifstream &f) {
+    norandom = true;
+    norandomFileString = file_name;
 }
 
 // Generating a pointer to a choosen block
@@ -46,8 +61,13 @@ Block *Level::makeChosenBlock(char block) {
 
 
 // Level0 constructor
+<<<<<<< HEAD
+Level0::Level0(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
+Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
+=======
 Level0::Level0(ifstream &blockFile, const string &blockFileString) : 
 Level{false, 0, blockFile, blockFileString} {};
+>>>>>>> 450a986f955c38820580f11bb8f02427aafb6455
 
 // Level0 destructor
 Level0::~Level0() {}
@@ -60,8 +80,8 @@ Block *Level0::makeBlock() {
 }
 
 // Level1 constructor
-Level1::Level1(ifstream &blockFile, const string &blockFileString) : 
-Level{false, 1, blockFile, blockFileString} {};
+Level1::Level1(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
+Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level1 destructor
 Level1::~Level1() {}
@@ -94,8 +114,8 @@ Block *Level1::makeBlock() {
 }
 
 // Level2 constructor
-Level2::Level2(ifstream &blockFile, const string &blockFileString) : 
-Level{false, 2, blockFile, blockFileString} {};
+Level2::Level2(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
+Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level2 destructor
 Level2::~Level2() {}
@@ -128,14 +148,18 @@ Block *Level2::makeBlock() {
 }
 
 // Level3 constructor
-Level3::Level3(ifstream &blockFile, const string &blockFileString) : 
-Level{true, 3, blockFile, blockFileString} {};
+Level3::Level3(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
+Level{true, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level3 destructor
 Level3::~Level3() {}
 
 // Block generation of Level3
 Block *Level3::makeBlock() {
+    if (norandom) {
+        char block = getNextBlockCharNoRandom();
+        return makeChosenBlock(block);
+    }
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {
@@ -162,14 +186,18 @@ Block *Level3::makeBlock() {
 }
 
 // Level4 constructor
-Level4::Level4(ifstream &blockFile, const string &blockFileString) : 
-Level{true, 4, blockFile, blockFileString} {};
+Level4::Level4(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
+Level{true, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level4 destructor
 Level4::~Level4() {}
 
 // Block generation of Level4
 Block *Level4::makeBlock() {
+    if (norandom) {
+        char block = getNextBlockCharNoRandom();
+        return makeChosenBlock(block);
+    }
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {

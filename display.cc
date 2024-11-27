@@ -3,11 +3,13 @@
 // Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
 Display::Display(int levelIndex, string blockFileString) : levelIndex{levelIndex}, blockFileString{blockFileString},
 blockFile{blockFileString} {
-    levels.emplace_back(make_unique<Level0>(blockFile, blockFileString));
-    levels.emplace_back(make_unique<Level1>(blockFile, blockFileString));
-    levels.emplace_back(make_unique<Level2>(blockFile, blockFileString));
-    levels.emplace_back(make_unique<Level3>(blockFile, blockFileString));
-    levels.emplace_back(make_unique<Level4>(blockFile, blockFileString));
+    string file_name = "file.txt";
+    
+    levels.emplace_back(make_unique<Level0>(blockFile, blockFileString, f, file_name));
+    levels.emplace_back(make_unique<Level1>(blockFile, blockFileString, f, file_name));
+    levels.emplace_back(make_unique<Level2>(blockFile, blockFileString, f, file_name));
+    levels.emplace_back(make_unique<Level3>(blockFile, blockFileString, f, file_name));
+    levels.emplace_back(make_unique<Level4>(blockFile, blockFileString, f, file_name));
 
     level = levels[levelIndex].get();
 };
@@ -123,6 +125,7 @@ void Display::setNextBlock() {
 bool Display::moveNextToCurrent() {
     currentBlock = move(nextBlock);
     insertCurrentBlock();
+    return true;
 }
 
 // Generate the nextBlock
@@ -474,7 +477,10 @@ bool Display::counterClockwise() {
 }
 
 // takes in block from the file: relevent in level 3 and 4 only
-void Display::norandom(ifstream &f) {
+void Display::norandom(string f_name) {
+
+    levels[3]->setNoRandom(f_name, f);
+    levels[4]->setNoRandom(f_name, f);
     
 }
 
@@ -517,7 +523,7 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
 
 
     // if clears two or more rows, prompts the player a special action
-
+    cout << numRowsClear << endl;
     if (numRowsClear >= 2) {
         special = true;
     }
