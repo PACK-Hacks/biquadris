@@ -37,6 +37,8 @@ class Display: public Subject {
     Level *level;
     string blockFileString;
     ifstream blockFile;
+    ifstream f{"file.txt"};
+    
     
 
     void clear();
@@ -72,7 +74,7 @@ class Display: public Subject {
 
         bool levelUp();
         bool levelDown();
-        void norandom(ifstream &f);
+        void norandom(string f_name);
         void random();
 
         // returns true if the action causes the block to be dropped

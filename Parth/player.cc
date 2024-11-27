@@ -111,7 +111,7 @@ string Player::runTurn(string special, TextObserver &to) {
             string file_name;
             cin >> file_name;
             ifstream f{file_name}; // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
-            // display.norandom(f);
+            display.norandom(file_name, f);
         } else if (command == random) {
             // display.random();
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
