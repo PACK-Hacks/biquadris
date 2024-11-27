@@ -92,7 +92,7 @@ string Player::runTurn(string special, TextObserver &to) {
             endTurn = display.clockwise();
             to.notify();
         } else if (command == counterclockwise) {
-            // endTurn = display.counterClockwise();
+            endTurn = display.counterClockwise();
             to.notify();
         } else if (command == drop) {
             endTurn = display.drop();
@@ -127,11 +127,9 @@ string Player::runTurn(string special, TextObserver &to) {
         }
     }
 
-    for (int i = 0; i < display.getWidth(); i++) {
-        if (display.getState(3,i) != ' ') {
-            lost = true;
-        }
-    } // Check all columns in third row to see if there is a cell there, if so, player loses
+    // Check and set the lost field in Display to that of Player
+    lost = display.getLost();
+
     if (display.getScore() > highScore) highScore = display.getScore();
 
     // display.resetSpecial();

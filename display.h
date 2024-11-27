@@ -21,14 +21,18 @@ class Display: public Subject {
     const int MAXLEVEL = 4;
     const int MINLEVEL = 0;
 
+    const int SPECIAL_HEAVY_DROP = 2;
+
     // vector<Cell *> board(11, nullptr);
 
     shared_ptr<Cell> board[22][11]{nullptr};  // Board of cells resulting from placed blocks
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
+    vector<unique_ptr<Block>> activePlacedBlocks;
 
     int score = 0;
     bool blind = false;
+    bool specialHeavy = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
 
@@ -41,14 +45,10 @@ class Display: public Subject {
     
     
 
-    void clear();
+    void clear(int bottomRowToScan, int numRowstoScan);
     bool operationIsValid(int changeInX, int changeInY);
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();
-
-    // std::ostream &out = std::cout;
-    // std::istream &in = std::cin;
-    // string special;
 
     bool special = false;
 
@@ -63,6 +63,7 @@ class Display: public Subject {
         int getWidth();
         int getHeight();
         int getTurnsSinceClear();
+        bool getLost();
 
         void setNextBlock();
         void setHeavy(bool heavy=true);
@@ -91,7 +92,7 @@ class Display: public Subject {
         bool drop();
         bool clockwise();
         bool counterClockwise();
-
+        
 
         // development functions
         void print();
@@ -104,6 +105,8 @@ class Display: public Subject {
 
         bool getSpecial();
         void setSpecial(bool sp);
+
+        void insertBlindBlock();
 
 };
 

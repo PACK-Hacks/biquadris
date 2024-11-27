@@ -37,32 +37,37 @@ void Level::setNoRandom(string file_name, ifstream &f) {
 Block *Level::makeChosenBlock(char block) {
     // create a heavy block if the heavy field of the level is true or if the block is forced to be heavy
     if (block == 'I') {
-        return new IBlock{heavy}; 
+        return new IBlock{heavy, level}; 
     }
     else if (block == 'O') {
-        return new OBlock{heavy}; 
+        return new OBlock{heavy, level}; 
     }
     else if (block == 'L') {
-        return new LBlock{heavy}; 
+        return new LBlock{heavy, level}; 
     }
     else if (block == 'J') {
-        return new JBlock{heavy}; 
+        return new JBlock{heavy, level}; 
     }
     else if (block == 'T') {
-        return new TBlock{heavy}; 
+        return new TBlock{heavy, level}; 
     }
     else if (block == 'S') {
-        return new SBlock{heavy}; 
+        return new SBlock{heavy, level}; 
     }
-    else if (block == 'Z') {
-        return new ZBlock{heavy}; 
+    else {
+        return new ZBlock{heavy, level}; 
     }
 }
 
 
 // Level0 constructor
+<<<<<<< HEAD
 Level0::Level0(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
 Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
+=======
+Level0::Level0(ifstream &blockFile, const string &blockFileString) : 
+Level{false, 0, blockFile, blockFileString} {};
+>>>>>>> 450a986f955c38820580f11bb8f02427aafb6455
 
 // Level0 destructor
 Level0::~Level0() {}
@@ -86,25 +91,25 @@ Block *Level1::makeBlock() {
     int randNum = rand() % 12;    // Random number from 0-11
 
     if (randNum < 1) {
-        return new SBlock{false};
+        return new SBlock{false, level};
     }
     else if (randNum < 2) {
-        return new ZBlock{false};
+        return new ZBlock{false, level};
     }
     else if (randNum < 4) {
-        return new IBlock{false};
+        return new IBlock{false, level};
     }
     else if (randNum < 6) {
-        return new OBlock{false};
+        return new OBlock{false, level};
     }
     else if (randNum < 8) {
-        return new LBlock{false};
+        return new LBlock{false, level};
     }
     else if (randNum < 10) {
-        return new JBlock{false};
+        return new JBlock{false, level};
     }
-    else if (randNum < 12) {
-        return new TBlock{false};
+    else {
+        return new TBlock{false, level};
     }
 }
 
@@ -120,25 +125,25 @@ Block *Level2::makeBlock() {
     int randNum = rand() % 7;    // Random number from 0-6
 
     if (randNum == 0) {
-        return new SBlock{false};
+        return new SBlock{false, level};
     }
     else if (randNum == 1) {
-        return new ZBlock{false};
+        return new ZBlock{false, level};
     }
     else if (randNum == 2) {
-        return new IBlock{false};
+        return new IBlock{false, level};
     }
     else if (randNum == 3) {
-        return new OBlock{false};
+        return new OBlock{false, level};
     }
     else if (randNum == 4) {
-        return new LBlock{false};
+        return new LBlock{false, level};
     }
     else if (randNum == 5) {
-        return new JBlock{false};
+        return new JBlock{false, level};
     }
-    else if (randNum == 6) {
-        return new TBlock{false};
+    else {
+        return new TBlock{false, level};
     }
 }
 
@@ -158,25 +163,25 @@ Block *Level3::makeBlock() {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {
-        return new SBlock{true};
+        return new SBlock{true, level};
     }
     else if (randNum < 4) {
-        return new ZBlock{true};
+        return new ZBlock{true, level};
     }
     else if (randNum < 5) {
-        return new IBlock{true};
+        return new IBlock{true, level};
     }
     else if (randNum < 6) {
-        return new OBlock{true};
+        return new OBlock{true, level};
     }
     else if (randNum < 7) {
-        return new LBlock{true};
+        return new LBlock{true, level};
     }
     else if (randNum < 8) {
-        return new JBlock{true};
+        return new JBlock{true, level};
     }
-    else if (randNum < 9) {
-        return new TBlock{true};
+    else {
+        return new TBlock{true, level};
     }
 }
 
@@ -196,24 +201,24 @@ Block *Level4::makeBlock() {
     int randNum = rand() % 9;    // Random number from 0-8
 
     if (randNum < 2) {
-        return new SBlock{true};
+        return new SBlock{true, level};
     }
     else if (randNum < 4) {
-        return new ZBlock{true};
+        return new ZBlock{true, level};
     }
     else if (randNum < 5) {
-        return new IBlock{true};
+        return new IBlock{true, level};
     }
     else if (randNum < 6) {
-        return new OBlock{true};
+        return new OBlock{true, level};
     }
     else if (randNum < 7) {
-        return new LBlock{true};
+        return new LBlock{true, level};
     }
     else if (randNum < 8) {
-        return new JBlock{true};
+        return new JBlock{true, level};
     }
-    else if (randNum < 9) {
-        return new TBlock{true};
+    else {
+        return new TBlock{true, level};
     }
 }

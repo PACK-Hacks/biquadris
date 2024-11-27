@@ -152,7 +152,8 @@ void Display::setCurrentBlock(char block) {
 
 // Override the currentBlock's heavy field
 void Display::setCurrentHeavy(bool heavy) {
-    currentBlock->setHeavy(heavy);
+    // currentBlock->setHeavy(heavy);
+    specialHeavy = heavy;
 }
 
 
@@ -192,8 +193,8 @@ bool Display::validPos() {
         int y = cell->getY();
   
         // Invalid if the destination is out of bounds
-        if (x < 0 || WIDTH <= x){ cout << "aaaaaaaaaaaa" << endl; return false;}
-        if (y < 0 || HEIGHT <= y) {cout << "bbbbbbbbbbb" << endl;  return false;}
+        if (x < 0 || WIDTH <= x) return false;
+        if (y < 0 || HEIGHT <= y) return false;
 
         // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
         if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
@@ -242,12 +243,22 @@ void Display::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
-    currentBlock = nullptr;
 
-    clear();
+    clear(currentBlock->getBottomLeftCoor().second, currentBlock->getRotationLen());
+
+    currentBlock = nullptr;
 
     // Reset display to default values
     blind = false;
+    specialHeavy = false;
+
+    // If there are any cells in the reserve rows, set lost to true
+    for (int i = 0; i < WIDTH; ++i) {
+        if (board[2][i]) {
+            lost = true;
+            break;
+        }
+    }
 }
 
 
@@ -255,8 +266,15 @@ void Display::place() {
 bool Display::left(int n) {
     removeCurrentBlock();
 
+    // Determine if what kind of heavy exists, special heavy or block heavy
+    int heavy;
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = 2 * currentBlock->isHeavy();
+    heavy = currentBlock->isHeavy();
+
+    // If there is a special heavy, the block will be shifted by two
+    if (specialHeavy) {
+        heavy = SPECIAL_HEAVY_DROP;
+    }
 
     // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
     if (!operationIsValid(-n, 0)) {
@@ -274,7 +292,7 @@ bool Display::left(int n) {
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
-        this->drop();
+        drop();
         return true;
     }
 
@@ -295,8 +313,15 @@ bool Display::left(int n) {
 bool Display::right(int n) {
     removeCurrentBlock();
 
+    // Determine if what kind of heavy exists, special heavy or block heavy
+    int heavy;
     // If the block is heavy, the block will be shifted down by one unit
-    int heavy = 2 * currentBlock->isHeavy();
+    heavy = currentBlock->isHeavy();
+
+    // If there is a special heavy, the block will be shifted by two
+    if (specialHeavy) {
+        heavy = SPECIAL_HEAVY_DROP;
+    }
 
     // Cancel operation if it is invalid to move horizontally, insert currentBlock back to original position
     if (!operationIsValid(n, 0)) {
@@ -314,7 +339,7 @@ bool Display::right(int n) {
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
-        this->drop();
+        drop();
         return true;
     }
 
@@ -439,25 +464,31 @@ void Display::random() {
     
 }
 
-void Display::clear() {
-    int numRowsClear; 
+void Display::clear(int bottomRowToScan, int numRowstoScan) {
+    int numRowsClear = 0; 
+    int topRowToScan = bottomRowToScan - numRowstoScan + 1;
     
-    // baic clear . can be optimized by looping thoruhg y range of the block
-    for (int i = 0; i < HEIGHT; i++) {
+    // basic clear
+    for (int i = topRowToScan; i <= bottomRowToScan; i++) {
+        // The row needs to be clear if none of its cells are empty
         bool clear = true; 
         for (int j = 0; j < WIDTH; j++) {
             if (board[i][j] == nullptr) clear = false;
         }
+        
         if (clear)  {
+            // Clear the row by setting the cells to nullptr
             for  (int j = 0; j < WIDTH; j++) {
                 board[i][j] == nullptr;
             }
 
+            // Shift every cell in the rows above down by one
             for (int n = i; n > 0; n--) {
                 for (int m = 0; m < WIDTH; m++) {
                     board[n][m] = board[n-1][m]; 
                 }
             }
+
             numRowsClear++;
         }
     }
@@ -470,11 +501,30 @@ void Display::clear() {
     cout << numRowsClear << endl;
     if (numRowsClear >= 2) {
         special = true;
-        // out << "pick your special action" << endl;
-        // in >> special;
-        // if(special == "force") in >> forceBlock;
     }
 }
+
+void Display::insertBlindBlock() {
+    for (int i = 3; i < 12; i++) {
+        for (int j = 3; j < 9; j++) {
+            board[i][j] = make_shared<Cell>('?', j, i); // not valid
+        }
+    }
+}
+
+// void Display::dropDummyCell() {
+//     const int centerX = WIDTH / 2;
+
+//     // Find the lowest empty row in the center column
+//     int destY = 0;
+//     while (board[destY][centerX] == nullptr && destY < HEIGHT) {
+//         destY++;
+//     }
+//     destY--;
+
+//     // Populate it with a dummy cell
+//     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+// }
 
 
 
@@ -582,6 +632,10 @@ int Display::getWidth() {
 
 int Display::getHeight() {
     return HEIGHT;
+}
+
+bool Display::getLost() {
+    return lost;
 }
 
 // // reserve three extra rows for different cell types at top of the baord for rotationn

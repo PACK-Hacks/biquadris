@@ -1,9 +1,10 @@
 #include "block.h"
+#include <iostream>
 
 // Block constructor
-Block::Block(bool heavy, int rotationLen,
+Block::Block(bool heavy, int rotationLen, int level,
     Cell *cell1, Cell *cell2, Cell *cell3, Cell *cell4) :
-     heavy{heavy}, rotationLen{rotationLen} {
+     heavy{heavy}, rotationLen{rotationLen}, level{level} {
         cells.emplace_back(shared_ptr<Cell>{cell1});
         cells.emplace_back(shared_ptr<Cell>{cell2});
         cells.emplace_back(shared_ptr<Cell>{cell3});
@@ -23,6 +24,11 @@ bool Block::isHeavy() {
     return heavy;
 }
 
+// Gets the level the Block was spawned in
+int Block::getLevel() {
+    return level;
+}
+
 // Gets all cells in the Block
 vector<shared_ptr<Cell>> Block::getAllCells() const {
     return cells;
@@ -38,55 +44,65 @@ void Block::addToBottomLeftY(int n) {
     bottomLeftY += n;
 }
 
+// Gets the bottom left coordinates of the Block
+pair<int, int> Block::getBottomLeftCoor() {
+    return pair<int, int>{bottomLeftX, bottomLeftY};
+}
+
+// Gets the rotation length
+int Block::getRotationLen() {
+    return rotationLen;
+}
+
 // Block::Block(bool active, bool heavy, int rotationLen, int bottomLeftX, int bottomLeftY, 
 //     unique_ptr<Cell> cell1, unique_ptr<Cell> cell2, unique_ptr<Cell> cell3, unique_ptr<Cell> cell4) :
 //     active{active}, heavy{heavy}, rotationLen{rotationLen}, bottomLeftX{bottomLeftX}, bottomLeftY{bottomLeftY} {}
 
 
 // IBlock constructor
-IBlock::IBlock(bool heavy) : Block{heavy, 4,
+IBlock::IBlock(bool heavy, int level) : Block{heavy, 4, level,
     new Cell{'I', 0, 0},
     new Cell{'I', 0, 1},
     new Cell{'I', 0, 2},
     new Cell{'I', 0, 3}} {}
 
 // OBlock constructor
-OBlock::OBlock(bool heavy) : Block{heavy, 2,
+OBlock::OBlock(bool heavy, int level) : Block{heavy, 2, level,
     new Cell{'O', 0, 2},
     new Cell{'O', 0, 3},
     new Cell{'O', 1, 2},
     new Cell{'O', 1, 3}} {}
 
 // LBlock constructor
-LBlock::LBlock(bool heavy) : Block{heavy, 3,
+LBlock::LBlock(bool heavy, int level) : Block{heavy, 3, level,
     new Cell{'L', 0, 1},
     new Cell{'L', 0, 2},
     new Cell{'L', 0, 3},
     new Cell{'L', 1, 3}} {}
 
 // JBlock constructor
-JBlock::JBlock(bool heavy) : Block{heavy, 3,
+JBlock::JBlock(bool heavy, int level) : Block{heavy, 3, level,
     new Cell{'J', 1, 1},
     new Cell{'J', 1, 2},
     new Cell{'J', 1, 3},
     new Cell{'J', 0, 3}} {}
 
 // TBlock constructor
-TBlock::TBlock(bool heavy) : Block{heavy, 3,
+TBlock::TBlock(bool heavy, int level) : Block{heavy, 3, level,
     new Cell{'T', 0, 2},
     new Cell{'T', 1, 2},
     new Cell{'T', 1, 3},
     new Cell{'T', 2, 2}} {}
 
 // SBlock constructor
-SBlock::SBlock(bool heavy) : Block{heavy, 3,
+SBlock::SBlock(bool heavy, int level) : Block{heavy, 3, level,
     new Cell{'S', 0, 3},
     new Cell{'S', 1, 3},
     new Cell{'S', 1, 2},
     new Cell{'S', 2, 2}} {}
 
 // ZBlock constructor
-ZBlock::ZBlock(bool heavy) : Block{heavy, 3,
+ZBlock::ZBlock(bool heavy, int level) : Block{heavy, 3, level,
     new Cell{'Z', 0, 2},
     new Cell{'Z', 1, 2},
     new Cell{'Z', 1, 3},
@@ -95,11 +111,12 @@ ZBlock::ZBlock(bool heavy) : Block{heavy, 3,
 
 // clockwise - returns vector<shared_ptr<Cell>>  of the changed block. 
 void Block::clockwise() {
-    // Track the how far right the rotation leaves the cell
-    // by tracking the leftmost value of the resulting cells
+    // std::cout << "Bottom Left Coor: ()" << bottomLeftX << ", " << bottomLeftY << ")" <<;
+    // Track the how far down the rotation leaves the cell
+    // by tracking the downmost value of the resulting cells
     // these will be used as offsets to translate the cells 
     // to the bottomLeft coordinates
-    int relOffsetX = rotationLen;
+    int relOffsetY = rotationLen;
 
     for (auto cell : cells) {
         int x = cell->getX();
@@ -123,12 +140,12 @@ void Block::clockwise() {
         cell->addToY(relY - reversedY);
 
         // Update offset
-        relOffsetX = min(relOffsetX, cell->getX());
+        relOffsetY = min(relOffsetY, reversedY);
     }
 
     // Translate cells to preserve bottomLeft coordinates
     for (auto cell : cells) {
-        cell->addToX(-relOffsetX);
+        cell->addToY(relOffsetY);
     }
 }
 
@@ -161,7 +178,7 @@ void Block::counterClockwise() {
         cell->addToY(relY - relTransposedY);
 
         // Update offset
-        relOffsetX = min(relOffsetX, cell->getX());
+        relOffsetX = min(relOffsetX, reversedX);
     }
 
     // Translate cells to preserve bottomLeft coordinates
@@ -169,29 +186,3 @@ void Block::counterClockwise() {
         cell->addToX(-relOffsetX);
     }
 }
-
-
-// void IBlock::clockwise() {
-
-
-//     if (!(WIDTH - bottomLeftX >= 3)) {
-//             insertCurrentBlock();
-//             return false;
-//         }
-//         // transpose
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-
-//             for (int j = i; j < 4; j++) {
-//                 std::swap(board[i][j], board[j][i]);
-//             }
-//         }
-
-//         // Reverse each row
-//         for (int i = bottomLeftY - 3; i <= bottomLeftY; i++) {
-//             std::reverse(board[i], board[i] + 4);
-//         }
-
-    
-//     // returns vector<shared_ptr<Cell>> allCell
-    
-// }
