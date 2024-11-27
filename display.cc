@@ -452,7 +452,7 @@ void Display::random() {
 }
 
 void Display::clear() {
-    int numRowsClear; 
+    int numRowsClear = 0; 
     
     // baic clear . can be optimized by looping thoruhg y range of the block
     for (int i = 0; i < HEIGHT; i++) {
@@ -482,12 +482,30 @@ void Display::clear() {
 
     if (numRowsClear >= 2) {
         special = true;
-        // out << "pick your special action" << endl;
-        // in >> special;
-        // if(special == "force") in >> forceBlock;
     }
-    special = false;
 }
+
+void Display::insertBlindBlock() {
+    for (int i = 3; i < 12; i++) {
+        for (int j = 3; j < 9; j++) {
+            board[i][j] = make_shared<Cell>('?', j, i); // not valid
+        }
+    }
+}
+
+// void Display::dropDummyCell() {
+//     const int centerX = WIDTH / 2;
+
+//     // Find the lowest empty row in the center column
+//     int destY = 0;
+//     while (board[destY][centerX] == nullptr && destY < HEIGHT) {
+//         destY++;
+//     }
+//     destY--;
+
+//     // Populate it with a dummy cell
+//     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+// }
 
 
 

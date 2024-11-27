@@ -48,10 +48,6 @@ class Display: public Subject {
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();
 
-    // std::ostream &out = std::cout;
-    // std::istream &in = std::cin;
-    // string special;
-
     bool special = false;
 
     public:
@@ -93,7 +89,7 @@ class Display: public Subject {
         bool drop();
         bool clockwise();
         bool counterClockwise();
-
+        
 
         // development functions
         void print();
@@ -106,6 +102,8 @@ class Display: public Subject {
 
         bool getSpecial();
         void setSpecial(bool sp);
+
+        void insertBlindBlock();
 
 };
 
