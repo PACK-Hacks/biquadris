@@ -26,10 +26,6 @@ void Display::setSpecial(bool sp) {
     special = sp;
 }
 
-
-int Display::getLevel() {
-    return levelIndex;
-}
 // Gets the score of the display
 int Display::getScore() {
     return score;

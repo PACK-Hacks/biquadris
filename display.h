@@ -108,8 +108,6 @@ class Display: public Subject {
 
         void insertBlindBlock();
 
-        int getLevel();
-
 };
 
 
