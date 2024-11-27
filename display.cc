@@ -628,6 +628,10 @@ int Display::getHeight() {
     return HEIGHT;
 }
 
+bool Display::getLost() {
+    return lost;
+}
+
 // // reserve three extra rows for different cell types at top of the baord for rotationn
 // void Display::print() {
 //     // High Score 

@@ -61,6 +61,7 @@ class Display: public Subject {
         int getWidth();
         int getHeight();
         int getTurnsSinceClear();
+        bool getLost();
 
         void setNextBlock();
         void setHeavy(bool heavy=true);
