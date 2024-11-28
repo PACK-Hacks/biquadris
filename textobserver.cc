@@ -94,6 +94,33 @@ void TextObserver::notify(int id, std::string message) {
     cout << endl;
     // board
         for (int i = 0; i < height; ++i) {
+            // Add a marker for the lid (row beneath reserve rows)
+            if (i == 3) {
+                for (int j = 0; j < width; ++j) {
+                    if (subject1->getState(i, j) == '.' || subject1->getState(i, j) == ' ') {
+                        out << "_";
+                    }
+                    else {
+                        out << subject1->getState(i, j);
+                    }
+                }
+
+                // seperate
+                printSeparation();
+
+                // player2 board
+                for (int j = 0; j < width; ++j) {
+                    if (subject2->getState(i, j) == '.' || subject2->getState(i, j) == ' ') {
+                        out << "_";
+                    }
+                    else {
+                        out << subject2->getState(i, j);
+                    }
+                }
+
+                out << endl;
+                continue;
+            }
 
             // when blind is active cover row 3 to 12 column 3 to 9
             if ( 3 + 2 <= i && i <= 11 + 3 ) {
@@ -111,7 +138,7 @@ void TextObserver::notify(int id, std::string message) {
                 }
 
                 // seperate
-                printSeparation(); // reserve three extra rows
+                printSeparation();
 
                 // plaer2 board
                 for (int j = 0; j < width; ++j) {
