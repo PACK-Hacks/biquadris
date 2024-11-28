@@ -29,7 +29,6 @@ class Display: public Subject {
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
     vector<unique_ptr<Block>> activePlacedBlocks;
-    vector<unique_ptr<int>> activePlacedBlocks1;
 
     int score = 0;
     bool blind = false;

@@ -468,6 +468,9 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
         if (clear)  {
             // Clear the row by setting the cells to nullptr
             for  (int j = 0; j < WIDTH; j++) {
+                // cout << "X: " << board[i][j]->getX() << ", Y: " << board[i][j]->getY() << endl;
+                // Kill the cells on the row and replace them with nullptr
+                board[i][j]->kill();
                 board[i][j] == nullptr;
             }
 
@@ -485,18 +488,41 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
     // Update score based on cleared rows
     score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
 
-
-    // // Update score based on cleared blocks
-    // for (auto it = activePlacedBlocks.begin(); it != activePlacedBlocks.end(); ++it) {
-    //     if ((*it)->isHeavy()) {
+    // // Shift every cell in the rows above down by the number of cleared rows
+    // for (int n = topRowToScan; n > 0; n--) {
+    //     for (int m = 0; m < WIDTH; m++) {
+    //         board[n][m] = board[n - numRowsClear][m]; 
     //     }
     // }
+    
 
     // reset turnsSinceClear if any rows are cleared
-    if (numRowsClear >= 1) turnsSinceClear = 0;
+    if (numRowsClear > 0) {
+        turnsSinceClear = 0;
+        // Weakness
+        // Update score based on cleared blocks
+        for (auto it = activePlacedBlocks.begin(); it != activePlacedBlocks.end();) {
+            bool blockIsCleared = true;
+
+            for (auto cell : (*it)->getAllCells()) {
+                if (cell->isAlive()) {
+                    blockIsCleared = false;
+                    break;
+                }
+            }
+
+            // If the block is cleared, update the score and remove it from the vector of placed blocks
+            if (blockIsCleared) {
+                score += ((*it)->getLevel() + 1) * ((*it)->getLevel() + 1);
+                it = activePlacedBlocks.erase(it);
+            }
+            else {
+                ++it;
+            }
+        }
+    }
 
     // if clears two or more rows, prompts the player a special action
-    cout << numRowsClear << endl;
     if (numRowsClear >= 2) {
         special = true;
     }
