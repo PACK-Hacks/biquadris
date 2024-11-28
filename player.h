@@ -12,6 +12,7 @@
 using namespace std;
 
 class Player {
+    int id;
     int highScore;
     bool lost;
     string text;
@@ -51,7 +52,7 @@ class Player {
 
 
     public:
-    Player(bool text, int seed, string scriptfile, int startLevel);
+    Player(int id, bool text, int seed, string scriptfile, int startLevel);
 
     string runTurn(string special, TextObserver &to);
 

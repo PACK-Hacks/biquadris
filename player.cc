@@ -12,8 +12,8 @@ using namespace std;
 
 
 
-Player::Player(bool text, int seed, string scriptfile, int startLevel):
-    highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
+Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
+    id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
         gameDisplay.generateNextBlock();
         srand(seed);
@@ -103,7 +103,7 @@ string Player::runTurn(string special, TextObserver &to) {
 
     gameDisplay.generateNextBlock();
 
-    to.notify();
+    to.notify("Player " + std::to_string(id) + "'s turn:");
 
     if (special != "") { // Check for specials
         istringstream iss{special};

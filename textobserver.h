@@ -21,7 +21,7 @@ class TextObserver : public Observer {
 public:
     TextObserver(GameDisplay* subject1, GameDisplay* subject2);
 
-    void notify(int id = 0) override;
+    void notify(std::string message="", int id=0) override;
     // void printSeparation();
     // requested with render command
     // ~TextObserver() override;
