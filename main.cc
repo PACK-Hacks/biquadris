@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
 
     Game g{text, seed, scriptfile1, scriptfile2, startlevel}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
-    g.runGame();
-
+    string winner = g.runGame();
+    cout << "Congradulations! " << winner << " has won!" << endl;
 }
 
