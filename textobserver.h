@@ -15,6 +15,7 @@ class TextObserver : public Observer {
     const int SEPARATE = 10;
 
     void printSeparation();
+    std::string scoreFormating(int score);
     void printTopBoundary();
 
 public:

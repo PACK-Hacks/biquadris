@@ -65,7 +65,7 @@ bool GameDisplay::needDummy() {
 
 // Sets the heavy field
 void GameDisplay::setHeavy(bool heavy) {
-    heavy = heavy;
+    specialHeavy = heavy;
 }
 
 // Sets the blind field
@@ -117,6 +117,8 @@ bool GameDisplay::levelUp(int n) {
     levelIndex += n;
     level = levels[levelIndex].get();
 
+    // Reset turnsSinceClear if the level is 4
+    turnsSinceClear = 0;
 
     return true;
 }

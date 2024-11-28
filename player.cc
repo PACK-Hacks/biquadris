@@ -110,7 +110,6 @@ string Player::runTurn(string special, TextObserver &to) {
         string curr_special;
         while (iss >> curr_special) {
             if (curr_special == "heavy") {
-                cout << "Charlieeeee" << endl;
                 gameDisplay.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
                 gameDisplay.setBlind();
@@ -178,6 +177,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Up!" << endl;
             }
+            to.notify();
         } else if (command == leveldown) {
             bool canLevelDown;
             canLevelDown = gameDisplay.levelDown(multiplier);
@@ -186,6 +186,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Down!" << endl;
             }
+            to.notify();
         } else if (command == norandom) {
             string file_name;
             if ((*in).fail()) {
