@@ -17,6 +17,27 @@ void TextObserver::printSeparation() {
     for (int i = 0; i < SEPARATE; ++i) out << ' ';
 }
 
+// Returns a string containing the score preceded by a calculated number of spaces
+// to ensure proper formatting even when score has multiple digits
+std::string TextObserver::scoreFormating(int score) {
+    string output;
+    int digits = 1;
+
+    int scoreCopy = score;
+
+    while (scoreCopy / 10 != 0) {
+        scoreCopy /= 10;
+        digits++;
+    }
+
+    for (int i = 0; i < 5 - digits; ++i) {
+        output += " ";
+    }
+
+    output += std::to_string(score);
+    return output;
+}
+
 // reserve three extra rows for different cell types at top of the baord for rotationn
 void TextObserver::notify(int id) {
     out << endl;
@@ -37,12 +58,12 @@ void TextObserver::notify(int id) {
     out << "Level:    " << subject2->getLevel() << endl;
 
     // score
-    out << "Score:    " << scoreP1;
+    out << "Score:" << scoreFormating(scoreP1);
     
 
     printSeparation(); // reserve three extra rows
 
-    out << "Score:    " << scoreP2 << endl;
+    out << "Score:" << scoreFormating(scoreP2) << endl;
 
 
     // top margin for player1
