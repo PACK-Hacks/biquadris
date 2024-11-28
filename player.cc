@@ -1,18 +1,21 @@
 #include <memory>
-#include "display.h"
+#include "GameDisplay.h"
 #include <string>
 #include <sstream>
 #include <iostream>
 #include "player.h"
 #include "textobserver.h"
+#include <utility>
+#include <cctype>
+
 using namespace std;
 
 
 
 Player::Player(bool text, int seed, string scriptfile, int startLevel):
     highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
-    startLevel{startLevel}, display{startLevel, scriptfile} {
-        display.generateNextBlock();
+    startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
+        gameDisplay.generateNextBlock();
         
         blocks.emplace_back('I');
         blocks.emplace_back('J');
@@ -39,18 +42,66 @@ bool Player::find_block(char b) { // Could be more efficient?
     return false;
 }
 
+string Player::getUnique(string s) {
+
+
+    vector<string> matches;
+
+    for (const auto &command : commands) {
+        if (command.find(s) == 0) { // Checks if 's' is a prefix of 'cmd', not case sensitive
+            matches.push_back(command);
+        }
+
+    }
+
+    if (matches.size() == 1){
+        return matches[0];
+    }
+
+    return "monkeys";
+
+}
+
+pair<int, string> Player::parseCommand(const string &input) {
+    int num_len = 0;
+    int multiplier;
+    int start = 0;
+    int len = input.length();
+    int pos = 0;
+
+    if (isdigit(input[start])) {
+        istringstream iss{input};
+        iss >> multiplier;
+    }
+
+    while (pos < input.size() && isdigit(input[pos])) {
+        pos++;
+    }
+
+    if (pos == 0) multiplier = 1;
+
+    string command = getUnique(input.substr(pos));
+
+
+    return make_pair(multiplier, command);
+
+
+
+
+}
+
 string Player::runTurn(string special, TextObserver &to) {
 
-    bool status = display.moveNextToCurrent(); // Assume moves it onto the board
+    bool status = gameDisplay.moveNextToCurrent(); // Assume moves it onto the board
 
     // if (status == false) { // When block was attempted to be placed on board, there was something covering
     //                         // one of the default spots, and so the player automatically loses
     //     lost = true;
-    //     // display.render(lost); // ?
+    //     // gameDisplay.render(lost); // ?
     //     return "";
     // }
 
-    display.generateNextBlock();
+    gameDisplay.generateNextBlock();
 
     to.notify();
 
@@ -60,13 +111,13 @@ string Player::runTurn(string special, TextObserver &to) {
         while (iss >> curr_special) {
             if (curr_special == "heavy") {
                 cout << "Charlieeeee" << endl;
-                display.setHeavy(); // sets heavy to true
+                gameDisplay.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
-                display.setBlind();
+                gameDisplay.setBlind();
             } else if (curr_special == "force") {
                 char c;
                 iss >> c;
-                display.setCurrentBlock(c);
+                gameDisplay.setCurrentBlock(c);
             }
         }
     }
@@ -93,38 +144,47 @@ string Player::runTurn(string special, TextObserver &to) {
                 // If reading from cin fails, perhaps due to EOF, terminate the turn
                 break;
             }
-        }
+        } 
+        
+        pair<int, string> p = parseCommand(command);
+
+        command = p.second;
+        int multiplier = p.first;
 
         if (command == left) {
-            endTurn = display.left();
+            endTurn = gameDisplay.left();
             to.notify();
         } else if (command == right) {
-            endTurn = display.right();
+            endTurn = gameDisplay.right();
             to.notify();
         } else if (command == down) {
-            endTurn = display.down();
+            endTurn = gameDisplay.down();
             to.notify();
         } else if (command == clockwise) {
-            endTurn = display.clockwise();
+            endTurn = gameDisplay.clockwise();
             to.notify();
         } else if (command == counterclockwise) {
-            endTurn = display.counterClockwise();
+            endTurn = gameDisplay.counterClockwise();
             to.notify();
         } else if (command == drop) {
-            endTurn = display.drop();
+            endTurn = gameDisplay.drop();
             to.notify();
             break;
         } else if (command == levelup) {
             bool canLevelUp;
-            canLevelUp = display.levelUp();
+            canLevelUp = gameDisplay.levelUp();
             if (canLevelUp == false) {
                 cout << "You cannot level up! You are already at the max level!" << endl;
+            } else {
+                cout << "Levelled Up!" << endl;
             }
         } else if (command == leveldown) {
             bool canLevelDown;
-            canLevelDown = display.levelDown();
+            canLevelDown = gameDisplay.levelDown();
             if (canLevelDown == false) {
                 cout << "You cannot level down! You are already at the lowest level!" << endl;
+            } else {
+                cout << "Levelled Down!" << endl;
             }
         } else if (command == norandom) {
             string file_name;
@@ -135,12 +195,13 @@ string Player::runTurn(string special, TextObserver &to) {
             }
             *in >> file_name;
              // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
-            display.norandom(file_name);
+            gameDisplay.norandom(file_name);
         } else if (command == random) {
-            // display.random();
+            // gameDisplay.random();
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
-            display.setCurrentBlock(c); 
+            gameDisplay.setCurrentBlock(c);
+            to.notify();
         } else if (command == restart) {
             return "restart";
         } else if (command == sequence) {
@@ -155,19 +216,18 @@ string Player::runTurn(string special, TextObserver &to) {
         } else {
             cout << "Please enter a valid command" << endl;
         }
-
     }
-    if (display.needDummy()) display.dropDummyCell();
+    if (gameDisplay.needDummy()) gameDisplay.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
-    lost = display.getLost();
+    lost = gameDisplay.getLost();
 
-    if (display.getScore() > highScore) highScore = display.getScore();
+    if (gameDisplay.getScore() > highScore) highScore = gameDisplay.getScore();
 
-    // display.resetSpecial();
+    // gameDisplay.resetSpecial();
 
-    if (display.getSpecial() == true) { // change condiiton to display.getSpecial() == true
-        display.setSpecial(false);
+    if (gameDisplay.getSpecial() == true) { // change condiiton to gameDisplay.getSpecial() == true
+        gameDisplay.setSpecial(false);
         
         cout << "You have earned a special!" << endl;
         cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
@@ -208,8 +268,8 @@ bool Player::getLost() {
     return lost;
 }
 
-Display *Player::getDisplay() {
-    return &display;
+GameDisplay *Player::getGameDisplay() {
+    return &gameDisplay;
 }
 
 

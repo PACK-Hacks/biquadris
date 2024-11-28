@@ -34,4 +34,4 @@ right
 right
 right
 drop
-norandom
+

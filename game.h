@@ -1,7 +1,7 @@
 #ifndef __GAME__
 #define __GAME__
 #include <memory>
-#include "display.h"
+#include "GameDisplay.h"
 #include <string>
 #include <sstream>
 #include <iostream>

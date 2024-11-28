@@ -1,1 +1,0 @@
-textobserver.o: textobserver.cc

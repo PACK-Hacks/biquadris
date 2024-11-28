@@ -1,7 +1,7 @@
-#include "display.h"
+#include "GameDisplay.h"
 
-// Display::Display(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
-Display::Display(int levelIndex, string blockFileString) : levelIndex{levelIndex}, blockFileString{blockFileString},
+// GameDisplay::GameDisplay(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
+GameDisplay::GameDisplay(int levelIndex, string blockFileString) : levelIndex{levelIndex}, blockFileString{blockFileString},
 blockFile{blockFileString} {
     string file_name = "file.txt";
     
@@ -16,47 +16,47 @@ blockFile{blockFileString} {
 
 };
 
-Display::~Display() {
+GameDisplay::~GameDisplay() {
 
 }
-bool Display::getSpecial() {
+bool GameDisplay::getSpecial() {
     return special;
 }
-void Display::setSpecial(bool sp) {
+void GameDisplay::setSpecial(bool sp) {
     special = sp;
 }
 
-// Gets the score of the display
-int Display::getScore() {
+// Gets the score of the GameDisplay
+int GameDisplay::getScore() {
     return score;
 }
 
 
 
 // Returns the character of the
-char Display::getState(int row, int col) const {
+char GameDisplay::getState(int row, int col) const {
     // If there is a cell at that position on the board, return its character
     if (board[row][col]) {
         return board[row][col]->getChar();
     }
 
     // Otherwise, return blank
-    return ' ';
+    return '.';
 }
 
 
-// Gets the level of the Display
-int Display::getLevel() {
+// Gets the level of the GameDisplay
+int GameDisplay::getLevel() {
     return levelIndex;
 }
 
 // Gets number of turns since last clear
-int Display::getTurnsSinceClear() {
+int GameDisplay::getTurnsSinceClear() {
     return turnsSinceClear;
 }
 
 // Returns true if Dummy is needed in Level 4
-bool Display::needDummy() {
+bool GameDisplay::needDummy() {
     turnsSinceClear++;
     if (turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
     return false;
@@ -64,18 +64,18 @@ bool Display::needDummy() {
 
 
 // Sets the heavy field
-void Display::setHeavy(bool heavy) {
-    specialHeavy = heavy;
+void GameDisplay::setHeavy(bool heavy) {
+    heavy = heavy;
 }
 
 // Sets the blind field
-void Display::setBlind(bool blind) {
+void GameDisplay::setBlind(bool blind) {
     blind = blind;
 }
 
 // It teleports through right now
 // Drops a 1x1 block on the center column
-void Display::dropDummyCell() {
+void GameDisplay::dropDummyCell() {
     const int centerX = WIDTH / 2;
 
     // Find the lowest empty row in the center column
@@ -90,7 +90,7 @@ void Display::dropDummyCell() {
 }
 
 // Sets nextBlock on the next block dock
-void Display::setNextBlock() {
+void GameDisplay::setNextBlock() {
     // Clear next block dock
     for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
@@ -104,7 +104,7 @@ void Display::setNextBlock() {
 }
 
 // Level up, returns true if successful, false otherwise
-bool Display::levelUp() {
+bool GameDisplay::levelUp() {
     // Return false if the user is already at the max level
     if (levelIndex == MAXLEVEL) {
         return false;
@@ -119,7 +119,7 @@ bool Display::levelUp() {
 }
 
 // Level down, returns true if successful, false otherwise
-bool Display::levelDown() {
+bool GameDisplay::levelDown() {
     // Return false if the user is already at the min level
     if (levelIndex == MINLEVEL) {
         return false;
@@ -132,14 +132,14 @@ bool Display::levelDown() {
 }
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
-bool Display::moveNextToCurrent() {
+bool GameDisplay::moveNextToCurrent() {
     currentBlock = move(nextBlock);
     insertCurrentBlock();
     return true;
 }
 
 // Generate the nextBlock
-void Display::generateNextBlock() {
+void GameDisplay::generateNextBlock() {
     nextBlock = unique_ptr<Block>(level->makeBlock());
     // Clear next block dock
     for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
@@ -153,22 +153,29 @@ void Display::generateNextBlock() {
     }
 }
 
+// void GameDisplay::forceBlock() {
+//     nextBlock
+// }
+
+
+
 
 // Override the currentBlock
-void Display::setCurrentBlock(char block) {
+void GameDisplay::setCurrentBlock(char block) {
+    removeCurrentBlock();
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
     insertCurrentBlock();
 }
 
 // Override the currentBlock's heavy field
-void Display::setCurrentHeavy(bool heavy) {
+void GameDisplay::setCurrentHeavy(bool heavy) {
     // currentBlock->setHeavy(heavy);
     specialHeavy = heavy;
 }
 
 
 // Check the validity of a block operation. Returns true if operation leaves the block in a valid destination and false otherwise
-bool Display::operationIsValid(int changeInX, int changeInY) {
+bool GameDisplay::operationIsValid(int changeInX, int changeInY) {
     // Check to see if any of the cell coordinates obtained by moving the block is invalid
     for (auto cell : currentBlock->getAllCells()) {
         int destinationX = cell->getX() + changeInX;
@@ -186,7 +193,7 @@ bool Display::operationIsValid(int changeInX, int changeInY) {
     // Otherwise, destination is valid
     return true;
 }
-bool Display::validPos() {
+bool GameDisplay::validPos() {
 
     // // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
     // for (int i = 0; i < 4; i++) {
@@ -214,21 +221,21 @@ bool Display::validPos() {
 
 
 // Insert the currentBlock on the board by filling positions on the board with corresponding Cell pointers
-void Display::insertCurrentBlock() {
+void GameDisplay::insertCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {
         board[cell->getY()][cell->getX()] = cell;
     }
 }
 
 // Remove the currentBlock on the board by ridding positions on the board of corresponding Cell pointers
-void Display::removeCurrentBlock() {
+void GameDisplay::removeCurrentBlock() {
     for (auto cell : currentBlock->getAllCells()) {
         board[cell->getY()][cell->getX()] = nullptr;
     }
 }
 
 // Confirm placing currentBlock on the board, and reflecting the change in the state of currentBlock
-void Display::place() {
+void GameDisplay::place() {
     for (auto cell : currentBlock->getAllCells()) {
         cell->place();
     }
@@ -241,7 +248,7 @@ void Display::place() {
 
     clear(currentBlockFloor, currentBlockRotationLen);
 
-    // Reset display to default values
+    // Reset GameDisplay to default values
     blind = false;
     specialHeavy = false;
 
@@ -256,7 +263,7 @@ void Display::place() {
 
 
 // Move the currentBlock to the left n units. Return true if operation places block and false otherwise
-bool Display::left(int n) {
+bool GameDisplay::left(int n) {
     removeCurrentBlock();
 
     // Determine if what kind of heavy exists, special heavy or block heavy
@@ -296,7 +303,7 @@ bool Display::left(int n) {
 
 
 // Move the currentBlock to the right n units. Return true if operation places block and false otherwise
-bool Display::right(int n) {
+bool GameDisplay::right(int n) {
     removeCurrentBlock();
 
     // Determine if what kind of heavy exists, special heavy or block heavy
@@ -306,7 +313,6 @@ bool Display::right(int n) {
 
     // If there is a special heavy, the block will be shifted by two
     if (specialHeavy) {
-        cout << "Charlie 2" << endl;
         heavy = SPECIAL_HEAVY_DROP;
     }
 
@@ -336,7 +342,7 @@ bool Display::right(int n) {
 }
 
 // Move the currentBlock down n units. Return true if operation places block and false otherwise
-bool Display::down(int n) {
+bool GameDisplay::down(int n) {
     removeCurrentBlock();
 
     // Cancel operation if invalid, insert currentBlock back to original position
@@ -356,7 +362,7 @@ bool Display::down(int n) {
 }
 
 // Drop the currentBlock. Return true
-bool Display::drop() {
+bool GameDisplay::drop() {
     removeCurrentBlock();
 
     // Try dropping the block down all the way to lowest row. If unsuccesful, try dropping 
@@ -380,18 +386,23 @@ bool Display::drop() {
 }
 
 
-bool Display::clockwise() {
+bool GameDisplay::clockwise(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
     int heavy = currentBlock->isHeavy();
 
-    currentBlock->clockwise();
+    for (int i = 0; i < n; i++) {
+        currentBlock->clockwise();
+    }
+    
 
 
     // invalid
     if (!validPos()) {
-        currentBlock->counterClockwise();
+        for (int i = 0; i < n; i++) {
+            currentBlock->counterClockwise();
+        }
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;
@@ -413,17 +424,21 @@ bool Display::clockwise() {
     return false;
 }
 
-bool Display::counterClockwise() {
+bool GameDisplay::counterClockwise(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
     int heavy = currentBlock->isHeavy();
 
-    currentBlock->counterClockwise();
+    for (int i = 0; i < n; i++) {
+        currentBlock->counterClockwise();
+    }
 
     // invalid
     if (!validPos()) {
-        currentBlock->clockwise();
+        for (int i = 0; i < n; i++) {
+            currentBlock->clockwise();
+        }
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;
@@ -441,7 +456,7 @@ bool Display::counterClockwise() {
 }
 
 // takes in block from the file: relevent in level 3 and 4 only
-void Display::norandom(string f_name) {
+void GameDisplay::norandom(string f_name) {
 
     levels[3]->setNoRandom(f_name, f);
     levels[4]->setNoRandom(f_name, f);
@@ -449,11 +464,11 @@ void Display::norandom(string f_name) {
 }
 
 // restore randomness: relevent in level 3 and 4 only
-void Display::random() {
+void GameDisplay::random() {
     
 }
 
-void Display::clear(int bottomRowToScan, int numRowstoScan) {
+void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
     int numRowsClear = 0; 
     int topRowToScan = bottomRowToScan - numRowstoScan + 1;
     
@@ -528,7 +543,7 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
     }
 }
 
-void Display::insertBlindBlock() {
+void GameDisplay::insertBlindBlock() {
     for (int i = 3; i < 12; i++) {
         for (int j = 3; j < 9; j++) {
             board[i][j] = make_shared<Cell>('?', j, i); // not valid
@@ -539,7 +554,7 @@ void Display::insertBlindBlock() {
 
 
 
-void Display::print() {
+void GameDisplay::print() {
     cout << "+";
     for (int j = 0; j < WIDTH; j++) {
         cout << "-";
@@ -566,22 +581,22 @@ void Display::print() {
     cout << "+" << endl;
 }
 
-int Display::getNumReserveRows() {
+int GameDisplay::getNumReserveRows() {
     return NUM_RESERVE_ROWS;
 }
 
-int Display::getNextBlockDock() {
+int GameDisplay::getNextBlockDock() {
     return NEXT_BLOCK_DOCK;
 }
 
-int Display::getWidth() {
+int GameDisplay::getWidth() {
     return WIDTH;
 }
 
-int Display::getHeight() {
+int GameDisplay::getHeight() {
     return HEIGHT;
 }
 
-bool Display::getLost() {
+bool GameDisplay::getLost() {
     return lost;
 }
