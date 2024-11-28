@@ -103,8 +103,6 @@ string Player::runTurn(string special, TextObserver &to) {
 
     gameDisplay.generateNextBlock();
 
-    to.notify("Player " + std::to_string(id) + "'s turn:");
-
     if (special != "") { // Check for specials
         istringstream iss{special};
         string curr_special;
@@ -121,6 +119,7 @@ string Player::runTurn(string special, TextObserver &to) {
         }
     }
     
+    to.notify("Player " + std::to_string(id) + "'s turn:");
     
     bool endTurn = false;
 
