@@ -7,6 +7,7 @@ class Cell {
     int x;
     int y;
     int age;
+    bool alive = true;
 
     public:
         Cell(char letter, int x, int y);
@@ -18,6 +19,8 @@ class Cell {
         int getX();
         int getY();
         void incrementAge();
+        void kill();
+        bool isAlive();
 };
 
 #endif

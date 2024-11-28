@@ -34,3 +34,11 @@ int Cell::getY() {
 void Cell::incrementAge() {
     age++;
 }
+
+void Cell::kill() {
+    alive = false;
+}
+
+bool Cell::isAlive() {
+    return alive;
+}
