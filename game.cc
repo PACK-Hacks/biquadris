@@ -21,10 +21,16 @@ string Game::runGame() {
     
     while (true) {
         special = p1.runTurn(special, to);
-        if (special == "restart") restart();
+        if (special == "restart") {
+            restart();
+            continue;
+        }
         if (p1.getLost() == true) return "p2";
         special = p2.runTurn(special, to);
-        if (special == "restart") restart();
+        if (special == "restart") {
+            restart();
+            continue;
+        }
         if (p2.getLost() == true) return "p1";
     }
 
@@ -33,7 +39,7 @@ string Game::runGame() {
 }
 
 void Game::restart() {
-    // p1.reset(); // Implement in display
-    // p2.reset(); 
+    p1.reset();
+    p2.reset();
 }
 

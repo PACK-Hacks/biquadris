@@ -137,6 +137,39 @@ bool GameDisplay::levelDown(int n) {
     return true;
 }
 
+void GameDisplay::reset() {
+    score = 0;
+    levelIndex = 0;
+    level = levels[levelIndex].get();
+
+    specialHeavy = false;
+    special = false;
+    lost = false;
+    turnsSinceClear = 0;
+    norand = false;
+
+    // Delete current block
+    // Delete next block
+    // Set all cells on board to nullptr
+    // Empty blocks array
+
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            board[i][j] = nullptr;
+        }
+    }
+
+    currentBlock = nullptr;
+    nextBlock = nullptr;
+
+    generateNextBlock();
+    moveNextToCurrent();
+    generateNextBlock();
+
+    activePlacedBlocks.clear();
+    
+}
+
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool GameDisplay::moveNextToCurrent() {
     currentBlock = move(nextBlock);
@@ -492,7 +525,7 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
                 // cout << "X: " << board[i][j]->getX() << ", Y: " << board[i][j]->getY() << endl;
                 // Kill the cells on the row and replace them with nullptr
                 board[i][j]->kill();
-                board[i][j] == nullptr;
+                board[i][j] = nullptr;
             }
 
             // Shift every cell in the rows above down by one

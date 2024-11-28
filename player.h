@@ -12,6 +12,7 @@
 using namespace std;
 
 class Player {
+    int blind_status = 0;
     int id;
     bool lost;
     string text;
@@ -58,6 +59,8 @@ class Player {
     bool getLost();
 
     GameDisplay *getGameDisplay();
+
+    void reset();
 
 };
 

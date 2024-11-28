@@ -73,6 +73,8 @@ class GameDisplay: public Subject {
 
         void dropDummyCell();
         bool needDummy();
+
+        void reset();
         
 
 

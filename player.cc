@@ -223,6 +223,8 @@ string Player::runTurn(string special, TextObserver &to) {
     // Check and set the lost field in Display to that of Player
     lost = gameDisplay.getLost();
 
+    blind_status = 0;
+
     
     // gameDisplay.resetSpecial();
 
@@ -258,11 +260,10 @@ string Player::runTurn(string special, TextObserver &to) {
         return "";
     }
     
-
-    
-
-
 }
+
+
+
 
 bool Player::getLost() {
     return lost;
@@ -271,5 +272,13 @@ bool Player::getLost() {
 GameDisplay *Player::getGameDisplay() {
     return &gameDisplay;
 }
+
+void Player::reset() {
+    in = &cin;
+    blind_status = 0;
+    gameDisplay.reset();
+}
+
+
 
 
