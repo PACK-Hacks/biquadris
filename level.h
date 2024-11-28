@@ -20,7 +20,7 @@ class Level {
         
 
     public:
-        Level(bool heavy, ifstream &blockFile, string blockFileString, ifstream &norandomFile, string norandomFileString);
+        Level(bool heavy, int level, ifstream &blockFile, string blockFileString, ifstream &norandomFile, string norandomFileString);
         virtual ~Level()=0;
 
         virtual Block *makeBlock() = 0;

@@ -1,8 +1,8 @@
 #include "level.h"
 
 // Level constructor
-Level::Level(bool heavy, ifstream &blockFile, const string blockFileString, ifstream &norandomFile, string norandomFileString) : 
-heavy{heavy}, blockFile{blockFile}, blockFileString{blockFileString}, norandomFile{norandomFile}, norandomFileString{norandomFileString} {};
+Level::Level(bool heavy, int level, ifstream &blockFile, const string blockFileString, ifstream &norandomFile, string norandomFileString) : 
+heavy{heavy}, level{level}, blockFile{blockFile}, blockFileString{blockFileString}, norandomFile{norandomFile}, norandomFileString{norandomFileString} {};
 
 // Level destructor
 Level::~Level() {};
@@ -62,7 +62,7 @@ Block *Level::makeChosenBlock(char block) {
 
 // Level0 constructor
 Level0::Level0(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
-Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
+Level{false, 0, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level0 destructor
 Level0::~Level0() {}
@@ -76,7 +76,7 @@ Block *Level0::makeBlock() {
 
 // Level1 constructor
 Level1::Level1(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
-Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
+Level{false, 1, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level1 destructor
 Level1::~Level1() {}
@@ -110,7 +110,7 @@ Block *Level1::makeBlock() {
 
 // Level2 constructor
 Level2::Level2(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
-Level{false, blockFile, blockFileString, norandomFile, norandomFileString} {};
+Level{false, 2, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level2 destructor
 Level2::~Level2() {}
@@ -144,7 +144,7 @@ Block *Level2::makeBlock() {
 
 // Level3 constructor
 Level3::Level3(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
-Level{true, blockFile, blockFileString, norandomFile, norandomFileString} {};
+Level{true, 3, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level3 destructor
 Level3::~Level3() {}
@@ -182,7 +182,7 @@ Block *Level3::makeBlock() {
 
 // Level4 constructor
 Level4::Level4(ifstream &blockFile, const string &blockFileString, ifstream &norandomFile, string norandomFileString) : 
-Level{true, blockFile, blockFileString, norandomFile, norandomFileString} {};
+Level{true, 4, blockFile, blockFileString, norandomFile, norandomFileString} {};
 
 // Level4 destructor
 Level4::~Level4() {}

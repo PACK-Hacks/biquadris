@@ -500,20 +500,11 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
         }
     }
 
-    // Update score based on cleared rows
-    score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
-
-    // // Shift every cell in the rows above down by the number of cleared rows
-    // for (int n = topRowToScan; n > 0; n--) {
-    //     for (int m = 0; m < WIDTH; m++) {
-    //         board[n][m] = board[n - numRowsClear][m]; 
-    //     }
-    // }
-    
-
-    // reset turnsSinceClear if any rows are cleared
     if (numRowsClear > 0) {
-        turnsSinceClear = 0;
+        turnsSinceClear = 0;  // Reset turnsSinceClear if any rows are cleared
+
+         // Update score based on cleared rows
+        score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
         // Weakness
         // Update score based on cleared blocks
         for (auto it = activePlacedBlocks.begin(); it != activePlacedBlocks.end();) {
