@@ -16,7 +16,7 @@ Player::Player(bool text, int seed, string scriptfile, int startLevel):
     highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
         gameDisplay.generateNextBlock();
-        
+        srand(seed);
         blocks.emplace_back('I');
         blocks.emplace_back('J');
         blocks.emplace_back('L');
@@ -197,7 +197,7 @@ string Player::runTurn(string special, TextObserver &to) {
              // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
             gameDisplay.norandom(file_name);
         } else if (command == random) {
-            // gameDisplay.random();
+            gameDisplay.random();
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
             gameDisplay.setCurrentBlock(c);
