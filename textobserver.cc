@@ -36,7 +36,7 @@ std::string TextObserver::scoreFormating(int score) {
 }
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
-void TextObserver::notify(string message, int id) {
+void TextObserver::notify(int id, std::string message) {
     out << endl << endl;
     
     // Print the message if there is one

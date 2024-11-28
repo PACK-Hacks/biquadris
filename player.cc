@@ -11,9 +11,6 @@
 using namespace std;
 
 
-
-Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
-    id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
 Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
     id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
@@ -125,7 +122,7 @@ string Player::runTurn(string special, TextObserver &to) {
         }
     }
     
-    to.notify("Player " + std::to_string(id) + "'s turn:", blind_status);
+    to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
     
     bool endTurn = false;
 

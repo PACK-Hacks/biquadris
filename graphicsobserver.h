@@ -29,7 +29,7 @@ class GraphicsObserver : public Observer {
     int highScore = 0;
 public:
     GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2);
-    void notify(std::string message="", int id=0) override;
+    void notify(int id=0, std::string message="") override;
     // requested with render command
     // ~TextObserver() override;
 };

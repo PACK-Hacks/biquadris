@@ -12,7 +12,7 @@ void GraphicsObserver::printSeparation() {
     for (int i = 0; i < SEPARATE; ++i) out << ' ';
 }
 
-void GraphicsObserver::notify(std::string message, int id) {
+void GraphicsObserver::notify(int id, std::string message) {
 
     //  int xOffset = colStart2;
     // int yOffset = rowStart;
