@@ -12,7 +12,7 @@ using namespace std;
 
 
 Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
-    id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
+    id{id}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
         gameDisplay.generateNextBlock();
         srand(seed);
@@ -42,7 +42,6 @@ bool Player::find_block(char b) { // Could be more efficient?
 }
 
 string Player::getUnique(string s) {
-
 
     vector<string> matches;
 
@@ -121,6 +120,7 @@ string Player::runTurn(string special, TextObserver &to) {
             }
         }
     }
+
     
     to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
     

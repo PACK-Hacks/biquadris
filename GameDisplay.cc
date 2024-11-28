@@ -35,9 +35,6 @@ int GameDisplay::getHighScore() {
     return highScore;
 }
 
-int GameDisplay::setHighScore(int n) {
-    highScore = n;
-}
 
 
 
@@ -514,6 +511,9 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
 
          // Update score based on cleared rows
         score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
+        if (score > highScore) {
+            highScore = score;
+        }
         // Weakness
         // Update score based on cleared blocks
         for (auto it = activePlacedBlocks.begin(); it != activePlacedBlocks.end();) {
@@ -529,6 +529,9 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
             // If the block is cleared, update the score and remove it from the vector of placed blocks
             if (blockIsCleared) {
                 score += ((*it)->getLevel() + 1) * ((*it)->getLevel() + 1);
+                if (score > highScore) {
+                    highScore = score;
+                }
                 it = activePlacedBlocks.erase(it);
             }
             else {

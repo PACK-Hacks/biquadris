@@ -13,7 +13,6 @@ using namespace std;
 
 class Player {
     int id;
-    int highScore;
     bool lost;
     string text;
     int seed;
