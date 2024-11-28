@@ -104,14 +104,14 @@ void GameDisplay::setNextBlock() {
 }
 
 // Level up, returns true if successful, false otherwise
-bool GameDisplay::levelUp() {
+bool GameDisplay::levelUp(int n) {
     // Return false if the user is already at the max level
-    if (levelIndex == MAXLEVEL) {
+    if (levelIndex + n > MAXLEVEL) {
         return false;
     }
 
     // Otherwise, update the level accordingly
-    levelIndex++;
+    levelIndex += n;
     level = levels[levelIndex].get();
 
 
@@ -119,14 +119,14 @@ bool GameDisplay::levelUp() {
 }
 
 // Level down, returns true if successful, false otherwise
-bool GameDisplay::levelDown() {
+bool GameDisplay::levelDown(int n) {
     // Return false if the user is already at the min level
-    if (levelIndex == MINLEVEL) {
+    if (levelIndex - n < MINLEVEL) {
         return false;
     }
 
     // Otherwise, update the level accordingly
-    levelIndex--;
+    levelIndex -= n;
     level = levels[levelIndex].get();
     return true;
 }

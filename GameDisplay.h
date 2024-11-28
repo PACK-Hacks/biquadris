@@ -76,8 +76,8 @@ class GameDisplay: public Subject {
         bool needDummy();
 
 
-        bool levelUp();
-        bool levelDown();
+        bool levelUp(int n=1);
+        bool levelDown(int n=1);
         void norandom(string f_name);
         void random();
 

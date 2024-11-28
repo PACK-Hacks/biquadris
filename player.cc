@@ -152,19 +152,19 @@ string Player::runTurn(string special, TextObserver &to) {
         int multiplier = p.first;
 
         if (command == left) {
-            endTurn = gameDisplay.left();
+            endTurn = gameDisplay.left(multiplier);
             to.notify();
         } else if (command == right) {
-            endTurn = gameDisplay.right();
+            endTurn = gameDisplay.right(multiplier);
             to.notify();
         } else if (command == down) {
-            endTurn = gameDisplay.down();
+            endTurn = gameDisplay.down(multiplier);
             to.notify();
         } else if (command == clockwise) {
-            endTurn = gameDisplay.clockwise();
+            endTurn = gameDisplay.clockwise(multiplier);
             to.notify();
         } else if (command == counterclockwise) {
-            endTurn = gameDisplay.counterClockwise();
+            endTurn = gameDisplay.counterClockwise(multiplier);
             to.notify();
         } else if (command == drop) {
             endTurn = gameDisplay.drop();
@@ -172,7 +172,7 @@ string Player::runTurn(string special, TextObserver &to) {
             break;
         } else if (command == levelup) {
             bool canLevelUp;
-            canLevelUp = gameDisplay.levelUp();
+            canLevelUp = gameDisplay.levelUp(multiplier);
             if (canLevelUp == false) {
                 cout << "You cannot level up! You are already at the max level!" << endl;
             } else {
@@ -180,7 +180,7 @@ string Player::runTurn(string special, TextObserver &to) {
             }
         } else if (command == leveldown) {
             bool canLevelDown;
-            canLevelDown = gameDisplay.levelDown();
+            canLevelDown = gameDisplay.levelDown(multiplier);
             if (canLevelDown == false) {
                 cout << "You cannot level down! You are already at the lowest level!" << endl;
             } else {

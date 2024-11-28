@@ -15,27 +15,28 @@ int main(int argc, char *argv[]) {
     string scriptfile2 = "blank.txt";
     int startlevel = 0;
 
-    for (int i = 0; i < argc; i++) {
-        if (argv[i] == "-text") {
+    for (int i = 1; i < argc; i++) {
+        string arg = argv[i];
+        if (arg == "-text") {
             text = true;
-        } else if (argv[i] == "-scriptfile1") {
+        } else if (arg == "-scriptfile1") {
             if (i + 1 < argc) {
                 scriptfile1 = argv[i + 1];
                 i++;
             } 
-        } else if (argv[i] == "-scriptfile2") {
+        } else if (arg == "-scriptfile2") {
             if (i + 1 < argc) {
                 scriptfile2 = argv[i + 1];
                 i++;
             } 
-        } else if (argv[i] == "-seed") {
+        } else if (arg == "-seed") {
             if (i + 1 < argc) {
                 string s = argv[i + 1];
                 istringstream iss {s};
                 iss >> seed;
                 i++;
             } 
-        } else if (argv[i] == "-startlevel") {
+        } else if (arg == "-startlevel") {
             if (i + 1 < argc) {
                 string s = argv[i + 1];
                 istringstream iss {s};
@@ -45,7 +46,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    Game g{true, 0, "blank.txt", "blank2.txt", 0}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
+    cout << text << endl;
+    cout << seed << endl;
+    cout << scriptfile1 << endl;
+    cout << scriptfile2 << endl;
+    cout << startlevel << endl;
+
+
+    Game g{text, seed, scriptfile1, scriptfile2, startlevel}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
     g.runGame();
 
 }
