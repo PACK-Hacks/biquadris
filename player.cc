@@ -178,6 +178,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Up!" << endl;
             }
+            to.notify();
         } else if (command == leveldown) {
             bool canLevelDown;
             canLevelDown = gameDisplay.levelDown(multiplier);
@@ -186,6 +187,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Down!" << endl;
             }
+            to.notify();
         } else if (command == norandom) {
             string file_name;
             if ((*in).fail()) {
