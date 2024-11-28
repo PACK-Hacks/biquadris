@@ -41,7 +41,7 @@ char Display::getState(int row, int col) const {
     }
 
     // Otherwise, return blank
-    return ' ';
+    return '.';
 }
 
 
