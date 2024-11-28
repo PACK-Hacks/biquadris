@@ -65,7 +65,7 @@ bool Display::needDummy() {
 
 // Sets the heavy field
 void Display::setHeavy(bool heavy) {
-    specialHeavy = heavy;
+    heavy = heavy;
 }
 
 // Sets the blind field
@@ -153,9 +153,16 @@ void Display::generateNextBlock() {
     }
 }
 
+// void Display::forceBlock() {
+//     nextBlock
+// }
+
+
+
 
 // Override the currentBlock
 void Display::setCurrentBlock(char block) {
+    removeCurrentBlock();
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
     insertCurrentBlock();
 }

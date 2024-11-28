@@ -195,7 +195,11 @@ string Player::runTurn(string special, TextObserver &to) {
             // display.random();
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
+<<<<<<< HEAD
             display.setCurrentBlock(c);
+=======
+            display.setCurrentBlock(c); 
+>>>>>>> f075824bd8688ff30d3d4bf94e4908ccbade275a
             to.notify();
         } else if (command == restart) {
             return "restart";
