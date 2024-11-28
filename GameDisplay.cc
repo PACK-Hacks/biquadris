@@ -163,8 +163,6 @@ void GameDisplay::reset() {
     nextBlock = nullptr;
 
     generateNextBlock();
-    moveNextToCurrent();
-    generateNextBlock();
 
     activePlacedBlocks.clear();
     

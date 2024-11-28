@@ -40,6 +40,8 @@ string Game::runGame() {
 
 void Game::restart() {
     p1.reset();
+    p1.getGameDisplay()->moveNextToCurrent();
+    p1.getGameDisplay()->generateNextBlock();
     p2.reset();
 }
 
