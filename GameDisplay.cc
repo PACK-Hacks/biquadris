@@ -117,6 +117,8 @@ bool GameDisplay::levelUp(int n) {
     levelIndex += n;
     level = levels[levelIndex].get();
 
+    // Reset turnsSinceClear if the level is 4
+    turnsSinceClear = 0;
 
     return true;
 }
