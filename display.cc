@@ -476,12 +476,18 @@ void Display::clear(int bottomRowToScan, int numRowstoScan) {
         }
     }
 
-    // Update score
+    // Update score based on cleared rows
     score += (levelIndex + numRowsClear) * (levelIndex + numRowsClear); 
+
+
+    // // Update score based on cleared blocks
+    // for (auto it = activePlacedBlocks.begin(); it != activePlacedBlocks.end(); ++it) {
+    //     if ((*it)->isHeavy()) {
+    //     }
+    // }
 
     // reset turnsSinceClear if any rows are cleared
     if (numRowsClear >= 1) turnsSinceClear = 0;
-
 
     // if clears two or more rows, prompts the player a special action
     cout << numRowsClear << endl;
