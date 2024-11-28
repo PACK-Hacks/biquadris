@@ -460,7 +460,7 @@ bool GameDisplay::counterClockwise(int n) {
 
 // takes in block from the file: relevent in level 3 and 4 only
 void GameDisplay::norandom(string f_name) {
-
+    norand = true;
     levels[3]->setNoRandom(f_name, f);
     levels[4]->setNoRandom(f_name, f);
     
@@ -468,7 +468,9 @@ void GameDisplay::norandom(string f_name) {
 
 // restore randomness: relevent in level 3 and 4 only
 void GameDisplay::random() {
-    
+    norand = false; // Need to make sure that if norandom is triggered, it can return back to random if random is called
+    levels[3]->setRandom();
+    levels[4]->setRandom();
 }
 
 void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {

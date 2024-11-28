@@ -26,6 +26,7 @@ class Level {
         virtual Block *makeBlock() = 0;
         Block *makeChosenBlock(char block);
         void setNoRandom(string file_name, ifstream &f);
+        void setRandom();
 };
 
 class Level0 final: public Level {

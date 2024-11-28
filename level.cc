@@ -33,6 +33,12 @@ void Level::setNoRandom(string file_name, ifstream &f) {
     norandomFileString = file_name;
 }
 
+void Level::setRandom() {
+    norandom = false;
+}
+
+
+
 // Generating a pointer to a choosen block
 Block *Level::makeChosenBlock(char block) {
     // create a heavy block if the heavy field of the level is true or if the block is forced to be heavy

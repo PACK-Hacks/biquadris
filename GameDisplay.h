@@ -73,12 +73,14 @@ class GameDisplay: public Subject {
 
         void dropDummyCell();
         bool needDummy();
+        
 
 
         bool levelUp(int n=1);
         bool levelDown(int n=1);
         void norandom(string f_name);
         void random();
+        bool norand = false;
 
         // returns true if the action causes the block to be dropped
         bool moveNextToCurrent();
