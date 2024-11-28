@@ -12,10 +12,10 @@
 using namespace std;
 
 class Player {
+    int id;
     bool lost;
     string text;
     int seed;
-    int id;
     string scriptfile;
     int startLevel;
     GameDisplay gameDisplay;

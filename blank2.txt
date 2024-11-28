@@ -5,17 +5,4 @@ I
 O
 I
 I
-<<<<<<< HEAD
 I
-=======
-I
-I
-I
-I
-I
-I
-I
-I
-I
-I
->>>>>>> 4cdabcb0621562f38c9127a31a2a6a914a8f911b

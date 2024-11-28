@@ -11,7 +11,6 @@
 using namespace std;
 
 
-
 Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
     id{id}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
@@ -122,8 +121,8 @@ string Player::runTurn(string special, TextObserver &to) {
         }
     }
 
-    to.notify(blind_status);
     
+    to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
     
     bool endTurn = false;
 
@@ -178,18 +177,16 @@ string Player::runTurn(string special, TextObserver &to) {
             if (canLevelUp == false) {
                 cout << "You cannot level up! You are already at the max level!" << endl;
             } else {
-                cout << "Levelled Up!" << endl;
+                to.notify(blind_status, "Levelled Up!");
             }
-            to.notify(blind_status);
         } else if (command == leveldown) {
             bool canLevelDown;
             canLevelDown = gameDisplay.levelDown(multiplier);
             if (canLevelDown == false) {
                 cout << "You cannot level down! You are already at the lowest level!" << endl;
             } else {
-                cout << "Levelled Down!" << endl;
+                to.notify(blind_status, "Levelled Down!");
             }
-            to.notify(blind_status);
         } else if (command == norandom) {
             string file_name;
             if ((*in).fail()) {

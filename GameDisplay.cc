@@ -175,7 +175,6 @@ void GameDisplay::setCurrentBlock(char block) {
 
 // Override the currentBlock's heavy field
 void GameDisplay::setCurrentHeavy(bool heavy) {
-    // currentBlock->setHeavy(heavy);
     specialHeavy = heavy;
 }
 
