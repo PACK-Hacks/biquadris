@@ -252,9 +252,9 @@ void GameDisplay::place() {
     blind = false;
     specialHeavy = false;
 
-    // If there are any cells in the reserve rows, set lost to true
+    // If there are any cells on the lid (row right below reserve rows) set lost to true
     for (int i = 0; i < WIDTH; ++i) {
-        if (board[2][i]) {
+        if (board[3][i]) {
             lost = true;
             break;
         }
