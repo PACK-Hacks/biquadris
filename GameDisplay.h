@@ -60,7 +60,6 @@ class GameDisplay: public Subject {
         char getState(int row, int col) const override;
         int getScore();
         int getHighScore();
-        int setHighScore(int n);
         int getLevel();
         int getNumReserveRows();
         int getNextBlockDock();
