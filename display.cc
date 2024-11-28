@@ -65,7 +65,7 @@ bool Display::needDummy() {
 
 // Sets the heavy field
 void Display::setHeavy(bool heavy) {
-    specialHeavy = heavy;
+    heavy = heavy;
 }
 
 // Sets the blind field
@@ -153,9 +153,16 @@ void Display::generateNextBlock() {
     }
 }
 
+// void Display::forceBlock() {
+//     nextBlock
+// }
+
+
+
 
 // Override the currentBlock
 void Display::setCurrentBlock(char block) {
+    removeCurrentBlock();
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
     insertCurrentBlock();
 }
@@ -306,7 +313,6 @@ bool Display::right(int n) {
 
     // If there is a special heavy, the block will be shifted by two
     if (specialHeavy) {
-        cout << "Charlie 2" << endl;
         heavy = SPECIAL_HEAVY_DROP;
     }
 

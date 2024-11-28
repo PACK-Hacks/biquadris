@@ -18,6 +18,8 @@ TextObserver::TextObserver(Display* subject1, Display* subject2)
 // }
 
 int highScore = 100;
+int scoreP1 = 0;
+int scoreP2 = 0;
 
 // Print separation
 void TextObserver::printSeparation() {
@@ -45,6 +47,7 @@ void TextObserver::notify(int id) {
 
     // score
     out << "Score:    " << scoreP1;
+    
 
     printSeparation(); // reserve three extra rows
 

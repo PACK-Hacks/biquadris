@@ -108,6 +108,7 @@ class Display: public Subject {
         void setSpecial(bool sp);
 
         void insertBlindBlock();
+        void forceBlock();
 
 };
 

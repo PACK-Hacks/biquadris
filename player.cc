@@ -141,6 +141,7 @@ string Player::runTurn(string special, TextObserver &to) {
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
             display.setCurrentBlock(c); 
+            to.notify();
         } else if (command == restart) {
             return "restart";
         } else if (command == sequence) {
