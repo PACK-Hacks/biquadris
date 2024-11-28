@@ -58,7 +58,7 @@ int GameDisplay::getTurnsSinceClear() {
 // Returns true if Dummy is needed in Level 4
 bool GameDisplay::needDummy() {
     turnsSinceClear++;
-    if (turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
+    if (levelIndex == 4 && turnsSinceClear%5 == 0 && turnsSinceClear != 0) return true;
     return false;
 }
 
@@ -87,6 +87,9 @@ void GameDisplay::dropDummyCell() {
 
     // Populate it with a dummy cell
     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+
+    // Clear the row if needed
+    clear(destY, 1);
 }
 
 // Sets nextBlock on the next block dock
@@ -254,7 +257,7 @@ void GameDisplay::place() {
 
     // If there are any cells on the lid (row right below reserve rows) set lost to true
     for (int i = 0; i < WIDTH; ++i) {
-        if (board[3][i]) {
+        if (board[NUM_RESERVE_ROWS][i]) {
             lost = true;
             break;
         }

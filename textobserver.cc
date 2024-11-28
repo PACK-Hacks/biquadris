@@ -61,11 +61,16 @@ void TextObserver::notify(int id) {
             // when blind is active cover row 3 to 12 column 3 to 9
             if ( 3 + 2 <= i && i <= 11 + 3 ) {
                 for (int j = 0; j < width; ++j) {
-                    if (id == 1 && 2 <= j && j <= 8) {
-                        out << '?';
-                        continue;
+                    if (id == 1 && 2 <= j && j <= 8) {  // id = 1 => blind on p1
+                        out << '?';                     // id = 2 => blind on p2
+                    }                                   // id = 0 => blind on neither
+                    // // Print '-' for lid row
+                    // else if (i = numReserveRows) {
+                    //     out << '-';
+                    // }
+                    else {
+                        out << subject1->getState(i, j); // retrieved from Display 
                     }
-                    out << subject1->getState(i, j); // retrieved from Display 
                 }
 
                 // seperate
