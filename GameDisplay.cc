@@ -31,6 +31,14 @@ int GameDisplay::getScore() {
     return score;
 }
 
+int GameDisplay::getHighScore() {
+    return highScore;
+}
+
+int GameDisplay::setHighScore(int n) {
+    highScore = n;
+}
+
 
 
 // Returns the character of the
@@ -68,10 +76,6 @@ void GameDisplay::setHeavy(bool heavy) {
     specialHeavy = heavy;
 }
 
-// Sets the blind field
-void GameDisplay::setBlind(bool blind) {
-    blind = blind;
-}
 
 // It teleports through right now
 // Drops a 1x1 block on the center column
@@ -254,7 +258,6 @@ void GameDisplay::place() {
     clear(currentBlockFloor, currentBlockRotationLen);
 
     // Reset GameDisplay to default values
-    blind = false;
     specialHeavy = false;
 
     // If there are any cells on the lid (row right below reserve rows) set lost to true

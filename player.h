@@ -16,6 +16,7 @@ class Player {
     bool lost;
     string text;
     int seed;
+    int id;
     string scriptfile;
     int startLevel;
     GameDisplay gameDisplay;
@@ -51,7 +52,7 @@ class Player {
 
 
     public:
-    Player(bool text, int seed, string scriptfile, int startLevel);
+    Player(int id, bool text, int seed, string scriptfile, int startLevel);
 
     string runTurn(string special, TextObserver &to);
 

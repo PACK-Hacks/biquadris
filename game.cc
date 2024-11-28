@@ -11,7 +11,7 @@ using namespace std;
 
 
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
-p1{text, seed, scriptfile1, startlevel}, p2{text, seed, scriptfile2, startlevel}, 
+p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, startlevel}, 
 to{p1.getGameDisplay(), p2.getGameDisplay()} {}
 // Remember to construct players with next block in player constructor
 
