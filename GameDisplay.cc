@@ -65,7 +65,7 @@ bool GameDisplay::needDummy() {
 
 // Sets the heavy field
 void GameDisplay::setHeavy(bool heavy) {
-    heavy = heavy;
+    specialHeavy = heavy;
 }
 
 // Sets the blind field

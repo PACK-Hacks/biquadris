@@ -110,7 +110,6 @@ string Player::runTurn(string special, TextObserver &to) {
         string curr_special;
         while (iss >> curr_special) {
             if (curr_special == "heavy") {
-                cout << "Charlieeeee" << endl;
                 gameDisplay.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
                 gameDisplay.setBlind();
