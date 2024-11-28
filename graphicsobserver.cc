@@ -2,92 +2,133 @@
 
 GraphicsObserver::GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2)
     :subject1{subject1}, subject2{subject2}, numReserveRows{subject1->getNumReserveRows()}, nextBlockDock{subject1->getNextBlockDock()},
-    width{subject1->getWidth()}, height{subject1->getHeight()} {
+    width{subject1->getWidth()}, height{subject1->getHeight()}, window{550, 550}
+{
         subject1->attach(this);
         subject2->attach(this);
 }
+
+
 
 // Print separation
 void GraphicsObserver::printSeparation() {
     for (int i = 0; i < SEPARATE; ++i) out << ' ';
 }
 
-void GraphicsObserver::notify(int id, std::string message) {
+void GraphicsObserver::notify(int blind_status,  string message, int activePlayer) { 
+    int xOffset = colStart2;
+    int yOffset = rowStart - 30;
 
-    //  int xOffset = colStart2;
-    // int yOffset = rowStart;
+    int gap = 2; // Gap between cells
+    int adjustedBlockScale = blockScale - gap; // Adjusted size of each cell
 
-    // // Clear window
-    // window.fillRectangle(0, 0, window.getWidth(), window.getHeight());
+    // Clear window
+    // window.fillRectangle(0, 0, window.getWidth(), window.getHeight(), 0); // Clear entire screen to background color (white)
 
-    // // High Score
-    // window.drawString(colStart1, 10, "High Score: " + std::to_string(highScore));
-    // yOffset += 20;
+    // print the title, high scrore, andtop margin at the beginngin of a new game. 
+    if (activePlayer == 0) {
+        window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
+        window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getScore()));
+        window.drawString(0, 60,"------------------------------------------------------------------------------------------------------------------------");
+    }
 
-    // // Player Levels
-    // window.drawString(colStart1, yOffset, "Level: " + std::to_string(subject1->getLevel()));
-    // window.drawString(xOffset, yOffset, "Level: " + std::to_string(subject2->getLevel()));
-    // yOffset += 20;
+    // Clearing Player Levels
+    if (activePlayer == 1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
+    if (activePlayer == 2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
+    // Player Levels
+    if (activePlayer == 1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Level:    " + std::to_string(subject1->getLevel()));
+    if (activePlayer == 2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Level:    " + std::to_string(subject2->getLevel()));
 
-    // // Player Scores
-    // window.drawString(colStart1, yOffset, "Score: " + std::to_string(subject1->getScore()));
-    // window.drawString(xOffset, yOffset, "Score: " + std::to_string(subject2->getScore()));
-    // yOffset += 30;
+ 
+    yOffset += 15;
+    // Clearing Player Levels
+    if (activePlayer == 1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
+    if (activePlayer == 2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
+    // Player Scores
+    if (activePlayer == 1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Score:    " + std::to_string(subject1->getScore()));
+    if (activePlayer == 2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Score:    " + std::to_string(subject2->getScore()));
 
-    // // Player Boards
-    // for (int i = 0; i < height; ++i) {
-    //     for (int j = 0; j < width; ++j) {
-    //         // Player 1 Board
-    //         char c1 = subject1->getState(i, j);
-    //         int color1 = determineColor(c1, id == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-    //         window.fillRectangle(colStart1 + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color1);
+    yOffset +=  5;
 
-    //         // Player 2 Board
-    //         char c2 = subject2->getState(i, j);
-    //         int color2 = determineColor(c2, id == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-    //         window.fillRectangle(xOffset + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color2);
-    //     }
-    // }
-    // yOffset += height * blockScale;
+    // Draw Board Borders
+    // Player 1 Board
+    if (activePlayer == 0) {
+        window.fillRectangle(colStart1, yOffset, width * blockScale + 2, height * blockScale + 2, 1); // black
+        window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, 0); // white
 
-    // // Bottom Margin
-    // yOffset += 10;
+        // Player 2 Board
+        window.fillRectangle(xOffset, yOffset, width * blockScale + 2, height * blockScale + 2, 1);
+        window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, 0);
+    }
+    
+    // Player Boards
+    for (int i = 0; i < height; ++i) {
+        // window.fillRectangle(colStart1, yOffset + i * blockScale, 
+        //     adjustedBlockScale, adjustedBlockScale, 1);
+        for (int j = 0; j < width; ++j) {
+            // Player 1 Board
+            char c1 = subject1->getState(i, j);
+            int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                 adjustedBlockScale, adjustedBlockScale, color1);
 
-    // // Next Block
-    // window.drawString(colStart1, yOffset, "Next:");
-    // window.drawString(xOffset, yOffset, "Next:");
-    // yOffset += 20;
+            // Player 2 Board
+            char c2 = subject2->getState(i, j);
+            int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                 adjustedBlockScale, adjustedBlockScale, color2);
+        }
+    }
 
-    // for (int i = 0; i < nextBlockDock; ++i) {
-    //     for (int j = 0; j < width; ++j) {
-    //         // Player 1 Next Block
-    //         char c1 = subject1->getState(i + height, j);
-    //         int color1 = determineColor(c1, false);
-    //         window.fillRectangle(colStart1 + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color1);
+    yOffset += height * blockScale + 10;
 
-    //         // Player 2 Next Block
-    //         char c2 = subject2->getState(i + height, j);
-    //         int color2 = determineColor(c2, false);
-    //         window.fillRectangle(xOffset + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color2);
-    //     }
-    // }
+    yOffset += 10;
+
+    // Next Block
+    window.drawString(colStart1, yOffset, "Next:      ");
+    window.drawString(xOffset, yOffset, "Next:      ");
+    yOffset += 10;
+
+    for (int i = 0; i < nextBlockDock; ++i) {
+        for (int j = 0; j < 4; ++j) { // since the most is 4 * 4 
+            // Player 1 Next Block
+            char c1 = subject1->getState(i + height, j);
+            int color1 = determineColor(c1, false);
+            window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                 adjustedBlockScale, adjustedBlockScale, color1);
+
+            // Player 2 Next Block
+            char c2 = subject2->getState(i + height, j);
+            int color2 = determineColor(c2, false);
+            window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                 adjustedBlockScale, adjustedBlockScale, color2);
+        }
+    }
 }
+
+// int Graphics
+// rerender  the position the block was in and the position the block moves to. 
+void GraphicsObserver::reRenderPos() {
+    for (auto c: )
+
+}
+
+
+
 
 int GraphicsObserver::determineColor(char c, bool isBlind) {
     if (isBlind) {
-        return 5; // Blind color
+        return Xwindow::Blind; // Blind color
     }
-    if ('a' <= c && c <= 'z') {
-        return 2; // Red for lowercase letters
-    } else if ('A' <= c && c <= 'Z') {
-        return 3; // Green for uppercase letters
-    } else if ('0' <= c && c <= '9') {
-        return 4; // Blue for digits
-    } else if (c == ' ') {
-        return 0; // White for spaces
-    } else {
-        return 1; // Black for everything else
-    }
+    if (c == 'I') return Xwindow::Cyan;       // 4
+    else if (c == 'O') return Xwindow::Yellow; // 5
+    else if (c == 'L') return Xwindow::Orange; // 8
+    else if (c == 'J') return Xwindow::Blue;   // 7
+    else if (c == 'T') return Xwindow::Purple; // 6
+    else if (c == 'S') return Xwindow::Green;  // 3
+    else if (c == 'Z') return Xwindow::Red;    // 2
+    else if (c == '*') return Xwindow::Brown;   // 9
+    return Xwindow::White; // Default to white if none match
 }
 
 
@@ -95,117 +136,3 @@ void GraphicsObserver::printTopBoundary() {
     window.drawString(colStart1, rowStart - 20, "Top Boundary");
 }
 
-
-// void TextObserver::notify(int id) {
-//     out << endl;
-
-//     // High Score 
-//     out << "High Score:     " << highScore << endl;
-
-//     int scoreP1 = subject1->getScore();
-//     int levelP1 = subject1->getLevel();
-//     int scoreP2 = subject2->getScore();
-//     int levelP2 = subject2->getLevel();
-
-//     // level
-//     out << "Level:    " << subject1->getLevel();
-
-//     printSeparation(); // reserve three extra rows
-
-//     out << "Level:    " << subject2->getLevel() << endl;
-
-//     // score
-//     out << "Score:    " << scoreP1;
-    
-
-//     printSeparation(); // reserve three extra rows
-
-//     out << "Score:    " << scoreP2 << endl;
-
-
-//     // top margin for player1
-//     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
-
-//     // seperate
-//     printSeparation(); // reserve three extra rows
-
-//     // top margin for player1
-//     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
-
-//     cout << endl;
-//     // board
-//         for (int i = 0; i < height; ++i) {
-
-//             // when blind is active cover row 3 to 12 column 3 to 9
-//             if ( 3 + 2 <= i && i <= 11 + 3 ) {
-//                 for (int j = 0; j < width; ++j) {
-//                     if (id == 1 && 2 <= j && j <= 8) {
-//                         out << '?';
-//                         continue;
-//                     }
-//                     out << subject1->getState(i, j); // retrieved from GameDisplay 
-//                 }
-
-//                 // seperate
-//                 printSeparation(); // reserve three extra rows
-
-//                 // plaer2 board
-//                 for (int j = 0; j < width; ++j) {
-//                     if (id == 2  && 2 <= j && j <= 8) {
-//                         out << '?';
-//                         continue;
-//                     }
-//                     out << subject2->getState(i, j); // retrieved from GameDisplay 
-//                 }
-//                 out << endl;
-//                 continue;
-//             }
-//             // plaer1 board
-//             for (int j = 0; j < width; ++j) {
-//                 out << subject1->getState(i, j); // retrieved from GameDisplay 
-//             }
-
-//             // seperate
-//             printSeparation(); // reserve three extra rows
-
-
-//             // plaer2 board
-//             for (int j = 0; j < width; ++j) {
-//                 out << subject2->getState(i, j); // retrieved from GameDisplay 
-//             }
-//             out << endl;
-//         }
-
-//     // bottom margin for player1
-//     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
-
-//     // seperate
-//     printSeparation(); // reserve three extra rows
-
-//     // bottom margin for player2
-//     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows
-    
-//     out << endl;
-    
-//     out << "Next:      "; 
-
-//     printSeparation(); // reserve three extra rows
-
-//     out << "Next:      " << endl;
-
-
-//     // Printing the next block dock
-//     for (int i = 0; i < nextBlockDock; ++i) {
-//         for (int j = 0; j < width; ++j) {
-//             out << subject1->getState(i + height, j); // retrieved from GameDisplay
-//         }
-//         for (int i = 0; i < SEPARATE; i++) out << " ";
-//         for (int j = 0; j < width; ++j) {
-//             out << subject2->getState(i + height, j); // retrieved from GameDisplay
-//         }
-//         out << endl;
-//     }
-//     out << endl << endl;
-//     // where is generateNextBlock() called?  
-//     // should there be a nextBlock field? 
-// }

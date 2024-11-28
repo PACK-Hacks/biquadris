@@ -55,7 +55,7 @@ class Player {
     public:
     Player(int id, bool text, int seed, string scriptfile, int startLevel);
 
-    string runTurn(string special, TextObserver &to);
+    string runTurn(string special, Observer &to);
 
     bool getLost();
 
