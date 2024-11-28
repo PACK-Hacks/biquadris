@@ -40,11 +40,10 @@ class Display: public Subject {
     vector<unique_ptr<Level>> levels; // something
     int levelIndex;
     Level *level;
+
     string blockFileString;
     ifstream blockFile;
     ifstream f{"file.txt"};
-    
-    
 
     void clear(int bottomRowToScan, int numRowstoScan);
     bool operationIsValid(int changeInX, int changeInY);

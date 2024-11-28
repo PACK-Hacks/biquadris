@@ -12,6 +12,8 @@ blockFile{blockFileString} {
     levels.emplace_back(make_unique<Level4>(blockFile, blockFileString, f, file_name));
 
     level = levels[levelIndex].get();
+    // level = std::move(levels[levelIndex]);
+
 };
 
 Display::~Display() {
@@ -22,6 +24,11 @@ bool Display::getSpecial() {
 }
 void Display::setSpecial(bool sp) {
     special = sp;
+}
+
+// Gets the score of the display
+int Display::getScore() {
+    return score;
 }
 
 
@@ -37,10 +44,6 @@ char Display::getState(int row, int col) const {
     return ' ';
 }
 
-// Gets the score of the display
-int Display::getScore() {
-    return score;
-}
 
 // Gets the level of the Display
 int Display::getLevel() {
@@ -62,7 +65,7 @@ bool Display::needDummy() {
 
 // Sets the heavy field
 void Display::setHeavy(bool heavy) {
-    heavy = heavy;
+    specialHeavy = heavy;
 }
 
 // Sets the blind field
@@ -100,31 +103,33 @@ void Display::setNextBlock() {
     }
 }
 
-// // Level up, returns true if successful, false otherwise
-// bool Display::levelUp() {
-//     // Return false if the user is already at the max level
-//     if (levelIndex == MAXLEVEL) {
-//         return false;
-//     }
+// Level up, returns true if successful, false otherwise
+bool Display::levelUp() {
+    // Return false if the user is already at the max level
+    if (levelIndex == MAXLEVEL) {
+        return false;
+    }
 
-//     // Otherwise, update the level accordingly
-//     levelIndex++;
-//     level = levels[levelIndex];
-//     return true;
-// }
+    // Otherwise, update the level accordingly
+    levelIndex++;
+    level = levels[levelIndex].get();
 
-// // Level down, returns true if successful, false otherwise
-// bool Display::levelDown() {
-//     // Return false if the user is already at the min level
-//     if (levelIndex == MINLEVEL) {
-//         return false;
-//     }
 
-//     // Otherwise, update the level accordingly
-//     levelIndex--;
-//     level = levels[levelIndex];
-//     return true;
-// }
+    return true;
+}
+
+// Level down, returns true if successful, false otherwise
+bool Display::levelDown() {
+    // Return false if the user is already at the min level
+    if (levelIndex == MINLEVEL) {
+        return false;
+    }
+
+    // Otherwise, update the level accordingly
+    levelIndex--;
+    level = levels[levelIndex].get();
+    return true;
+}
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool Display::moveNextToCurrent() {
@@ -301,6 +306,7 @@ bool Display::right(int n) {
 
     // If there is a special heavy, the block will be shifted by two
     if (specialHeavy) {
+        cout << "Charlie 2" << endl;
         heavy = SPECIAL_HEAVY_DROP;
     }
 

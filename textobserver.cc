@@ -31,16 +31,12 @@ void TextObserver::notify(int id) {
     // High Score 
     out << "High Score:     " << highScore << endl;
 
-    int scoreP1 = subject1->getScore();
-    int levelP1 = subject1->getLevel();
-    int scoreP2 = subject2->getScore();
-    int levelP2 = subject2->getLevel();
-
-    out << "Level:    " << levelP1;
+    // level
+    out << "Level:    " << subject1->getLevel();
 
     printSeparation(); // reserve three extra rows
 
-    out << "Level:    " << levelP2 << endl;
+    out << "Level:    " << subject2->getLevel() << endl;
 
     // score
     out << "Score:    " << scoreP1;
