@@ -55,6 +55,12 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+    bool text = false;
+    int seed = 0;
+    string scriptfile1 = "blank.txt";
+    string scriptfile2 = "blank.txt";
+    int startlevel = 0;
+
     for (int i = 1; i < argc; i++) {
         string arg = argv[i];
         if (arg == "-text") {
