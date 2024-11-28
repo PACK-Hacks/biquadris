@@ -1,21 +1,12 @@
 #include "textobserver.h"
-#include "subject.h"
-#include "display.h"
 
 // 0 = 0 = 0; botoom = HEIGHT; width = WIDTH
-TextObserver::TextObserver(Display* subject1, Display* subject2) 
+TextObserver::TextObserver(GameDisplay* subject1, GameDisplay* subject2) 
     :subject1{subject1}, subject2{subject2}, numReserveRows{subject1->getNumReserveRows()}, nextBlockDock{subject1->getNextBlockDock()},
     width{subject1->getWidth()}, height{subject1->getHeight()} {
         subject1->attach(this);
         subject2->attach(this);
 }
-
-
-// top = left = 0; botoom = HEIGHT; right = WIDTH
-// TextObserver::TextObserver(Display* subject, int top, int bottom, int left, int right) 
-//     :subject{subject}, top{top}, bottom{bottom}, left{left}, right{right} {
-//         subject->attach(this);
-// }
 
 int highScore = 100;
 int scoreP1 = 0;
@@ -106,24 +97,6 @@ void TextObserver::notify(int id) {
             }
             out << endl;
         }
-
-        // for (int i = 0; i < height; ++i) {
-
-        //     // plaer1 board
-        //     for (int j = 0; j < width; ++j) {
-        //         out << subject1->getState(i, j); // retrieved from Display 
-        //     }
-
-        //     // seperate
-        //     printSeparation(); // reserve three extra rows
-
-
-        //     // plaer2 board
-        //     for (int j = 0; j < width; ++j) {
-        //         out << subject2->getState(i, j); // retrieved from Display 
-        //     }
-        //     out << endl;
-        // }
 
     // bottom margin for player1
     for (int i = 0; i < width; ++i) out << '-'; // reserve three extra rows

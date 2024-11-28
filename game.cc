@@ -1,5 +1,5 @@
 #include <memory>
-#include "display.h"
+#include "GameDisplay.h"
 #include <string>
 #include "game.h"
 #include <sstream>
@@ -12,7 +12,7 @@ using namespace std;
 
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{text, seed, scriptfile1, startlevel}, p2{text, seed, scriptfile2, startlevel}, 
-to{p1.getDisplay(), p2.getDisplay()} {}
+to{p1.getGameDisplay(), p2.getGameDisplay()} {}
 // Remember to construct players with next block in player constructor
 
 string Game::runGame() {

@@ -1,4 +1,4 @@
-#include "display.h"
+#include "GameDisplay.h"
 #include <fstream>
 #include "textobserver.h"
 #include <memory>

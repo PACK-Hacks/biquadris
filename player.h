@@ -2,7 +2,7 @@
 #define __PLAYER__
 
 #include <memory>
-#include "display.h"
+#include "GameDisplay.h"
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -18,7 +18,7 @@ class Player {
     int seed;
     string scriptfile;
     int startLevel;
-    Display display;
+    GameDisplay gameDisplay;
     istream *in = &cin;
     ifstream sequenceStream;
 
@@ -57,7 +57,7 @@ class Player {
 
     bool getLost();
 
-    Display *getDisplay();
+    GameDisplay *getGameDisplay();
 
 };
 

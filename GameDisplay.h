@@ -1,5 +1,5 @@
-#ifndef __DISPLAY__
-#define __DISPLAY__
+#ifndef __GameDisplay_H__
+#define __GameDisplay_H__
 #include <vector>
 #include <fstream>
 #include <string>
@@ -10,10 +10,12 @@
 #include "block.h"
 #include "cell.h"
 #include "subject.h"
+#include "window.h"
+
 
 using namespace std;
 
-class Display: public Subject {
+class GameDisplay: public Subject {
     const int NUM_RESERVE_ROWS = 3;
     const int NEXT_BLOCK_DOCK = 4;
     const int HEIGHT = 18;          // height includes the 15 rows of the board and 3 reserve rows
@@ -53,8 +55,8 @@ class Display: public Subject {
     bool special = false;
 
     public:
-        Display(int levelIndex, string blockFileString);
-        ~Display();
+        GameDisplay(int levelIndex, string blockFileString);
+        ~GameDisplay();
 
         char getState(int row, int col) const override;
         int getScore();
