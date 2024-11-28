@@ -88,9 +88,18 @@ void GameDisplay::dropDummyCell() {
 
     // Populate it with a dummy cell
     board[destY][centerX] = make_shared<Cell>('*', centerX, destY);
+    board[destY][centerX]->place();
 
     // Clear the row if needed
     clear(destY, 1);
+
+    // If there are any cells on the lid (row right below reserve rows) set lost to true
+    for (int i = 0; i < WIDTH; ++i) {
+        if (board[NUM_RESERVE_ROWS][i]) {
+            lost = true;
+            break;
+        }
+    }
 }
 
 // Sets nextBlock on the next block dock
@@ -492,7 +501,7 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
                 // cout << "X: " << board[i][j]->getX() << ", Y: " << board[i][j]->getY() << endl;
                 // Kill the cells on the row and replace them with nullptr
                 board[i][j]->kill();
-                board[i][j] == nullptr;
+                board[i][j] = nullptr;
             }
 
             // Shift every cell in the rows above down by one
