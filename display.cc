@@ -306,7 +306,6 @@ bool Display::right(int n) {
 
     // If there is a special heavy, the block will be shifted by two
     if (specialHeavy) {
-        cout << "Charlie 2" << endl;
         heavy = SPECIAL_HEAVY_DROP;
     }
 
@@ -380,18 +379,23 @@ bool Display::drop() {
 }
 
 
-bool Display::clockwise() {
+bool Display::clockwise(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
     int heavy = currentBlock->isHeavy();
 
-    currentBlock->clockwise();
+    for (int i = 0; i < n; i++) {
+        currentBlock->clockwise();
+    }
+    
 
 
     // invalid
     if (!validPos()) {
-        currentBlock->counterClockwise();
+        for (int i = 0; i < n; i++) {
+            currentBlock->counterClockwise();
+        }
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;
@@ -413,17 +417,21 @@ bool Display::clockwise() {
     return false;
 }
 
-bool Display::counterClockwise() {
+bool Display::counterClockwise(int n) {
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
     int heavy = currentBlock->isHeavy();
 
-    currentBlock->counterClockwise();
+    for (int i = 0; i < n; i++) {
+        currentBlock->counterClockwise();
+    }
 
     // invalid
     if (!validPos()) {
-        currentBlock->clockwise();
+        for (int i = 0; i < n; i++) {
+            currentBlock->clockwise();
+        }
         // Insert currentBlock on board
         insertCurrentBlock();
         return false;

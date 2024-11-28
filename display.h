@@ -91,8 +91,8 @@ class Display: public Subject {
         bool right(int n=1);
         bool down(int n=1);
         bool drop();
-        bool clockwise();
-        bool counterClockwise();
+        bool clockwise(int n=1);
+        bool counterClockwise(int n=1);
         
 
         // development functions

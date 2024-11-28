@@ -35,10 +35,20 @@ class Player {
     string sequence = "sequence";
     string restart = "restart";
     vector<char> blocks;
+    vector<string> commands = {
+    left, right, down, drop, clockwise, counterclockwise,
+    levelup, leveldown, norandom, random, sequence, restart,
+    "I", "J", "L", "S", "O", "Z", "T"
+    };
 
     char string_to_char(string s);
 
     bool find_block(char b);
+
+    string getUnique(string s);
+
+    pair<int, string> parseCommand(const string &input);
+
 
     public:
     Player(bool text, int seed, string scriptfile, int startLevel);

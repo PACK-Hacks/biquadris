@@ -5,6 +5,9 @@
 #include <iostream>
 #include "player.h"
 #include "textobserver.h"
+#include <utility>
+#include <cctype>
+
 using namespace std;
 
 
@@ -39,6 +42,54 @@ bool Player::find_block(char b) { // Could be more efficient?
     return false;
 }
 
+string Player::getUnique(string s) {
+
+
+    vector<string> matches;
+
+    for (const auto &command : commands) {
+        if (command.find(s) == 0) { // Checks if 's' is a prefix of 'cmd', not case sensitive
+            matches.push_back(command);
+        }
+
+    }
+
+    if (matches.size() == 1){
+        return matches[0];
+    }
+
+    return "monkeys";
+
+}
+
+pair<int, string> Player::parseCommand(const string &input) {
+    int num_len = 0;
+    int multiplier;
+    int start = 0;
+    int len = input.length();
+    int pos = 0;
+
+    if (isdigit(input[start])) {
+        istringstream iss{input};
+        iss >> multiplier;
+    }
+
+    while (pos < input.size() && isdigit(input[pos])) {
+        pos++;
+    }
+
+    if (pos == 0) multiplier = 1;
+
+    string command = getUnique(input.substr(pos));
+
+
+    return make_pair(multiplier, command);
+
+
+
+
+}
+
 string Player::runTurn(string special, TextObserver &to) {
 
     bool status = display.moveNextToCurrent(); // Assume moves it onto the board
@@ -59,7 +110,6 @@ string Player::runTurn(string special, TextObserver &to) {
         string curr_special;
         while (iss >> curr_special) {
             if (curr_special == "heavy") {
-                cout << "Charlieeeee" << endl;
                 display.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
                 display.setBlind();
@@ -93,22 +143,27 @@ string Player::runTurn(string special, TextObserver &to) {
                 // If reading from cin fails, perhaps due to EOF, terminate the turn
                 break;
             }
-        }
+        } 
+        
+        pair<int, string> p = parseCommand(command);
+
+        command = p.second;
+        int multiplier = p.first;
 
         if (command == left) {
-            endTurn = display.left();
+            endTurn = display.left(multiplier);
             to.notify();
         } else if (command == right) {
-            endTurn = display.right();
+            endTurn = display.right(multiplier);
             to.notify();
         } else if (command == down) {
-            endTurn = display.down();
+            endTurn = display.down(multiplier);
             to.notify();
         } else if (command == clockwise) {
-            endTurn = display.clockwise();
+            endTurn = display.clockwise(multiplier);
             to.notify();
         } else if (command == counterclockwise) {
-            endTurn = display.counterClockwise();
+            endTurn = display.counterClockwise(multiplier);
             to.notify();
         } else if (command == drop) {
             endTurn = display.drop();
@@ -134,13 +189,14 @@ string Player::runTurn(string special, TextObserver &to) {
                 in = &cin;
             }
             *in >> file_name;
-             // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
+            // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
             display.norandom(file_name);
         } else if (command == random) {
             // display.random();
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
-            display.setCurrentBlock(c); 
+            display.setCurrentBlock(c);
+            to.notify();
         } else if (command == restart) {
             return "restart";
         } else if (command == sequence) {
@@ -155,8 +211,8 @@ string Player::runTurn(string special, TextObserver &to) {
         } else {
             cout << "Please enter a valid command" << endl;
         }
-
     }
+
     if (display.needDummy()) display.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
