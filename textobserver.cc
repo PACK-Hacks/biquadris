@@ -8,9 +8,6 @@ TextObserver::TextObserver(GameDisplay* subject1, GameDisplay* subject2)
         subject2->attach(this);
 }
 
-int highScore = 100;
-int scoreP1 = 0;
-int scoreP2 = 0;
 
 // Print separation
 void TextObserver::printSeparation() {
@@ -47,13 +44,27 @@ void TextObserver::notify(string message, int id) {
         out << message << endl << endl;
     }
 
-    // High Score 
-    out << "High Score:     " << highScore << endl;
 
     int scoreP1 = subject1->getScore();
+    int highScore1 = subject1->getHighScore();
     int levelP1 = subject1->getLevel();
     int scoreP2 = subject2->getScore();
+    int highScore2 = subject2->getHighScore();
     int levelP2 = subject2->getLevel();
+
+    out << "High       ";
+
+    printSeparation();
+    
+    out << "High       " << endl;
+
+    // High Score 
+    out << "Score:" << scoreFormating(highScore1);
+
+    printSeparation();
+
+    // High Score 
+    out << "Score:" << scoreFormating(highScore2) << endl;
 
     // level
     out << "Level:    " << subject1->getLevel();

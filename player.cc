@@ -14,6 +14,8 @@ using namespace std;
 
 Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
     id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
+Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
+    id{id}, highScore{0}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
         gameDisplay.generateNextBlock();
         srand(seed);
@@ -103,6 +105,10 @@ string Player::runTurn(string special, TextObserver &to) {
 
     gameDisplay.generateNextBlock();
 
+    
+
+    int blind_status = 0;
+
     if (special != "") { // Check for specials
         istringstream iss{special};
         string curr_special;
@@ -110,7 +116,7 @@ string Player::runTurn(string special, TextObserver &to) {
             if (curr_special == "heavy") {
                 gameDisplay.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
-                gameDisplay.setBlind();
+                blind_status = id;
             } else if (curr_special == "force") {
                 char c;
                 iss >> c;
@@ -119,7 +125,7 @@ string Player::runTurn(string special, TextObserver &to) {
         }
     }
     
-    to.notify("Player " + std::to_string(id) + "'s turn:");
+    to.notify("Player " + std::to_string(id) + "'s turn:", blind_status);
     
     bool endTurn = false;
 
@@ -151,22 +157,22 @@ string Player::runTurn(string special, TextObserver &to) {
 
         if (command == left) {
             endTurn = gameDisplay.left(multiplier);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == right) {
             endTurn = gameDisplay.right(multiplier);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == down) {
             endTurn = gameDisplay.down(multiplier);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == clockwise) {
             endTurn = gameDisplay.clockwise(multiplier);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == counterclockwise) {
             endTurn = gameDisplay.counterClockwise(multiplier);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == drop) {
             endTurn = gameDisplay.drop();
-            to.notify();
+            to.notify(blind_status);
             break;
         } else if (command == levelup) {
             bool canLevelUp;
@@ -176,7 +182,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Up!" << endl;
             }
-            to.notify();
+            to.notify(blind_status);
         } else if (command == leveldown) {
             bool canLevelDown;
             canLevelDown = gameDisplay.levelDown(multiplier);
@@ -185,7 +191,7 @@ string Player::runTurn(string special, TextObserver &to) {
             } else {
                 cout << "Levelled Down!" << endl;
             }
-            to.notify();
+            to.notify(blind_status);
         } else if (command == norandom) {
             string file_name;
             if ((*in).fail()) {
@@ -201,7 +207,7 @@ string Player::runTurn(string special, TextObserver &to) {
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
             gameDisplay.setCurrentBlock(c);
-            to.notify();
+            to.notify(blind_status);
         } else if (command == restart) {
             return "restart";
         } else if (command == sequence) {
@@ -222,8 +228,7 @@ string Player::runTurn(string special, TextObserver &to) {
     // Check and set the lost field in Display to that of Player
     lost = gameDisplay.getLost();
 
-    if (gameDisplay.getScore() > highScore) highScore = gameDisplay.getScore();
-
+    
     // gameDisplay.resetSpecial();
 
     if (gameDisplay.getSpecial() == true) { // change condiiton to gameDisplay.getSpecial() == true

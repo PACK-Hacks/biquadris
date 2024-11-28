@@ -17,6 +17,7 @@ class Player {
     bool lost;
     string text;
     int seed;
+    int id;
     string scriptfile;
     int startLevel;
     GameDisplay gameDisplay;

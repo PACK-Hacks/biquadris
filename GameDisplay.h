@@ -33,7 +33,7 @@ class GameDisplay: public Subject {
     vector<unique_ptr<Block>> activePlacedBlocks;
 
     int score = 0;
-    bool blind = false;
+    int highScore = 0;
     bool specialHeavy = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
@@ -59,6 +59,8 @@ class GameDisplay: public Subject {
 
         char getState(int row, int col) const override;
         int getScore();
+        int getHighScore();
+        int setHighScore(int n);
         int getLevel();
         int getNumReserveRows();
         int getNextBlockDock();
@@ -69,7 +71,6 @@ class GameDisplay: public Subject {
 
         void setNextBlock();
         void setHeavy(bool heavy=true);
-        void setBlind(bool blind=true);
 
         void dropDummyCell();
         bool needDummy();
