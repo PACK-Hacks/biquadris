@@ -260,7 +260,7 @@ bool GameDisplay::validPos() {
         if (y < 0 || HEIGHT <= y) return false;
 
         // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
-        if (board[y][x] && board[y][x]->getRealChar() != '/') {cout << "cccccccc" << endl; return false;}
+        if (board[y][x] && board[y][x]->getRealChar() != '/') return false;
     }
     return true;
 }
@@ -390,6 +390,9 @@ bool GameDisplay::right(int n) {
 bool GameDisplay::down(int n) {
     removeCurrentBlock();
 
+    // If the block is heavy, the block will be shifted down by one unit
+    int heavy = currentBlock->isHeavy();
+
     // Cancel operation if invalid, insert currentBlock back to original position
     if (!operationIsValid(0, n)) {
         insertCurrentBlock();
@@ -398,6 +401,15 @@ bool GameDisplay::down(int n) {
 
     // Move the block down
     currentBlock->moveBlockY(n);
+
+    // If it is invalid to move the block down heavy units, drop the block and return true
+    if (!operationIsValid(0, heavy)) {
+        drop();
+        return true;
+    }
+
+    // Otherwise, move the block down heavy units
+    currentBlock->moveBlockY(heavy);
 
     // Insert currentBlock on board
     insertCurrentBlock();
