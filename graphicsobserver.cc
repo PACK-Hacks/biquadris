@@ -21,6 +21,19 @@ void GraphicsObserver::printSeparation() {
 // check message and rerender the message. 
 
 void GraphicsObserver::notify(int blind_status, string message, int activePlayer) { 
+    // // Checking for blindness
+    // bool player1Blind = blind_status == 1;
+    // bool player2Blind = blind_status == 2;
+
+    // // Check whether the display still has lingering black squares from previous blind
+    // bool player1AlreadyBlind = player1Blind && subject1->getWasBlind();
+    // bool player2AlreadyBlind = player1Blind && subject2->getWasBlind();
+
+    if (blind_status) {
+        playerWasBlind[blind_status - 1] = true;
+    }
+
+
     int xOffset = colStart2;
     int yOffset = rowStart - 30;
 
@@ -33,7 +46,7 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     // print the title, high scrore, andtop margin at the beginngin of a new game. 
     if (activePlayer == 0) {
         window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
-        window.drawString(20, 45, "P.A.C.K");
+        window.drawString(20, 45, "P.A.C.K.");
 
         window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getScore()));
         window.drawString(0, 60,"----------------------------------------------------------------------------------------------------");
@@ -174,7 +187,8 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
         // Player 1 Board
         if (activePlayer == 1 || activePlayer == 0){
             char c1 = subject1->getState(i, j);
-            int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8, i);            
+        
             window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
                                     adjustedBlockScale, adjustedBlockScale, color1);
         }
@@ -182,7 +196,7 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
         // Player 2 Board
         if (activePlayer == 2 || activePlayer == 0){
             char c2 = subject2->getState(i, j);
-            int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8, i);
             window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
                                  adjustedBlockScale, adjustedBlockScale, color2);
         }
@@ -224,7 +238,7 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
             // Player 1 Next Block
             if (activePlayer == 1 || activePlayer == 0) {
                 char c1 = subject1->getState(i + height, j);
-                int color1 = determineColor(c1, false);
+                int color1 = determineColor(c1, false, i);
                 window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
                                     adjustedBlockScale, adjustedBlockScale, color1);
             }
@@ -232,12 +246,14 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
             // Player 2 Next Block
             if (activePlayer == 2 || activePlayer == 0) {
                 char c2 = subject2->getState(i + height, j);
-                int color2 = determineColor(c2, false);
+                int color2 = determineColor(c2, false, i);
                 window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
                                     adjustedBlockScale, adjustedBlockScale, color2);
             }
         }
     }
+
+    
 }
 
 // int Graphics
@@ -250,7 +266,7 @@ void GraphicsObserver::reRenderPos() {
 
 
 
-int GraphicsObserver::determineColor(char c, bool isBlind) {
+int GraphicsObserver::determineColor(char c, bool isBlind, int y) {
     if (isBlind) {
         return Xwindow::Blind; // Blind color
     }
@@ -262,7 +278,8 @@ int GraphicsObserver::determineColor(char c, bool isBlind) {
     else if (c == 'S') return Xwindow::Green;  // 3
     else if (c == 'Z') return Xwindow::Red;    // 2
     else if (c == '*') return Xwindow::Brown;   // 9
-    return Xwindow::White; // Default to white if none match
+    else if (y < 3) return Xwindow::LightGray;   // if the cell is empty and in the reserve rows
+    return Xwindow::WhiteSmoke; // otherwise, the cell is empty and in the playable rows
 }
 
 

@@ -42,6 +42,8 @@ class GameDisplay: public Subject {
     bool specialHeavy = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
+    bool blind = false;
+    bool wasBlind = false;
 
     vector<unique_ptr<Level>> levels; // something
     int levelIndex;
@@ -85,6 +87,7 @@ class GameDisplay: public Subject {
         int getHeight();
         int getTurnsSinceClear();
         bool getLost();
+        bool getWasBlind();
         bool getSpecial();
         void setSpecial(bool sp);
 
