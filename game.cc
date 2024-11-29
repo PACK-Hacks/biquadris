@@ -13,8 +13,13 @@ using namespace std;
 // Game constructor
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, startlevel}, 
-to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {
-    go.notify();
+to{make_unique<TextObserver>(p1.getGameDisplay(), p2.getGameDisplay())}, go{nullptr}, text{text} {
+    // render graphics if not in text only mode
+    if (!text) {
+        go = make_unique<GraphicsObserver>(p1.getGameDisplay(), p2.getGameDisplay());
+        go->notify();
+    }
+    cout << text << endl;
 }
 // Remember to construct players with next block in player constructor
 
@@ -35,7 +40,7 @@ void Game::runGame() {
         }
         // If Player 1's still alive, run their turn
         else {
-            special = p1.runTurn(special, to, go);
+            special = p1.runTurn(special, to.get(), go.get());
             // Restart if Player 1 commands so
             if (special == "restart") {
                 restart();
@@ -49,7 +54,7 @@ void Game::runGame() {
         }
         // If Player 2's still alive, run their turn
         else {
-            special = p2.runTurn(special, to, go);
+            special = p2.runTurn(special, to.get(), go.get());
             // Restart if Player 1 commands so
             if (special == "restart") {
                 restart();
@@ -86,7 +91,10 @@ void Game::restart() {
     p1.reset();
     p1.getGameDisplay()->moveNextToCurrent();
     p1.getGameDisplay()->generateNextBlock();
-    go.notify();
+    
+    if (!text) {
+        go->notify();
+    }
     p2.reset();
 }
 

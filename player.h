@@ -16,7 +16,7 @@ class Player {
     int blind_status = 0;
     int id;
     bool lost;
-    string text;
+    bool text;
     int seed;
     string scriptfile;
     int startLevel;
@@ -52,17 +52,19 @@ class Player {
 
     pair<int, string> parseCommand(const string &input);
 
+    void renderGraphics(GraphicsObserver *go, int blind=0, string message="", int id=0);
+
 
     public:
-    Player(int id, bool text, int seed, string scriptfile, int startLevel);
+        Player(int id, bool text, int seed, string scriptfile, int startLevel);
 
-    string runTurn(string special, TextObserver &to, GraphicsObserver &go);
+        string runTurn(string special, TextObserver *to, GraphicsObserver *go);
 
-    bool getLost();
+        bool getLost();
 
-    GameDisplay *getGameDisplay();
+        GameDisplay *getGameDisplay();
 
-    void reset();
+        void reset();
 
 };
 

@@ -93,7 +93,15 @@ pair<int, string> Player::parseCommand(const string &input) {
 
 }
 
-string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
+
+void Player::renderGraphics(GraphicsObserver *go, int blind, string message, int id) {
+    // render the graphics if not in text only mode
+    if (!text) {
+        go->notify(blind, message, id);
+    }
+}
+
+string Player::runTurn(string special, TextObserver *to, GraphicsObserver *go) {
 
     bool status = gameDisplay.moveNextToCurrent(); 
 
@@ -119,8 +127,8 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
     }
 
     // Create player's initial board state
-    to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
-    go.notify(blind_status, "", id);
+    to->notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
+    renderGraphics(go, blind_status, "", id);
 
     bool endTurn = false;
 
@@ -132,9 +140,43 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
     if (numDrops > 0) {
         gameDisplay.drop();
         numDrops--;
-        to.notify(blind_status);
-        go.notify(blind_status, "", id);
-    } else {
+        to->notify(blind_status);
+        renderGraphics(go, blind_status, "", id);
+
+        if (gameDisplay.getSpecial() == true) { // Check if user attained a special
+        // Return the special that the user has attained
+            gameDisplay.setSpecial(false); 
+            
+            cout << "You have earned a special!" << endl;
+            cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
+            string s;
+            cin >> s;
+            while (s != "heavy" && s != "force" && s != "blind") {
+                cout << "There is no such special!" << endl;
+                cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
+                cin >> s;
+            }
+            if (s == "force") {
+                cout << "Which block would you like to force on your opponent? (I, J, L, O, S, Z, T)?" << endl;
+                char b;
+                cin >> b;
+                while (!find_block(b)) {
+                    cout << "Incorrect input! Enter a valid block (I, J, L, O, S, Z, T)." << endl;
+                    cin >> b;
+                }
+                string b_string{b};
+                cout << "Your turn is now over" << endl;
+                return s + " " + b_string;
+            }
+            cout << "Your turn is now over" << endl;
+            return s;
+        } else {
+            cout << "Your turn is now over" << endl;
+            return "";
+        }
+    } 
+    // Otherwise, read the command from the istream
+    else {
         while(!endTurn) {    
             
             if (!(*in >> command)) { 
@@ -160,31 +202,30 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
             // Decipher user command
             if (command == left) {
                 endTurn = gameDisplay.left(multiplier);
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == right) {
                 endTurn = gameDisplay.right(multiplier);
-                
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == down) {
                 endTurn = gameDisplay.down(multiplier);
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == clockwise) {
                 endTurn = gameDisplay.clockwise(multiplier);
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == counterclockwise) {
                 endTurn = gameDisplay.counterClockwise(multiplier);
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == drop) {
                 numDrops = multiplier - 1;
                 if (multiplier >= 1) {
                     gameDisplay.drop();
-                    to.notify();
-                    go.notify(blind_status, "", id);
+                    to->notify();
+                    renderGraphics(go, blind_status, "", id);
                     break;
                 }
                 
@@ -194,8 +235,8 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                 if (canLevelUp == false) {
                     cout << "You cannot level up! You are already at the max level!" << endl;
                 } else {
-                    to.notify(blind_status, "Levelled Up!");
-                    go.notify(blind_status, "Levelled Up!", id);
+                    to->notify(blind_status, "Levelled Up!");
+                    renderGraphics(go, blind_status, "Levelled Up!", id);
                 }
             } else if (command == leveldown) {
                 bool canLevelDown;
@@ -203,8 +244,8 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                 if (canLevelDown == false) {
                     cout << "You cannot level down! You are already at the lowest level!" << endl;
                 } else {
-                    to.notify(blind_status, "Levelled Down!");
-                    go.notify(blind_status, "Levelled Down!", id);
+                    to->notify(blind_status, "Levelled Down!");
+                    renderGraphics(go, blind_status, "Levelled Down!", id);
                 }
             } else if (command == norandom) {
                 string file_name;
@@ -223,8 +264,8 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
             } else if (command.length() == 1 && find_block(string_to_char(command))) { // Change current block to specified block by I, J, T, etc.
                 char c = string_to_char(command);
                 gameDisplay.setCurrentBlock(c);
-                to.notify(blind_status);
-                go.notify(blind_status, "", id);
+                to->notify(blind_status);
+                renderGraphics(go, blind_status, "", id);
             } else if (command == restart) {
                 cout << "Restarting the game!" << endl;
                 return "restart";
