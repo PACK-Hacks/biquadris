@@ -33,11 +33,17 @@ class GraphicsObserver : public Observer {
     void printSeparation();
     void printTopBoundary();
 
-    int highScore = 0;
+    int highScore1 = 0;
+    int highScore2 = 0;
+    int score1 = 0;
+    int score2 = 0;
+    int lvl1 = 0;
+    int lvl2 = 0;
+
 public:
     GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2);
     void notify(int blind_status = 0, string message  = " ", int activePlayer = 0) override;
-
+    void setScore();
     // requested with render command
     // ~TextObserver() override;
 };
