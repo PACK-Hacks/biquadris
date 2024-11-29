@@ -130,98 +130,108 @@ string Player::runTurn(string special, TextObserver &to) {
 
     string command;
 
+    if (numDrops > 0) {
+        gameDisplay.drop();
+        numDrops--;
+        to.notify(blind_status);
+    } else {
+        while(!endTurn) {     // fstream >> command
 
-    while(!endTurn) {     // fstream >> command
+            if (!(*in >> command)) {
+                if (in == &sequenceStream) {
+                    // Sequence file exhausted; switch back to cin
+                    sequenceStream.clear();      // Clear EOF flag
+                    sequenceStream.ignore();
+                    in = &cin;
+                    cout << "Sequence file exhausted. Switching back to standard input." << endl;
+                    continue; // Continue the loop to read from cin
+                } else {
+                    // If reading from cin fails, perhaps due to EOF, terminate the turn
+                    break;
+                }
+            } 
+            
+            pair<int, string> p = parseCommand(command);
 
-        if (!(*in >> command)) {
-            if (in == &sequenceStream) {
-                // Sequence file exhausted; switch back to cin
-                sequenceStream.clear();      // Clear EOF flag
-                sequenceStream.ignore();
-                in = &cin;
-                cout << "Sequence file exhausted. Switching back to standard input." << endl;
-                continue; // Continue the loop to read from cin
+            command = p.second;
+            int multiplier = p.first;
+
+            if (command == left) {
+                endTurn = gameDisplay.left(multiplier);
+                to.notify(blind_status);
+            } else if (command == right) {
+                endTurn = gameDisplay.right(multiplier);
+                to.notify(blind_status);
+            } else if (command == down) {
+                endTurn = gameDisplay.down(multiplier);
+                to.notify(blind_status);
+            } else if (command == clockwise) {
+                endTurn = gameDisplay.clockwise(multiplier);
+                to.notify(blind_status);
+            } else if (command == counterclockwise) {
+                endTurn = gameDisplay.counterClockwise(multiplier);
+                to.notify(blind_status);
+            } else if (command == drop) {
+                numDrops = multiplier - 1;
+                if (multiplier >= 1) {
+                    gameDisplay.drop();
+                    to.notify();
+                    break;
+                }
+                
+            } else if (command == levelup) {
+                bool canLevelUp;
+                canLevelUp = gameDisplay.levelUp(multiplier);
+                if (canLevelUp == false) {
+                    cout << "You cannot level up! You are already at the max level!" << endl;
+                } else {
+                    to.notify(blind_status, "Levelled Up!");
+                }
+            } else if (command == leveldown) {
+                bool canLevelDown;
+                canLevelDown = gameDisplay.levelDown(multiplier);
+                if (canLevelDown == false) {
+                    cout << "You cannot level down! You are already at the lowest level!" << endl;
+                } else {
+                    to.notify(blind_status, "Levelled Down!");
+                }
+            } else if (command == norandom) {
+                string file_name;
+                if ((*in).fail()) {
+                    (*in).clear();
+                    (*in).ignore();
+                    in = &cin;
+                }
+                *in >> file_name;
+                // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
+                gameDisplay.norandom(file_name);
+                cout << "Switched to reading blocks from " + file_name << endl;
+            } else if (command == random) {
+                gameDisplay.random();
+                cout << "Switched to random block generation" << endl;
+            } else if (command.length() == 1 && find_block(string_to_char(command))) {
+                char c = string_to_char(command);
+                gameDisplay.setCurrentBlock(c);
+                to.notify(blind_status);
+            } else if (command == restart) {
+                cout << "Restarting the game!" << endl;
+                return "restart";
+            } else if (command == sequence) {
+                if ((*in).fail()) {
+                    (*in).clear();
+                    (*in).ignore();
+                    in = &cin;
+                }
+                *in >> command;
+                sequenceStream = ifstream{command};
+                in = &sequenceStream;
+                cout << "Switched to reading commands from " + command << endl;
             } else {
-                // If reading from cin fails, perhaps due to EOF, terminate the turn
-                break;
+                cout << "Please enter a valid command" << endl;
             }
-        } 
-        
-        pair<int, string> p = parseCommand(command);
-
-        command = p.second;
-        int multiplier = p.first;
-
-        if (command == left) {
-            endTurn = gameDisplay.left(multiplier);
-            to.notify(blind_status);
-        } else if (command == right) {
-            endTurn = gameDisplay.right(multiplier);
-            to.notify(blind_status);
-        } else if (command == down) {
-            endTurn = gameDisplay.down(multiplier);
-            to.notify(blind_status);
-        } else if (command == clockwise) {
-            endTurn = gameDisplay.clockwise(multiplier);
-            to.notify(blind_status);
-        } else if (command == counterclockwise) {
-            endTurn = gameDisplay.counterClockwise(multiplier);
-            to.notify(blind_status);
-        } else if (command == drop) {
-            endTurn = gameDisplay.drop();
-            to.notify(blind_status);
-            break;
-        } else if (command == levelup) {
-            bool canLevelUp;
-            canLevelUp = gameDisplay.levelUp(multiplier);
-            if (canLevelUp == false) {
-                cout << "You cannot level up! You are already at the max level!" << endl;
-            } else {
-                to.notify(blind_status, "Levelled Up!");
-            }
-        } else if (command == leveldown) {
-            bool canLevelDown;
-            canLevelDown = gameDisplay.levelDown(multiplier);
-            if (canLevelDown == false) {
-                cout << "You cannot level down! You are already at the lowest level!" << endl;
-            } else {
-                to.notify(blind_status, "Levelled Down!");
-            }
-        } else if (command == norandom) {
-            string file_name;
-            if ((*in).fail()) {
-                (*in).clear();
-                (*in).ignore();
-                in = &cin;
-            }
-            *in >> file_name;
-             // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
-            gameDisplay.norandom(file_name);
-            cout << "Switched to reading blocks from " + file_name << endl;
-        } else if (command == random) {
-            gameDisplay.random();
-            cout << "Switched to random block generation" << endl;
-        } else if (command.length() == 1 && find_block(string_to_char(command))) {
-            char c = string_to_char(command);
-            gameDisplay.setCurrentBlock(c);
-            to.notify(blind_status);
-        } else if (command == restart) {
-            cout << "Restarting the game!" << endl;
-            return "restart";
-        } else if (command == sequence) {
-            if ((*in).fail()) {
-                (*in).clear();
-                (*in).ignore();
-                in = &cin;
-            }
-            *in >> command;
-            sequenceStream = ifstream{command};
-            in = &sequenceStream;
-            cout << "Switched to reading commands from " + command << endl;
-        } else {
-            cout << "Please enter a valid command" << endl;
         }
     }
+    
     
     if (gameDisplay.needDummy()) gameDisplay.dropDummyCell();
 

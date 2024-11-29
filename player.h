@@ -22,6 +22,7 @@ class Player {
     GameDisplay gameDisplay;
     istream *in = &cin;
     ifstream sequenceStream;
+    int numDrops = 0;
 
     string left = "left"; // Extension, allow users to change command values
     string right = "right";
