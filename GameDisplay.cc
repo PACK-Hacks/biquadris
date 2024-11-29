@@ -352,7 +352,6 @@ bool GameDisplay::left(int n) {
 
 // Move the currentBlock to the right n units. Return true if operation places block and false otherwise
 bool GameDisplay::right(int n) {
-    addCurrBlockCells();
     removeCurrentBlock();
 
 
@@ -385,7 +384,6 @@ bool GameDisplay::right(int n) {
     // Otherwise, move the block down heavy units
     currentBlock->moveBlockY(heavy);
 
-    addCurrBlockCells();
     // Insert currentBlock on board
     insertCurrentBlock();
     
