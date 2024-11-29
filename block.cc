@@ -119,7 +119,6 @@ ZBlock::ZBlock(bool heavy, int level) : Block{heavy, 3, level,
 
 // clockwise - returns vector<shared_ptr<Cell>>  of the changed block. 
 void Block::clockwise() {
-    // std::cout << "Bottom Left Coor: ()" << bottomLeftX << ", " << bottomLeftY << ")" <<;
     // Track the how far down the rotation leaves the cell
     // by tracking the downmost value of the resulting cells
     // these will be used as offsets to translate the cells 

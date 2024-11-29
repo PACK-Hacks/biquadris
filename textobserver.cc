@@ -200,8 +200,7 @@ void TextObserver::notify(int id, std::string message) {
         out << endl;
     }
     out << endl << endl;
-    // where is generateNextBlock() called?  
-    // should there be a nextBlock field? 
+
 }
 
 

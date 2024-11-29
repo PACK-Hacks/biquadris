@@ -55,13 +55,20 @@ class GameDisplay: public Subject {
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();
 
-    void addCurrBlockCells();
 
     bool special = false;
 
+    void insertCurrentBlock();
+    void removeCurrentBlock();
+    void place();
+
+
+
+
+    void forceBlock();
+
     public:
         GameDisplay(int levelIndex, string blockFileString);
-        ~GameDisplay();
 
         char getState(int row, int col) const override;
         int getScore();
@@ -73,6 +80,8 @@ class GameDisplay: public Subject {
         int getHeight();
         int getTurnsSinceClear();
         bool getLost();
+        bool getSpecial();
+        void setSpecial(bool sp);
 
         // void setNextBlock();
         void setHeavy(bool heavy=true);
@@ -109,20 +118,8 @@ class GameDisplay: public Subject {
         bool counterClockwise(int n=1);
         
 
-        // development functions
-        void print();
-    
-        // functions to be private
-        void insertCurrentBlock();
-        void removeCurrentBlock();
-        void place();
 
-
-        bool getSpecial();
-        void setSpecial(bool sp);
-
-        void insertBlindBlock();
-        void forceBlock();
+        
 
 };
 

@@ -1,27 +1,29 @@
 #include "GameDisplay.h"
 
-// GameDisplay::GameDisplay(int levelIndex, ifstream &blockFile) : levelIndex{levelIndex}, level{levels[levelIndex]}, blockFile{blockFile} {};
+// GameDisplay Constructor
 GameDisplay::GameDisplay(int levelIndex, string blockFileString) : levelIndex{levelIndex}, blockFileString{blockFileString},
 blockFile{blockFileString} {
     string file_name = "file.txt";
     
+    // Add all levels to a vector to make levels easily accessible
     levels.emplace_back(make_unique<Level0>(blockFile, blockFileString, f, file_name));
     levels.emplace_back(make_unique<Level1>(blockFile, blockFileString, f, file_name));
     levels.emplace_back(make_unique<Level2>(blockFile, blockFileString, f, file_name));
     levels.emplace_back(make_unique<Level3>(blockFile, blockFileString, f, file_name));
     levels.emplace_back(make_unique<Level4>(blockFile, blockFileString, f, file_name));
 
+    // Set current level
     level = levels[levelIndex].get();
-    // level = std::move(levels[levelIndex]);
+    
 
 };
 
-GameDisplay::~GameDisplay() {
-
-}
+// Get special effect
 bool GameDisplay::getSpecial() {
     return special;
 }
+
+// Set special effect status
 void GameDisplay::setSpecial(bool sp) {
     special = sp;
 }
@@ -31,6 +33,7 @@ int GameDisplay::getScore() {
     return score;
 }
 
+// Grab highscore
 int GameDisplay::getHighScore() {
     return highScore;
 }
@@ -38,31 +41,27 @@ int GameDisplay::getHighScore() {
 
 
 
-// Returns the character of the
+// Returns the character of the cell at (row,col)
 char GameDisplay::getState(int row, int col) const {
     // If there is a cell at that position on the board, return its character
     if (board[row][col]) {
         return board[row][col]->getChar();
     }
 
-    // Otherwise, return blank
+    // Otherwise, return blank (use '.' for better visibility)
     return '.';
 }
 
+// Clear movedCells set
 void GameDisplay::clearMovedCells() {
     movedCells.clear();
 }
 
+// Grab movedCells set
 set<pair<int,int>> GameDisplay::getMovedCells() {
     return movedCells;
 }
 
-void GameDisplay::addCurrBlockCells() {
-    for (auto cell : currentBlock->getAllCells()) {
-        movedCells.emplace(make_pair(cell->getX(), cell->getY()));
-    }
-    
-}
 
 
 // Gets the level of the GameDisplay
@@ -161,6 +160,7 @@ bool GameDisplay::levelDown(int n) {
     return true;
 }
 
+// Reset the display, used when game is restarted
 void GameDisplay::reset() {
     score = 0;
     levelIndex = 0;
@@ -172,22 +172,22 @@ void GameDisplay::reset() {
     turnsSinceClear = 0;
     norand = false;
 
-    // Delete current block
-    // Delete next block
-    // Set all cells on board to nullptr
-    // Empty blocks array
 
+    // Empty board
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             board[i][j] = nullptr;
         }
     }
 
+    // Lose current and next blocks
     currentBlock = nullptr;
     nextBlock = nullptr;
 
+    // Recover new next block
     generateNextBlock();
 
+    // Clear placed blocks vector
     activePlacedBlocks.clear();
     
 }
@@ -214,11 +214,6 @@ void GameDisplay::generateNextBlock() {
         board[cell->getY() + HEIGHT - (NUM_RESERVE_ROWS + 1 - NEXT_BLOCK_DOCK)][cell->getX()] = cell;
     }
 }
-
-// void GameDisplay::forceBlock() {
-//     nextBlock
-// }
-
 
 
 
@@ -254,17 +249,10 @@ bool GameDisplay::operationIsValid(int changeInX, int changeInY) {
     // Otherwise, destination is valid
     return true;
 }
+
+// Check if position of current block is valid
 bool GameDisplay::validPos() {
 
-    // // Invalid if the destination is already occupied by a cell on the board that is not part of currentBlock
-    // for (int i = 0; i < 4; i++) {
-    //     int x = (currentBlock->getAllCells())[i]->getX();
-    //     int y = (currentBlock->getAllCells())[i]->getY();
-    //     if (board[x][y] && board[x][y]->getRealChar() != '/') return false;
-    // }
-    
-    // // Otherwise, destination is valid
-    // return true;
 
     for (auto cell : currentBlock->getAllCells()) {
         int x = cell->getX();
@@ -364,7 +352,6 @@ bool GameDisplay::left(int n) {
 
 // Move the currentBlock to the right n units. Return true if operation places block and false otherwise
 bool GameDisplay::right(int n) {
-    addCurrBlockCells();
     removeCurrentBlock();
 
 
@@ -397,7 +384,6 @@ bool GameDisplay::right(int n) {
     // Otherwise, move the block down heavy units
     currentBlock->moveBlockY(heavy);
 
-    addCurrBlockCells();
     // Insert currentBlock on board
     insertCurrentBlock();
     
@@ -547,6 +533,8 @@ void GameDisplay::random() {
     levels[4]->setRandom();
 }
 
+
+// Clear rows if needed
 void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
     int numRowsClear = 0; 
     int topRowToScan = bottomRowToScan - numRowstoScan + 1;
@@ -619,43 +607,6 @@ void GameDisplay::clear(int bottomRowToScan, int numRowstoScan) {
     }
 }
 
-void GameDisplay::insertBlindBlock() {
-    for (int i = 3; i < 12; i++) {
-        for (int j = 3; j < 9; j++) {
-            board[i][j] = make_shared<Cell>('?', j, i); // not valid
-        }
-    }
-}
-
-
-
-
-void GameDisplay::print() {
-    cout << "+";
-    for (int j = 0; j < WIDTH; j++) {
-        cout << "-";
-    }
-    cout << "+" << endl;
-
-    for (int i = 0; i < HEIGHT; i++) {
-        cout << "|";
-        for (int j = 0; j < WIDTH; j++) {
-            if (board[i][j]) {
-                cout << board[i][j]->getChar();
-            }
-            else {
-                cout << " ";
-            }
-        }
-        cout << "|" << endl;
-    }
-
-    cout << "+";
-    for (int j = 0; j < WIDTH; j++) {
-        cout << "-";
-    }
-    cout << "+" << endl;
-}
 
 int GameDisplay::getNumReserveRows() {
     return NUM_RESERVE_ROWS;

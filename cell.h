@@ -18,7 +18,6 @@ class Cell {
         void addToY(int n);
         int getX();
         int getY();
-        void incrementAge();
         void kill();
         bool isAlive();
 };

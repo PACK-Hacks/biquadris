@@ -1,5 +1,6 @@
 #include "graphicsobserver.h"
 
+// Graphics Observer Constructor
 GraphicsObserver::GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2)
     :subject1{subject1}, subject2{subject2}, numReserveRows{subject1->getNumReserveRows()}, nextBlockDock{subject1->getNextBlockDock()},
     width{subject1->getWidth()}, height{subject1->getHeight()} {

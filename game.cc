@@ -10,20 +10,23 @@
 
 using namespace std;
 
-
+// Game constructor
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, startlevel}, 
-to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {}
-// Remember to construct players with next block in player constructor
+to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {
+    go.notify();
+}
 
+// Winner output
 string formatWinner(string winner, int score1, int score2) {
     return winner + " has won by " + to_string(abs(score1 - score2)) + "!\nPlayer 1's Score: " + to_string(score1) + "    Player 2's Score: " + to_string(score2);
 }
 
+// Run game until a player loses
 void Game::runGame() {
     string special;
 
-    // Keep running rounds until both players lose
+    // Keep running rounds until both players lose [BONUS]
     while (!p1.getLost() || !p2.getLost()) {
         if (p1.getLost()) {
             cout << "Player 1 has already lost :( Skipping this turn" << endl << endl;
@@ -45,7 +48,7 @@ void Game::runGame() {
         }
         // If Player 2's still alive, run their turn
         else {
-            special = p2.runTurn(special, to);
+            special = p2.runTurn(special, to, go);
             // Restart if Player 1 commands so
             if (special == "restart") {
                 restart();
@@ -58,9 +61,12 @@ void Game::runGame() {
     // Output winner
     string gameOverMessage;
 
+    // Grab players scores
+
     int score1 = p1.getGameDisplay()->getScore();
     int score2 = p2.getGameDisplay()->getScore();
 
+    // Compare scores to determine winner
     if (score1 > score2) {
         gameOverMessage = formatWinner("Player 1", score1, score2);
     }
@@ -74,6 +80,7 @@ void Game::runGame() {
     cout << gameOverMessage << endl << endl;
 }
 
+// Restart game
 void Game::restart() {
     p1.reset();
     p1.getGameDisplay()->moveNextToCurrent();
