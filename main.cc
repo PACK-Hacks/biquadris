@@ -53,4 +53,3 @@ int main(int argc, char *argv[]) {
     // Run game
     g.runGame();
 }
-

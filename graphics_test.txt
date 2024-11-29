@@ -1,0 +1,80 @@
+
+    int xOffset = colStart2;
+    int yOffset = 50;
+
+    // Clear window
+    
+    // window.fillRectangle(0, 0, window.getWidth(), window.getHeight());
+
+    // High Score
+    window.drawString(window.getWidth()/2 - 30, 10, "Biquadris ");
+    // yOffset += 20;
+    // window.drawString(10, 30,"Got birthed by Charlie, Parth, and Kenny");
+
+    window.drawString(window.getWidth() - 200, 30,"High Score:     " + std::to_string(subject1->getScore()));
+
+    window.drawString(0, yOffset,"------------------------------------------------------------------------------------------------------------------------");
+
+    yOffset += 20;
+
+    // Player Levels
+    window.drawString(colStart1, yOffset, "Level:    " + std::to_string(subject1->getLevel()));
+    window.drawString(xOffset, yOffset,  "Level:    " + std::to_string(subject2->getLevel()));
+    yOffset += 20;
+
+    // Player Scores
+    window.drawString(colStart1, yOffset, "Score:    " + std::to_string(subject1->getScore()));
+    window.drawString(xOffset, yOffset, "Score:    " + std::to_string(subject2->getScore()));
+    yOffset += 10;
+
+
+
+    window.drawString(colStart1 - 1, yOffset - 0.1, "------------------------------------               ------------------------------------");
+                                                    // ------------------------------------------------------------------------------------------------------------------------");
+
+
+
+    // Player Boards
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            // Player 1 Board
+            char c1 = subject1->getState(i, j);
+            int color1 = determineColor(c1, id == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            window.fillRectangle(colStart1 + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color1);
+
+            // Player 2 Board
+            char c2 = subject2->getState(i, j);
+            int color2 = determineColor(c2, id == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+            window.fillRectangle(xOffset + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color2);
+        }
+    }
+    yOffset += height * blockScale;
+
+    // Bottom Margin
+    yOffset += 10;
+
+    // Next Block
+    window.drawString(colStart1, yOffset, "Next:      ");
+    window.drawString(xOffset, yOffset, "Next:      ");
+    yOffset += 20;
+
+    for (int i = 0; i < nextBlockDock; ++i) {
+        for (int j = 0; j < width; ++j) {
+            // Player 1 Next Block
+            char c1 = subject1->getState(i + height, j);
+            int color1 = determineColor(c1, false);
+            window.fillRectangle(colStart1 + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color1);
+
+            // Player 2 Next Block
+            char c2 = subject2->getState(i + height, j);
+            int color2 = determineColor(c2, false);
+            window.fillRectangle(xOffset + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color2);
+        }
+    }
+
+  window.fillRectangle(colStart1, yOffset, width * blockScale + 2, height * blockScale + 2, 1); // black
+    window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, 0); // wjite
+
+    // Player 2 Board
+    window.fillRectangle(xOffset, yOffset, width * blockScale + 2, height * blockScale + 2, 1);
+    window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, 0);

@@ -36,9 +36,9 @@ std::string TextObserver::scoreFormating(int score) {
 }
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
-void TextObserver::notify(int id, std::string message) {
-    out << endl;
-
+void TextObserver::notify(int id, std::string message, int activePlayer) {
+    out << endl << endl;
+    
     // Print the message if there is one
     if (!message.empty()) {
         out << message << endl << endl << endl;

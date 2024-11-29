@@ -16,6 +16,7 @@ p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, start
 to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {
     go.notify();
 }
+// Remember to construct players with next block in player constructor
 
 // Winner output
 string formatWinner(string winner, int score1, int score2) {
@@ -85,6 +86,7 @@ void Game::restart() {
     p1.reset();
     p1.getGameDisplay()->moveNextToCurrent();
     p1.getGameDisplay()->generateNextBlock();
+    go.notify();
     p2.reset();
 }
 

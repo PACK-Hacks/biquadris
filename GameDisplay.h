@@ -30,11 +30,12 @@ class GameDisplay: public Subject {
     // vector<Cell *> board(11, nullptr);
 
     shared_ptr<Cell> board[20][11]{nullptr};  // Board of cells resulting from placed blocks
+    shared_ptr<Cell> pastBoard[20][11]{nullptr};
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
     vector<unique_ptr<Block>> activePlacedBlocks;
     
-    set<pair<int, int>> movedCells;
+    // set<pair<int, int>> movedCells;
 
     int score = 0;
     int highScore = 0;
@@ -57,6 +58,10 @@ class GameDisplay: public Subject {
 
 
     bool special = false;
+
+    void moveCurrentBoardToPast();
+
+    bool dropPrivate();
 
     void insertCurrentBlock();
     void removeCurrentBlock();

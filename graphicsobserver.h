@@ -15,21 +15,25 @@ class GraphicsObserver : public Observer {
     int determineColor(char c, bool isBlind);
     Xwindow window;
 
+    const int scale = 10;
     const int SEPARATE = 10;
     const int colStart1 = 10;
     const int rowStart =  110;
     const int colStart2 = 320;
 
-    const int blockScale = 19.9;
+
+    // const int blockScale = 19.9;
+    const int blockScale = 19;
 
     void printSeparation();
     void printTopBoundary();
-
+    void reRenderPos();
 
     int highScore = 0;
 public:
     GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2);
-    void notify(int id=0, std::string message="") override;
+    void notify(int blind_status = 0, string message  = " ", int activePlayer = 0) override;
+
     // requested with render command
     // ~TextObserver() override;
 };
