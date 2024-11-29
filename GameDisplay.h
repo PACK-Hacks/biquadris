@@ -74,7 +74,7 @@ class GameDisplay: public Subject {
         int getTurnsSinceClear();
         bool getLost();
 
-        void setNextBlock();
+        // void setNextBlock();
         void setHeavy(bool heavy=true);
 
         void dropDummyCell();
