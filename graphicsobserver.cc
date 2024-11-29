@@ -29,10 +29,6 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     // bool player1AlreadyBlind = player1Blind && subject1->getWasBlind();
     // bool player2AlreadyBlind = player1Blind && subject2->getWasBlind();
 
-    if (blind_status) {
-        playerWasBlind[blind_status - 1] = true;
-    }
-
 
     int xOffset = colStart2;
     int yOffset = rowStart - 30;
@@ -115,6 +111,41 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
             window.fillRectangle(xOffset + j * blockScale, yOffset, 1, height * blockScale, Xwindow::Black); // Vertical line for Player 2
         }
     }
+
+    if (blind_status) {
+        playerWasBlind[blind_status - 1] = true;
+    }
+
+    if (blind_status == 2) {
+        cout << "Player 2 is blind" << endl;
+    }
+    else if (playerWasBlind[activePlayer - 1]) {
+        cout << "Player 2 was blind" << endl;
+    }
+    else if (activePlayer == 2) {
+        cout << "Player 2 has not been blinded" << endl;
+    }
+
+
+    if (blind_status == 2) {
+        for (int i = 3; i < 12; ++i) {
+            for (int j = 2; j < 9; ++j) {
+                window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, Xwindow::Blind);
+            }
+        }
+    }
+    else if (playerWasBlind[activePlayer - 1]) {
+        for (int i = 3; i < 12; ++i) {
+            for (int j = 2; j < 9; ++j) {
+                char c2 = subject1->getState(i, j);
+                int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8, i);
+                window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, color2);
+            }
+        }
+    }
+
     
     set<pair<int,int>> rerenderedCoordinates; 
 
@@ -253,7 +284,9 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
         }
     }
 
-    
+    if (activePlayer) {
+        playerWasBlind[activePlayer - 1] = (bool) blind_status;
+    }
 }
 
 // int Graphics
