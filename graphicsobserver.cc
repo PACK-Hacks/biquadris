@@ -61,116 +61,101 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     // Player 1 Board
     if (activePlayer == 0) {
         window.fillRectangle(colStart1, yOffset, width * blockScale + 2, height * blockScale + 2, 1); // black
-        window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, 0); // white
+        window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, Xwindow::LightGray); // white
+        window.fillRectangle(colStart1 + 1, yOffset + 3 * blockScale + gap / 2, width * blockScale, (height-3) * blockScale , Xwindow::WhiteSmoke); // white
+
 
         // Player 2 Board
         window.fillRectangle(xOffset, yOffset, width * blockScale + 2, height * blockScale + 2, 1);
-        window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, 0);
+        window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, Xwindow::LightGray);
+        window.fillRectangle(xOffset + 1, yOffset + 3 * blockScale + gap / 2, width * blockScale, (height-3) * blockScale , Xwindow::WhiteSmoke); // white
+
+        // Horizontal grid
+        // for (int i = 0; i < width; ++i) {
+        //     if (i < width - 1) { 
+        //             window.fillRectangle(colStart1 + (i + 1) * blockScale,
+        //                                 yOffset,
+        //                                 2, 
+        //                                 height * 20,
+        //                                 Xwindow::Black);
+        //     }
+        // }
+        // // Vertical grid
+        // for (int i = 1; i < height; ++i) {
+        //     if (i < height ) {
+        //             window.fillRectangle(width,
+        //                                 yOffset + i * blockScale + gap / 2, 
+        //                                 width * 20, 
+        //                                 2, 
+        //                                 Xwindow::Black);
+        //     }
+        // }
+
+        for (int i = 1; i < height; ++i) { // Start at 1 to avoid drawing the top border
+            window.fillRectangle(colStart1 + 1, yOffset + i * blockScale - 1, width * blockScale, 1, Xwindow::Black); // Horizontal line
+            window.fillRectangle(xOffset + 1, yOffset + i * blockScale - 1, width * blockScale, 1, Xwindow::Black); // Horizontal line for Player 2
+        }
+
+        // Vertical grid
+        for (int j = 1; j < width; ++j) { // Start at 1 to avoid drawing the left border
+            window.fillRectangle(colStart1 + j * blockScale, yOffset, 1, height * blockScale, Xwindow::Black); // Vertical line
+            window.fillRectangle(xOffset + j * blockScale, yOffset, 1, height * blockScale, Xwindow::Black); // Vertical line for Player 2
+        }
     }
     
     set<pair<int,int>> rerenderedCoordinates; 
 
     if (activePlayer == 0) {
-        for (int i = 0; i < height; ++i) {
-            // window.fillRectangle(colStart1, yOffset + i * blockScale, 
-            //     adjustedBlockScale, adjustedBlockScale, 1);
+        // for (int i = 0; i < height; ++i) {
+        //     // window.fillRectangle(colStart1, yOffset + i * blockScale, 
+        //     //     adjustedBlockScale, adjustedBlockScale, 1);
 
-            for (int j = 0; j < width; ++j) {
-                int initColor;
-                if (i < 3) initColor = 12; // NonPlayable Board
-                if (i >=3) initColor = 11;   // Playable Board
+        //     for (int j = 0; j < width; ++j) {
+        //         int initColor;
+        //         if (i < 3) initColor = 12; // NonPlayable Board
+        //         if (i >=3) initColor = 11;   // Playable Board
 
 
-                window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                    adjustedBlockScale, adjustedBlockScale, initColor);
+        //         window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                             adjustedBlockScale, adjustedBlockScale, 12);
                 
-                window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                    adjustedBlockScale, adjustedBlockScale, initColor);
+        //         window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                             adjustedBlockScale, adjustedBlockScale, 12);
                 
  
 
-                // Draw the gap (horizontal and vertical rectangles)
-                if (j < width - 1) { // Horizontal gap
-                    window.fillRectangle(colStart1 + (j + 1) * blockScale, 
-                                        yOffset + i * blockScale + gap / 2, 
-                                        gap, 
-                                        adjustedBlockScale, 
-                                        Xwindow::Black);
-                }
-                if (i < height - 1) { // Vertical gap
-                    window.fillRectangle(colStart1 + j * blockScale + gap / 2, 
-                                        yOffset + (i + 1) * blockScale, 
-                                        adjustedBlockScale, 
-                                        gap, 
-                                        Xwindow::Black);
-                }
+        //         // // Draw the gap (horizontal and vertical rectangles)
+        //         // if (j < width - 1) { // Horizontal gap
+        //         //     window.fillRectangle(colStart1 + (j + 1) * blockScale, 
+        //         //                         yOffset + i * blockScale + gap / 2, 
+        //         //                         gap, 
+        //         //                         adjustedBlockScale, 
+        //         //                         Xwindow::Black);
+        //         // }
+        //         // if (i < height - 1) { // Vertical gap
+        //         //     window.fillRectangle(colStart1 + j * blockScale + gap / 2, 
+        //         //                         yOffset + (i + 1) * blockScale, 
+        //         //                         adjustedBlockScale, 
+        //         //                         gap, 
+        //         //                         Xwindow::Black);
+        //         // }
                 
-                // Draw the gap (horizontal and vertical rectangles)
-                if (j < width - 1) { // Horizontal gap
-                    window.fillRectangle(xOffset + (j + 1) * blockScale, 
-                                        yOffset + i * blockScale + gap / 2, 
-                                        gap, 
-                                        adjustedBlockScale, 
-                                        Xwindow::Black);
-                }
-                if (i < height - 1) { // Vertical gap
-                    window.fillRectangle(xOffset + j * blockScale + gap / 2, 
-                                        yOffset + (i + 1) * blockScale, 
-                                        adjustedBlockScale, 
-                                        gap, 
-                                        Xwindow::Black);
-                }
-            }
-        }
+        //         // // Draw the gap (horizontal and vertical rectangles)
+        //         // if (j < width - 1) { // Horizontal gap
+        //         //     window.fillRectangle(xOffset + (j + 1) * blockScale, 
+        //         //                         yOffset + i * blockScale + gap / 2, 
+        //         //                         gap, 
+        //         //                         adjustedBlockScale, 
+        //         //                         Xwindow::Black);
+        //         // }
+        //         // if (i < height - 1) { // Vertical gap
+        //         //     window.fillRectangle(xOffset + j * blockScale + gap / 2, 
+        //         //                         yOffset + (i + 1) * blockScale, 
+        //         //                         adjustedBlockScale, 
+        //         //                         gap, 
+        //         //                         Xwindow::Black);
+        //         // }
 
-        // for (int j = 0; j < width; ++j) {
-        //     window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                             adjustedBlockScale, adjustedBlockScale, initColor);
-                
-        //     window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                             adjustedBlockScale, adjustedBlockScale, initColor);
-                                     
-        // }
-        // for (int i = 0; i < 4; ++i) {
-        //     for (int j = 0; j < 4; ++j) {
-        //         // Player 1 Board
-        //         if (activePlayer == 1 || activePlayer == 0){
-        //             char c1 = subject1->getState(i, j);
-        //             int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-        //             window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                                     adjustedBlockScale, adjustedBlockScale, color1);
-        //         }
-
-        //         // Player 2 Board
-        //         if (activePlayer == 2 || activePlayer == 0){
-        //             char c2 = subject2->getState(i, j);
-        //             int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-        //             window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                                 adjustedBlockScale, adjustedBlockScale, color2);
-        //         }
-        //     }
-        // }
-
-
-        // // Player Boards
-        // for (auto c: rerenderedCoordinates) {
-        //     int i = c.first;
-        //     int j = c.second;
-
-        //     // Player 1 Board
-        //     if (activePlayer == 1 || activePlayer == 0){
-        //         char c1 = subject1->getState(i, j);
-        //         int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-        //         window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                                 adjustedBlockScale, adjustedBlockScale, color1);
-        //     }
-
-        //     // Player 2 Board
-        //     if (activePlayer == 2 || activePlayer == 0){
-        //         char c2 = subject2->getState(i, j);
-        //         int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-        //         window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-        //                             adjustedBlockScale, adjustedBlockScale, color2);
         //     }
         // }
     }
