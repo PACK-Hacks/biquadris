@@ -49,9 +49,17 @@ char GameDisplay::getState(int row, int col) const {
     return '.';
 }
 
+void GameDisplay::clearMovedCells() {
+    movedCells.clear();
+}
+
+set<pair<int,int>> GameDisplay::getMovedCells() {
+    return movedCells;
+}
+
 void GameDisplay::addCurrBlockCells() {
     for (auto cell : currentBlock->getAllCells()) {
-        movedCells.emplace_back(make_pair(cell->getX(), cell->getY()));
+        movedCells.emplace(make_pair(cell->getX(), cell->getY()));
     }
     
 }

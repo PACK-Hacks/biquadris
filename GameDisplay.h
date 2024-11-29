@@ -7,6 +7,7 @@
 #include <memory>
 #include <algorithm>
 #include <utility>
+#include <set>
 #include "level.h"
 #include "block.h"
 #include "cell.h"
@@ -33,7 +34,7 @@ class GameDisplay: public Subject {
     unique_ptr<Block> currentBlock = nullptr;
     vector<unique_ptr<Block>> activePlacedBlocks;
     
-    vector<pair<int, int>> movedCells;
+    set<pair<int, int>> movedCells;
 
     int score = 0;
     int highScore = 0;
@@ -80,6 +81,9 @@ class GameDisplay: public Subject {
         bool needDummy();
 
         void reset();
+
+        void clearMovedCells();
+        set<pair<int,int>> getMovedCells();
         
 
 

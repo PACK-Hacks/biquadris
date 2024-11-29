@@ -12,7 +12,7 @@ using namespace std;
 
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, startlevel}, 
-to{p1.getGameDisplay(), p2.getGameDisplay()} {}
+to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {}
 // Remember to construct players with next block in player constructor
 
 string Game::runGame() {
@@ -20,13 +20,13 @@ string Game::runGame() {
 
     
     while (true) {
-        special = p1.runTurn(special, to);
+        special = p1.runTurn(special, to, go);
         if (special == "restart") {
             restart();
             continue;
         }
         if (p1.getLost() == true) return "p2";
-        special = p2.runTurn(special, to);
+        special = p2.runTurn(special, to, go);
         if (special == "restart") {
             restart();
             continue;
