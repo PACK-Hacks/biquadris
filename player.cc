@@ -123,7 +123,8 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
 
     
     to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
-    
+    go.notify(blind_status, "", id);
+
     bool endTurn = false;
 
     cout << "Please input a series of commands to move / rotate your block" << endl;
@@ -134,6 +135,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
         gameDisplay.drop();
         numDrops--;
         to.notify(blind_status);
+        go.notify(blind_status, "", id);
     } else {
         while(!endTurn) {     // fstream >> command
 
@@ -159,24 +161,29 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
             if (command == left) {
                 endTurn = gameDisplay.left(multiplier);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id);
             } else if (command == right) {
                 endTurn = gameDisplay.right(multiplier);
                 to.notify(blind_status);
-
+                go.notify(blind_status, "", id);
             } else if (command == down) {
                 endTurn = gameDisplay.down(multiplier);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id);
             } else if (command == clockwise) {
                 endTurn = gameDisplay.clockwise(multiplier);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id);
             } else if (command == counterclockwise) {
                 endTurn = gameDisplay.counterClockwise(multiplier);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id);
             } else if (command == drop) {
                 numDrops = multiplier - 1;
                 if (multiplier >= 1) {
                     gameDisplay.drop();
                     to.notify();
+                    go.notify(blind_status, "", id);
                     break;
                 }
                 
@@ -187,6 +194,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                     cout << "You cannot level up! You are already at the max level!" << endl;
                 } else {
                     to.notify(blind_status, "Levelled Up!");
+                    go.notify(blind_status, "Levelled Up!", id);
                 }
             } else if (command == leveldown) {
                 bool canLevelDown;
@@ -195,6 +203,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                     cout << "You cannot level down! You are already at the lowest level!" << endl;
                 } else {
                     to.notify(blind_status, "Levelled Down!");
+                    go.notify(blind_status, "Levelled Down!", id);
                 }
             } else if (command == norandom) {
                 string file_name;
@@ -214,6 +223,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                 char c = string_to_char(command);
                 gameDisplay.setCurrentBlock(c);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id);
             } else if (command == restart) {
                 cout << "Restarting the game!" << endl;
                 return "restart";

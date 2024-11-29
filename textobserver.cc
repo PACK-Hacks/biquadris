@@ -36,7 +36,7 @@ std::string TextObserver::scoreFormating(int score) {
 }
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
-void TextObserver::notify(int id, std::string message, int activePlayer, vector<pair<int, int>> blockPixcels, vector<pair<int, int>> nextBlockPixcels) {
+void TextObserver::notify(int id, std::string message, int activePlayer) {
     out << endl << endl;
     
     // Print the message if there is one

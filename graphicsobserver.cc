@@ -19,7 +19,7 @@ void GraphicsObserver::printSeparation() {
 
 // check message and rerender the message. 
 
-void GraphicsObserver::notify(int blind_status,  string message, int activePlayer, vector<pair<int, int>> blockPixcels, vector<pair<int, int>> nextBlockPixcels) { 
+void GraphicsObserver::notify(int blind_status, string message, int activePlayer) { 
     int xOffset = colStart2;
     int yOffset = rowStart - 30;
 
@@ -65,10 +65,65 @@ void GraphicsObserver::notify(int blind_status,  string message, int activePlaye
         window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, 0);
     }
     
+    set<pair<int,int>> rerenderedCoordinates; 
+
+    if (activePlayer == 0) {
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                // Player 1 Board
+                if (activePlayer == 1 || activePlayer == 0){
+                    char c1 = subject1->getState(i, j);
+                    int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+                    window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                            adjustedBlockScale, adjustedBlockScale, color1);
+                }
+
+                // Player 2 Board
+                if (activePlayer == 2 || activePlayer == 0){
+                    char c2 = subject2->getState(i, j);
+                    int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+                    window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                        adjustedBlockScale, adjustedBlockScale, color2);
+                }
+            }
+        }
+        // // Player Boards
+        // for (auto c: rerenderedCoordinates) {
+        //     int i = c.first;
+        //     int j = c.second;
+
+        //     // Player 1 Board
+        //     if (activePlayer == 1 || activePlayer == 0){
+        //         char c1 = subject1->getState(i, j);
+        //         int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+        //         window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                                 adjustedBlockScale, adjustedBlockScale, color1);
+        //     }
+
+        //     // Player 2 Board
+        //     if (activePlayer == 2 || activePlayer == 0){
+        //         char c2 = subject2->getState(i, j);
+        //         int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+        //         window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                             adjustedBlockScale, adjustedBlockScale, color2);
+        //     }
+        // }
+    }
+    else if (activePlayer == 1) {
+        rerenderedCoordinates = subject1->getMovedCells();
+        for (auto coor : subject1->getMovedCells()) {
+            cout << "x: " << coor.first << " y: " << coor.second << endl;
+        }
+    }
+    else if (activePlayer == 2) {
+        rerenderedCoordinates = subject2->getMovedCells();
+        cout << "Really2?" << rerenderedCoordinates.size() << endl;
+    }
+
     // Player Boards
-    for (auto c: blockPixcels) {
-        int i = c.first;
-        int j = c.second;
+    for (auto c: rerenderedCoordinates) {
+        int j = c.first; // j = x
+        int i = c.second; // i = y;
 
         // Player 1 Board
         if (activePlayer == 1 || activePlayer == 0){
@@ -96,24 +151,45 @@ void GraphicsObserver::notify(int blind_status,  string message, int activePlaye
     window.drawString(xOffset, yOffset, "Next:      ");
     yOffset += 10;
 
-    for (auto c: nextBlockPixcels) {
-        int i = c.first;
-        int j = c.second;
+    // for (auto c: nextBlockPixcels) {
+    //     int i = c.first;
+    //     int j = c.second;
 
-        // Player 1 Next Block
-        if (activePlayer == 1 || activePlayer == 0) {
-            char c1 = subject1->getState(i + height, j);
-            int color1 = determineColor(c1, false);
-            window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                 adjustedBlockScale, adjustedBlockScale, color1);
-        }
+    //     // Player 1 Next Block
+    //     if (activePlayer == 1 || activePlayer == 0) {
+    //         char c1 = subject1->getState(i + height, j);
+    //         int color1 = determineColor(c1, false);
+    //         window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+    //                              adjustedBlockScale, adjustedBlockScale, color1);
+    //     }
 
-        // Player 2 Next Block
-        if (activePlayer == 2 || activePlayer == 0) {
-            char c2 = subject2->getState(i + height, j);
-            int color2 = determineColor(c2, false);
-            window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                 adjustedBlockScale, adjustedBlockScale, color2);
+    //     // Player 2 Next Block
+    //     if (activePlayer == 2 || activePlayer == 0) {
+    //         char c2 = subject2->getState(i + height, j);
+    //         int color2 = determineColor(c2, false);
+    //         window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+    //                              adjustedBlockScale, adjustedBlockScale, color2);
+    //     }
+    // }
+
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            // Player 1 Next Block
+            if (activePlayer == 1 || activePlayer == 0) {
+                char c1 = subject1->getState(i + height, j);
+                int color1 = determineColor(c1, false);
+                window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, color1);
+            }
+
+            // Player 2 Next Block
+            if (activePlayer == 2 || activePlayer == 0) {
+                char c2 = subject2->getState(i + height, j);
+                int color2 = determineColor(c2, false);
+                window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, color2);
+            }
         }
     }
 }
