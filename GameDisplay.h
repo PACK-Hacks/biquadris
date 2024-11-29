@@ -54,6 +54,8 @@ class GameDisplay: public Subject {
     // bool validRotate(vector<shared_ptr<Cell>> allCell);
     bool validPos();
 
+    void addCurrBlockCells();
+
     bool special = false;
 
     public:
