@@ -136,7 +136,12 @@ int main(int argc, char *argv[]) {
     auto p2 = std::make_pair(3, 1);
     auto p3 = std::make_pair(2, 1);
     auto p4 = std::make_pair(2, 2);
-    
+
+    auto t1 = std::make_pair(1, 1);
+    auto t2 = std::make_pair(2, 1);
+    auto t3 = std::make_pair(3, 1);
+    auto t4 = std::make_pair(3, 0);
+
     std::vector<std::pair<int, int>> block1;
     std::vector<std::pair<int, int>> block2;
 
@@ -145,12 +150,17 @@ int main(int argc, char *argv[]) {
     block1.emplace_back(p3);
     block1.emplace_back(p4);
 
-    block2.emplace_back(p1);
-    block2.emplace_back(p2);
-    block2.emplace_back(p3);
-    block2.emplace_back(p4);
+    block2.emplace_back(t1);
+    block2.emplace_back(t2);
+    block2.emplace_back(t3);
+    block2.emplace_back(t4);
 
+    // auto c1 = std::make_pair(3, 0);
+    // auto c2 = std::make_pair(3, 1);
+    // auto c3 = std::make_pair(2, 1);
+    // auto c4 = std::make_pair(2, 2);
 
+    
 
     GraphicsObserver t{&d1, &d2};
 

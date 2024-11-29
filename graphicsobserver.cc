@@ -79,7 +79,7 @@ void GraphicsObserver::notify(int blind_status,  string message, int activePlaye
         }
 
         // Player 2 Board
-        else if (activePlayer == 2 || activePlayer == 0){
+        if (activePlayer == 2 || activePlayer == 0){
             char c2 = subject2->getState(i, j);
             int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
             window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
@@ -109,7 +109,7 @@ void GraphicsObserver::notify(int blind_status,  string message, int activePlaye
         }
 
         // Player 2 Next Block
-        else if (activePlayer == 2 || activePlayer == 0) {
+        if (activePlayer == 2 || activePlayer == 0) {
             char c2 = subject2->getState(i + height, j);
             int color2 = determineColor(c2, false);
             window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
