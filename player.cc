@@ -260,7 +260,6 @@ string Player::runTurn(string special, TextObserver &to) {
         cout << "Your turn is now over" << endl;
         return s;
     } else {
-        cout << "You have not achieved a special move" << endl;
         cout << "Your turn is now over" << endl;
         return "";
     }

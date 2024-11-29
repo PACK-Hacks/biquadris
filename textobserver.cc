@@ -37,13 +37,12 @@ std::string TextObserver::scoreFormating(int score) {
 
 // reserve three extra rows for different cell types at top of the baord for rotationn
 void TextObserver::notify(int id, std::string message) {
-    out << endl << endl;
-    
+    out << endl;
+
     // Print the message if there is one
     if (!message.empty()) {
-        out << message << endl << endl;
+        out << message << endl << endl << endl;
     }
-
 
     int scoreP1 = subject1->getScore();
     int highScore1 = subject1->getHighScore();
@@ -193,7 +192,7 @@ void TextObserver::notify(int id, std::string message) {
         }
         
         printSeparation();
-        
+
         // Player 2
         for (int j = 0; j < width; ++j) {
             out << subject2->getState(i + height, j); // retrieved from Display

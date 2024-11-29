@@ -20,7 +20,7 @@ class Game {
     
     // Remember to onstruct players with next block in player constructor
 
-    string runGame();
+    void runGame();
     void restart();
 
 };
