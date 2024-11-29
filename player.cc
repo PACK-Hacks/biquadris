@@ -88,7 +88,7 @@ pair<int, string> Player::parseCommand(const string &input) {
 
 }
 
-string Player::runTurn(string special, Observer &to) {
+string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
 
     bool status = gameDisplay.moveNextToCurrent(); // Assume moves it onto the board
 
@@ -162,6 +162,7 @@ string Player::runTurn(string special, Observer &to) {
             } else if (command == right) {
                 endTurn = gameDisplay.right(multiplier);
                 to.notify(blind_status);
+
             } else if (command == down) {
                 endTurn = gameDisplay.down(multiplier);
                 to.notify(blind_status);

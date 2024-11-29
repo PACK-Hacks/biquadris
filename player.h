@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include "textobserver.h"
+#include "graphicsobserver.h"
 
 using namespace std;
 
@@ -55,7 +56,7 @@ class Player {
     public:
     Player(int id, bool text, int seed, string scriptfile, int startLevel);
 
-    string runTurn(string special, Observer &to);
+    string runTurn(string special, TextObserver &to, GraphicsObserver &go);
 
     bool getLost();
 

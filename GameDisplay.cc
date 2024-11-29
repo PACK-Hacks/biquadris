@@ -49,9 +49,17 @@ char GameDisplay::getState(int row, int col) const {
     return '.';
 }
 
+void GameDisplay::clearMovedCells() {
+    movedCells.clear();
+}
+
+set<pair<int,int>> GameDisplay::getMovedCells() {
+    return movedCells;
+}
+
 void GameDisplay::addCurrBlockCells() {
     for (auto cell : currentBlock->getAllCells()) {
-        movedCells.emplace_back(make_pair(cell->getX(), cell->getY()));
+        movedCells.emplace(make_pair(cell->getX(), cell->getY()));
     }
     
 }
@@ -109,19 +117,19 @@ void GameDisplay::dropDummyCell() {
     }
 }
 
-// Sets nextBlock on the next block dock
-void GameDisplay::setNextBlock() {
-    // Clear next block dock
-    for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
-        for (int j = 0; j < WIDTH; ++j) {
-            board[i + HEIGHT][j] = nullptr;
-        }
-    }
+// // Sets nextBlock on the next block dock
+// void GameDisplay::setNextBlock() {
+//     // Clear next block dock
+//     for (int i = 0; i < NEXT_BLOCK_DOCK; ++i) {
+//         for (int j = 0; j < WIDTH; ++j) {
+//             board[i + HEIGHT][j] = nullptr;
+//         }
+//     }
 
-    for (auto cell : nextBlock->getAllCells()) {
-        board[cell->getY() + HEIGHT][cell->getX()] = cell;
-    }
-}
+//     for (auto cell : nextBlock->getAllCells()) {
+//         board[cell->getY() + HEIGHT][cell->getX()] = cell;
+//     }
+// }
 
 // Level up, returns true if successful, false otherwise
 bool GameDisplay::levelUp(int n) {
