@@ -13,7 +13,9 @@ using namespace std;
 
 Game::Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel = 0): 
 p1{1, text, seed, scriptfile1, startlevel}, p2{2, text, seed, scriptfile2, startlevel}, 
-to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {}
+to{p1.getGameDisplay(), p2.getGameDisplay()}, go{p1.getGameDisplay(), p2.getGameDisplay()} {
+    go.notify();
+}
 // Remember to construct players with next block in player constructor
 
 string formatWinner(string winner, int score1, int score2) {
@@ -45,7 +47,7 @@ void Game::runGame() {
         }
         // If Player 2's still alive, run their turn
         else {
-            special = p2.runTurn(special, to);
+            special = p2.runTurn(special, to, go);
             // Restart if Player 1 commands so
             if (special == "restart") {
                 restart();

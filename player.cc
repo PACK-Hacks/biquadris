@@ -161,7 +161,9 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                 to.notify(blind_status);
             } else if (command == right) {
                 endTurn = gameDisplay.right(multiplier);
+                
                 to.notify(blind_status);
+                
 
             } else if (command == down) {
                 endTurn = gameDisplay.down(multiplier);
