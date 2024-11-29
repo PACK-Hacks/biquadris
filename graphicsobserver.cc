@@ -45,15 +45,20 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     int gap = 2; // Gap between cells
     int adjustedBlockScale = blockScale - gap; // Adjusted size of each cell
 
-    // print the title, high scrore, andtop margin at the beginngin of a new game. 
+    // Print the title, high scrore, andtop margin at the beginngin of a new game. 
     if (activePlayer == 0) {
         window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
-        window.drawString(20, 45, "P.A.C.K.");
+        window.drawString(480, 530, "P.A.C.K.");
+        window.drawString(0, 45,"----------------------------------------------------------------------------------------------------");
+    }
+    if (activePlayer == 1 || activePlayer == 0) {
+         window.fillRectangle(colStart1, 45, 150, 20, Xwindow::White);
+        window.drawString(colStart1, 60, "High Score:     " + std::to_string(subject1->getHighScore()));
+    }
 
-        // clearing highscore
-        window.fillRectangle(window.getWidth() - 200, 30, 150, 20, Xwindow::White);
-        window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getHighScore()));
-        window.drawString(0, 60,"----------------------------------------------------------------------------------------------------");
+    if (activePlayer == 2 || activePlayer == 0) {
+         window.fillRectangle(xOffset, 45, 150, 20, Xwindow::White);
+        window.drawString(xOffset, 60, "High Score:     " + std::to_string(subject2->getHighScore()));
     }
 
     // Clearing Player Levels
