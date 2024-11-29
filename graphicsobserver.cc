@@ -33,8 +33,10 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     // print the title, high scrore, andtop margin at the beginngin of a new game. 
     if (activePlayer == 0) {
         window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
+        window.drawString(20, 45, "P.A.C.K");
+
         window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getScore()));
-        window.drawString(0, 60,"------------------------------------------------------------------------------------------------------------------------");
+        window.drawString(0, 60,"----------------------------------------------------------------------------------------------------");
     }
 
     // Clearing Player Levels
@@ -69,25 +71,87 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     set<pair<int,int>> rerenderedCoordinates; 
 
     if (activePlayer == 0) {
-        for (int i = 0; i < 4; ++i) {
-            for (int j = 0; j < 4; ++j) {
-                // Player 1 Board
-                if (activePlayer == 1 || activePlayer == 0){
-                    char c1 = subject1->getState(i, j);
-                    int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-                    window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                            adjustedBlockScale, adjustedBlockScale, color1);
-                }
+        for (int i = 0; i < height; ++i) {
+            // window.fillRectangle(colStart1, yOffset + i * blockScale, 
+            //     adjustedBlockScale, adjustedBlockScale, 1);
 
-                // Player 2 Board
-                if (activePlayer == 2 || activePlayer == 0){
-                    char c2 = subject2->getState(i, j);
-                    int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
-                    window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                        adjustedBlockScale, adjustedBlockScale, color2);
+            for (int j = 0; j < width; ++j) {
+                int initColor;
+                if (i < 3) initColor = 12; // NonPlayable Board
+                if (i >=3) initColor = 11;   // Playable Board
+
+
+                window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, initColor);
+                
+                window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+                                    adjustedBlockScale, adjustedBlockScale, initColor);
+                
+ 
+
+                // Draw the gap (horizontal and vertical rectangles)
+                if (j < width - 1) { // Horizontal gap
+                    window.fillRectangle(colStart1 + (j + 1) * blockScale, 
+                                        yOffset + i * blockScale + gap / 2, 
+                                        gap, 
+                                        adjustedBlockScale, 
+                                        Xwindow::Black);
+                }
+                if (i < height - 1) { // Vertical gap
+                    window.fillRectangle(colStart1 + j * blockScale + gap / 2, 
+                                        yOffset + (i + 1) * blockScale, 
+                                        adjustedBlockScale, 
+                                        gap, 
+                                        Xwindow::Black);
+                }
+                
+                // Draw the gap (horizontal and vertical rectangles)
+                if (j < width - 1) { // Horizontal gap
+                    window.fillRectangle(xOffset + (j + 1) * blockScale, 
+                                        yOffset + i * blockScale + gap / 2, 
+                                        gap, 
+                                        adjustedBlockScale, 
+                                        Xwindow::Black);
+                }
+                if (i < height - 1) { // Vertical gap
+                    window.fillRectangle(xOffset + j * blockScale + gap / 2, 
+                                        yOffset + (i + 1) * blockScale, 
+                                        adjustedBlockScale, 
+                                        gap, 
+                                        Xwindow::Black);
                 }
             }
         }
+
+        // for (int j = 0; j < width; ++j) {
+        //     window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                             adjustedBlockScale, adjustedBlockScale, initColor);
+                
+        //     window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                             adjustedBlockScale, adjustedBlockScale, initColor);
+                                     
+        // }
+        // for (int i = 0; i < 4; ++i) {
+        //     for (int j = 0; j < 4; ++j) {
+        //         // Player 1 Board
+        //         if (activePlayer == 1 || activePlayer == 0){
+        //             char c1 = subject1->getState(i, j);
+        //             int color1 = determineColor(c1, blind_status == 1 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+        //             window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                                     adjustedBlockScale, adjustedBlockScale, color1);
+        //         }
+
+        //         // Player 2 Board
+        //         if (activePlayer == 2 || activePlayer == 0){
+        //             char c2 = subject2->getState(i, j);
+        //             int color2 = determineColor(c2, blind_status == 2 && i >= 3 && i <= 11 && j >= 2 && j <= 8);
+        //             window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
+        //                                 adjustedBlockScale, adjustedBlockScale, color2);
+        //         }
+        //     }
+        // }
+
+
         // // Player Boards
         // for (auto c: rerenderedCoordinates) {
         //     int i = c.first;
@@ -220,4 +284,3 @@ int GraphicsObserver::determineColor(char c, bool isBlind) {
 void GraphicsObserver::printTopBoundary() {
     window.drawString(colStart1, rowStart - 20, "Top Boundary");
 }
-

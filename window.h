@@ -10,12 +10,12 @@ class Xwindow {
   Window w;
   int s, width, height;
   GC gc;
-unsigned long colours[11]; // Existing 5 + 6 new colors (including Blind and Gray).
+unsigned long colours[13]; // Existing 5 + 6 new colors (including Blind and Gray).
  public:
   Xwindow(int width=500, int height=500);  // Constructor; displays the window.
   ~Xwindow();                              // Destructor; destroys the window.
 
-enum {White=0, Black, Red, Green, Cyan, Yellow, Purple, Blue, Orange, Brown, Blind};  int getWidth() const;
+enum {White=0, Black, Red, Green, Cyan, Yellow, Purple, Blue, Orange, Brown, Blind, WhiteSmoke, LightGray};  int getWidth() const;
   int getHeight() const;
 
   // Draws a rectangle
