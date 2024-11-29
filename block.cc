@@ -69,10 +69,10 @@ int Block::getRotationLen() {
 
 // IBlock constructor
 IBlock::IBlock(bool heavy, int level) : Block{heavy, 4, level,
-    new Cell{'I', 0, 0},
-    new Cell{'I', 0, 1},
-    new Cell{'I', 0, 2},
-    new Cell{'I', 0, 3}} {}
+    new Cell{'I', 0, 3},
+    new Cell{'I', 1, 3},
+    new Cell{'I', 2, 3},
+    new Cell{'I', 3, 3}} {}
 
 // OBlock constructor
 OBlock::OBlock(bool heavy, int level) : Block{heavy, 2, level,
@@ -83,17 +83,17 @@ OBlock::OBlock(bool heavy, int level) : Block{heavy, 2, level,
 
 // LBlock constructor
 LBlock::LBlock(bool heavy, int level) : Block{heavy, 3, level,
-    new Cell{'L', 0, 1},
-    new Cell{'L', 0, 2},
     new Cell{'L', 0, 3},
-    new Cell{'L', 1, 3}} {}
+    new Cell{'L', 1, 3},
+    new Cell{'L', 2, 3},
+    new Cell{'L', 2, 2}} {}
 
 // JBlock constructor
 JBlock::JBlock(bool heavy, int level) : Block{heavy, 3, level,
-    new Cell{'J', 1, 1},
-    new Cell{'J', 1, 2},
+    new Cell{'J', 0, 2},
+    new Cell{'J', 0, 3},
     new Cell{'J', 1, 3},
-    new Cell{'J', 0, 3}} {}
+    new Cell{'J', 2, 3}} {}
 
 // TBlock constructor
 TBlock::TBlock(bool heavy, int level) : Block{heavy, 3, level,

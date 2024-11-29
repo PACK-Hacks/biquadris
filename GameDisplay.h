@@ -18,7 +18,7 @@ using namespace std;
 
 class GameDisplay: public Subject {
     const int NUM_RESERVE_ROWS = 3;
-    const int NEXT_BLOCK_DOCK = 4;
+    const int NEXT_BLOCK_DOCK = 2;
     const int HEIGHT = 18;          // height includes the 15 rows of the board and 3 reserve rows
     const int WIDTH = 11;
     const int MAXLEVEL = 4;
@@ -28,7 +28,7 @@ class GameDisplay: public Subject {
 
     // vector<Cell *> board(11, nullptr);
 
-    shared_ptr<Cell> board[22][11]{nullptr};  // Board of cells resulting from placed blocks
+    shared_ptr<Cell> board[20][11]{nullptr};  // Board of cells resulting from placed blocks
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
     vector<unique_ptr<Block>> activePlacedBlocks;
