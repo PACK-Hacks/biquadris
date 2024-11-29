@@ -89,10 +89,9 @@ void Game::runGame() {
 // Restart game
 void Game::restart() {
     p1.reset();
-    
+    p2.reset();
     if (!text) {
         go->notify();
     }
-    p2.reset();
 }
 

@@ -203,7 +203,7 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
                     int color1 = determineColor(currentBoard1[hi][j]);            
         
                     window.fillRectangle(colStart1 + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                    adjustedBlockScale, adjustedBlockScale, color1);
+                        adjustedBlockScale, adjustedBlockScale, color1);
                 }
             }
 
@@ -219,7 +219,7 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
                     int color2 = determineColor(currentBoard2[hi][j]);            
         
                     window.fillRectangle(xOffset + j * blockScale + gap / 2, yOffset + i * blockScale + gap / 2,
-                                    adjustedBlockScale, adjustedBlockScale, color2);
+                        adjustedBlockScale, adjustedBlockScale, color2);
                 }
             }
         }
