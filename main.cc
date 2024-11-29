@@ -117,43 +117,49 @@ int main(int argc, char *argv[]) {
     d1.insertCurrentBlock();
     d1.generateNextBlock();
     d1.setNextBlock();
-    d1.levelDown();
+    // d1.levelDown();
 
 
-    d2.generateNextBlock();
-    d2.moveNextToCurrent();
-    d2.insertCurrentBlock();
-    d2.generateNextBlock();
+    // d2.generateNextBlock();
+    // d2.moveNextToCurrent();
+    // d2.insertCurrentBlock();
+    // d2.generateNextBlock();
 
-    d2.setNextBlock();
+    // d2.setNextBlock();
 
     // vector obserers for the observer instances
-    std::vector<Observer*> observers;
+    // std::vector<Observer*> observers;
 
     // auto d1 = std::make_unique<Display>(d);
 
-    auto p1 = std::make_pair(3, 0);
-    auto p2 = std::make_pair(3, 1);
-    auto p3 = std::make_pair(2, 1);
-    auto p4 = std::make_pair(2, 2);
+    // auto p1 = std::make_pair(3, 0);
+    // auto p2 = std::make_pair(3, 1);
+    // auto p3 = std::make_pair(2, 1);
+    // auto p4 = std::make_pair(2, 2);
 
-    auto t1 = std::make_pair(1, 1);
-    auto t2 = std::make_pair(2, 1);
-    auto t3 = std::make_pair(3, 1);
-    auto t4 = std::make_pair(3, 0);
+    // auto t1 = std::make_pair(1, 1);
+    // auto t2 = std::make_pair(2, 1);
+    // auto t3 = std::make_pair(3, 1);
+    // auto t4 = std::make_pair(3, 0);
 
-    std::vector<std::pair<int, int>> block1;
-    std::vector<std::pair<int, int>> block2;
+    // auto t1 = std::make_pair(0, 3);
+    // auto t2 = std::make_pair(1, 3);
+    // auto t3 = std::make_pair(2, 3);
+    // auto t4 = std::make_pair(2, 2);
+    
 
-    block1.emplace_back(p1);
-    block1.emplace_back(p2);
-    block1.emplace_back(p3);
-    block1.emplace_back(p4);
+    // std::vector<std::pair<int, int>> block1;
+    // std::vector<std::pair<int, int>> block2;
 
-    block2.emplace_back(t1);
-    block2.emplace_back(t2);
-    block2.emplace_back(t3);
-    block2.emplace_back(t4);
+    // block1.emplace_back(p1);
+    // block1.emplace_back(p2);
+    // block1.emplace_back(p3);
+    // block1.emplace_back(p4);
+
+    // block2.emplace_back(t1);
+    // block2.emplace_back(t2);
+    // block2.emplace_back(t3);
+    // block2.emplace_back(t4);
 
     // auto c1 = std::make_pair(3, 0);
     // auto c2 = std::make_pair(3, 1);
@@ -162,25 +168,27 @@ int main(int argc, char *argv[]) {
 
     
 
-    GraphicsObserver t{&d1, &d2};
+    // GraphicsObserver t{&d1, &d2};
 
-    t.notify(0, " ", 0, block1, block2);
-
-    d1.right();
-    d1.clockwise();
-
-    auto p5 = std::make_pair(3, 1);
-    auto p6 = std::make_pair(4, 1);
-    auto p7 = std::make_pair(4, 2);
-    auto p8 = std::make_pair(5, 2);
-
-    block1.emplace_back(p5);
-    block1.emplace_back(p6);
-    block1.emplace_back(p7);
-    block1.emplace_back(p8);
+    // // t.notify(0, " ", 0, block1, block2);
+    // t.notify();
 
 
-    t.notify(0, " ", 0, block1, block2);
+    // d1.right();
+    // d1.clockwise();
+
+    // auto p5 = std::make_pair(3, 1);
+    // auto p6 = std::make_pair(4, 1);
+    // auto p7 = std::make_pair(4, 2);
+    // auto p8 = std::make_pair(5, 2);
+
+    // block1.emplace_back(p5);
+    // block1.emplace_back(p6);
+    // block1.emplace_back(p7);
+    // block1.emplace_back(p8);
+
+
+    // t.notify(0, " ", 0, block1, block2);
 
     // for (auto p : observers) {
     //     delete p;

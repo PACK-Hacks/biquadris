@@ -22,7 +22,8 @@ class GraphicsObserver : public Observer {
     const int colStart2 = 320;
 
 
-    const int blockScale = 19.9;
+    // const int blockScale = 19.9;
+    const int blockScale = 19;
 
     void printSeparation();
     void printTopBoundary();
