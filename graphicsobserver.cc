@@ -112,13 +112,9 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     }
     else if (activePlayer == 1) {
         rerenderedCoordinates = subject1->getMovedCells();
-        for (auto coor : subject1->getMovedCells()) {
-            cout << "x: " << coor.first << " y: " << coor.second << endl;
-        }
     }
     else if (activePlayer == 2) {
         rerenderedCoordinates = subject2->getMovedCells();
-        cout << "Really2?" << rerenderedCoordinates.size() << endl;
     }
 
     // Player Boards
