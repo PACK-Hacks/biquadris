@@ -12,7 +12,6 @@ class GraphicsObserver : public Observer {
     int numReserveRows, nextBlockDock, width, height;  // boundary fields
     std::ostream &out = std::cout;
 
-    int determineColor2(char c, bool isBlind, int y);
     int determineColor(char c);
     Xwindow window;
 
@@ -33,7 +32,6 @@ class GraphicsObserver : public Observer {
 
     void printSeparation();
     void printTopBoundary();
-    void reRenderPos();
 
     int highScore = 0;
 public:

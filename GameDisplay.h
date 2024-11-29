@@ -30,7 +30,6 @@ class GameDisplay: public Subject {
     // vector<Cell *> board(11, nullptr);
 
     shared_ptr<Cell> board[20][11]{nullptr};  // Board of cells resulting from placed blocks
-    shared_ptr<Cell> pastBoard[20][11]{nullptr};
     unique_ptr<Block> nextBlock = nullptr;
     unique_ptr<Block> currentBlock = nullptr;
     vector<unique_ptr<Block>> activePlacedBlocks;
@@ -42,8 +41,6 @@ class GameDisplay: public Subject {
     bool specialHeavy = false;
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
-    bool blind = false;
-    bool wasBlind = false;
 
     vector<unique_ptr<Level>> levels; // something
     int levelIndex;
@@ -61,18 +58,11 @@ class GameDisplay: public Subject {
 
     bool special = false;
 
-    void moveCurrentBoardToPast();
-
     bool dropPrivate();
 
     void insertCurrentBlock();
     void removeCurrentBlock();
     void place();
-
-
-
-
-    void forceBlock();
 
     public:
         GameDisplay(int levelIndex, string blockFileString);
@@ -87,7 +77,6 @@ class GameDisplay: public Subject {
         int getHeight();
         int getTurnsSinceClear();
         bool getLost();
-        bool getWasBlind();
         bool getSpecial();
         void setSpecial(bool sp);
 
@@ -99,10 +88,6 @@ class GameDisplay: public Subject {
 
         void reset();
 
-        void clearMovedCells();
-        set<pair<int,int>> getMovedCells();
-        
-
 
         bool levelUp(int n=1);
         bool levelDown(int n=1);
@@ -113,7 +98,6 @@ class GameDisplay: public Subject {
         // returns true if the action causes the block to be dropped
         bool moveNextToCurrent();
         void generateNextBlock();
-        Block *getCurrentBlock();
         void setCurrentBlock(char block);
         void setCurrentHeavy(bool heavy=true);
 
@@ -124,11 +108,6 @@ class GameDisplay: public Subject {
         bool drop();
         bool clockwise(int n=1);
         bool counterClockwise(int n=1);
-        
-
-
-        
-
 };
 
 

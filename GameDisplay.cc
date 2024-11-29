@@ -52,43 +52,6 @@ char GameDisplay::getState(int row, int col) const {
     return '.';
 }
 
-// void GameDisplay::clearMovedCells() {
-//     movedCells.clear();
-// }
-
-void GameDisplay::moveCurrentBoardToPast() {
-    for (int i = 0; i < HEIGHT; ++i) {
-        for (int j = 0; j < WIDTH; ++j) {
-            pastBoard[i][j] = board[i][j];
-        }
-    }
-}
-
-// Grab movedCells set
-set<pair<int,int>> GameDisplay::getMovedCells() {
-    set<pair<int,int>> movedCells;
-
-    for (int i = 0; i < HEIGHT; ++i) {
-        for (int j = 0; j < WIDTH; ++j) {
-            // If there are any differences between the current board and the past board,
-            // add the coordinate of the different cell to the movedCells
-            if (board[i][j] && pastBoard[i][j]) {
-                if (board[i][j]->getChar() != pastBoard[i][j]->getChar()) {
-                    movedCells.emplace(pair<int, int>{j, i});
-                }
-            }
-            if (board[i][j] && pastBoard[i][j] == nullptr) {
-                movedCells.emplace(pair<int, int>{j, i});
-            }
-            if (board[i][j] == nullptr && pastBoard[i][j]) {
-                movedCells.emplace(pair<int, int>{j, i});
-            }
-        }
-    }
-
-    return movedCells;
-}
-
 
 
 // Gets the level of the GameDisplay
@@ -221,8 +184,6 @@ void GameDisplay::reset() {
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool GameDisplay::moveNextToCurrent() {
-    moveCurrentBoardToPast();
-    
     currentBlock = move(nextBlock);
     insertCurrentBlock();
     return true;
@@ -248,8 +209,6 @@ void GameDisplay::generateNextBlock() {
 
 // Override the currentBlock
 void GameDisplay::setCurrentBlock(char block) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
     currentBlock = unique_ptr<Block>(level->makeChosenBlock(block));
     insertCurrentBlock();
@@ -343,8 +302,6 @@ void GameDisplay::place() {
 
 // Move the currentBlock to the left n units. Return true if operation places block and false otherwise
 bool GameDisplay::left(int n) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
 
     // Determine if what kind of heavy exists, special heavy or block heavy
@@ -385,8 +342,6 @@ bool GameDisplay::left(int n) {
 
 // Move the currentBlock to the right n units. Return true if operation places block and false otherwise
 bool GameDisplay::right(int n) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
 
 
@@ -429,8 +384,6 @@ bool GameDisplay::right(int n) {
 
 // Move the currentBlock down n units. Return true if operation places block and false otherwise
 bool GameDisplay::down(int n) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
@@ -463,8 +416,6 @@ bool GameDisplay::down(int n) {
 
 // Drop the currentBlock. Return true
 bool GameDisplay::drop() {
-    moveCurrentBoardToPast();
-
     dropPrivate();
 }
 
@@ -494,8 +445,6 @@ bool GameDisplay::dropPrivate() {
 
 
 bool GameDisplay::clockwise(int n) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
@@ -534,8 +483,6 @@ bool GameDisplay::clockwise(int n) {
 }
 
 bool GameDisplay::counterClockwise(int n) {
-    moveCurrentBoardToPast();
-
     removeCurrentBlock();
 
     // If the block is heavy, the block will be shifted down by one unit
