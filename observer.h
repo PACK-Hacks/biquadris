@@ -9,7 +9,9 @@ class Observer {
  // blind_status: 0 = no blind, 1 = blind on p1, 2 = blind on p2
  // message: message to output 
  // activePlayer: 0 = both players (begging of the game), 1 = p1, 2 = p2 
-  virtual void notify(int blind_status = 0, string message  = " ", int activePlayer = 0) = 0; // blind_status 
+  virtual void notify(int blind_status = 0, string message  = " ", 
+    int activePlayer = 0, vector<pair<int, int>> rerenderPixcels = ) = 0; 
+  
   virtual ~Observer() = default;
 };
 

@@ -15,7 +15,11 @@ void GraphicsObserver::printSeparation() {
     for (int i = 0; i < SEPARATE; ++i) out << ' ';
 }
 
-void GraphicsObserver::notify(int blind_status,  string message, int activePlayer) { 
+
+
+// check message and rerender the message. 
+
+void GraphicsObserver::notify(int blind_status,  string message, int activePlayer, vector<pair<int, int>> rerenderPixcels) { 
     int xOffset = colStart2;
     int yOffset = rowStart - 30;
 
