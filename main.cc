@@ -9,12 +9,14 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    // Default construct flags
     bool text = false;
     int seed = 0;
     string scriptfile1 = "blank.txt";
     string scriptfile2 = "blank.txt";
     int startlevel = 0;
 
+    // Read flags
     for (int i = 1; i < argc; i++) {
         string arg = argv[i];
         if (arg == "-text") {
@@ -46,7 +48,9 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    Game g{text, seed, scriptfile1, scriptfile2, startlevel}; // Game(bool text, int seed, string scriptfile1, string scriptfile2, int startlevel);
+    // Create game with flags
+    Game g{text, seed, scriptfile1, scriptfile2, startlevel}; 
+    // Run game
     g.runGame();
 }
 

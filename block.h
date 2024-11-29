@@ -37,56 +37,44 @@ class Block {
         pair<int, int> getBottomLeftCoor();
         int getRotationLen();
         
-        // virtual void clockwise() = 0;
-        // virtual void counterClockwise() = 0;
         virtual void clockwise();
         virtual void counterClockwise();
 
-        // Block(bool active = false, bool heavy = false, int rotationLen, int bottomLeftX = 0, int bottomLeftY = 0);
 };
 
 class IBlock final: public Block {
     public:
         IBlock(bool heavy, int level);
-        // add destructor
-        // void clockwise() override;
-        // void counterClockwise() override;
 };
 
 class OBlock final: public Block {
     public:
         OBlock(bool heavy, int level);
-        // add destructor
 };
 
 class LBlock final: public Block {
     public:
         LBlock(bool heavy, int level);
-        // add destructor
 };
 
 class JBlock final: public Block {
     public:
         JBlock(bool heavy, int level);
-        // add destructor
 };
 
 class TBlock final: public Block {
     public:
         TBlock(bool heavy, int level);
-        // add destructor
 };
 
 class SBlock final: public Block {
     public:
         SBlock(bool heavy, int level);
-        // add destructor
 };
 
 class ZBlock final: public Block {
     public:
         ZBlock(bool heavy, int level);
-        // add destructor
 };
 
 

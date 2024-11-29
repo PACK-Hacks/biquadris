@@ -59,6 +59,16 @@ class GameDisplay: public Subject {
 
     bool special = false;
 
+    void insertCurrentBlock();
+    void removeCurrentBlock();
+    void place();
+
+
+    bool getSpecial();
+    void setSpecial(bool sp);
+
+    void forceBlock();
+
     public:
         GameDisplay(int levelIndex, string blockFileString);
         ~GameDisplay();
@@ -109,20 +119,8 @@ class GameDisplay: public Subject {
         bool counterClockwise(int n=1);
         
 
-        // development functions
-        void print();
-    
-        // functions to be private
-        void insertCurrentBlock();
-        void removeCurrentBlock();
-        void place();
 
-
-        bool getSpecial();
-        void setSpecial(bool sp);
-
-        void insertBlindBlock();
-        void forceBlock();
+        
 
 };
 

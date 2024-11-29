@@ -10,7 +10,7 @@
 
 using namespace std;
 
-
+// Player constructor
 Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
     id{id}, lost{false}, text{text}, seed{seed}, scriptfile{scriptfile}, 
     startLevel{startLevel}, gameDisplay{startLevel, scriptfile} {
@@ -25,6 +25,7 @@ Player::Player(int id, bool text, int seed, string scriptfile, int startLevel):
         blocks.emplace_back('T');
 }
 
+// Converts string to character
 char Player::string_to_char(string s) {
     istringstream iss{s};
     char c;
@@ -32,7 +33,8 @@ char Player::string_to_char(string s) {
     return c;
 }
 
-bool Player::find_block(char b) { // Could be more efficient?
+// Check if block of given character exists
+bool Player::find_block(char b) { 
     for (size_t i = 0; i < blocks.size(); i++) {
         if (blocks[i] == b) {
             return true;
@@ -41,6 +43,7 @@ bool Player::find_block(char b) { // Could be more efficient?
     return false;
 }
 
+// Get unique command from prefix s
 string Player::getUnique(string s) {
 
     vector<string> matches;
@@ -56,10 +59,11 @@ string Player::getUnique(string s) {
         return matches[0];
     }
 
-    return "monkeys";
+    return "monkeys"; // No matches
 
 }
 
+// Parse command to return a pair of number of times to run a command, and the command string
 pair<int, string> Player::parseCommand(const string &input) {
     int num_len = 0;
     int multiplier;
@@ -67,6 +71,7 @@ pair<int, string> Player::parseCommand(const string &input) {
     int len = input.length();
     int pos = 0;
 
+    // Check if start of input is a digit, if so convert to iss and extract number from string
     if (isdigit(input[start])) {
         istringstream iss{input};
         iss >> multiplier;
@@ -90,20 +95,12 @@ pair<int, string> Player::parseCommand(const string &input) {
 
 string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
 
-    bool status = gameDisplay.moveNextToCurrent(); // Assume moves it onto the board
-
-    // if (status == false) { // When block was attempted to be placed on board, there was something covering
-    //                         // one of the default spots, and so the player automatically loses
-    //     lost = true;
-    //     // gameDisplay.render(lost); // ?
-    //     return "";
-    // }
+    bool status = gameDisplay.moveNextToCurrent(); 
 
     gameDisplay.generateNextBlock();
 
     
-
-    int blind_status = 0;
+    int blind_status = 0; // No player is blinded
 
     if (special != "") { // Check for specials
         istringstream iss{special};
@@ -112,7 +109,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
             if (curr_special == "heavy") {
                 gameDisplay.setHeavy(); // sets heavy to true
             } else if (curr_special == "blind") {
-                blind_status = id;
+                blind_status = id; // Set blind_status to current player's id to blind current player
             } else if (curr_special == "force") {
                 char c;
                 iss >> c;
@@ -121,7 +118,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
         }
     }
 
-    
+    // Create player's initial board state
     to.notify(blind_status, "Player " + std::to_string(id) + "'s turn:");
     
     bool endTurn = false;
@@ -130,15 +127,16 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
 
     string command;
 
+    // To accomodate for multiple drops, i.e. 3drop, which would drop player's block immediately for 3 turns
     if (numDrops > 0) {
         gameDisplay.drop();
         numDrops--;
         to.notify(blind_status);
     } else {
-        while(!endTurn) {     // fstream >> command
-
-            if (!(*in >> command)) {
-                if (in == &sequenceStream) {
+        while(!endTurn) {    
+            
+            if (!(*in >> command)) { 
+                if (in == &sequenceStream) { // in, which points to an ifstream, fails to read
                     // Sequence file exhausted; switch back to cin
                     sequenceStream.clear();      // Clear EOF flag
                     sequenceStream.ignore();
@@ -151,11 +149,13 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                 }
             } 
             
+            // Parse user command
             pair<int, string> p = parseCommand(command);
 
             command = p.second;
             int multiplier = p.first;
 
+            // Decipher user command
             if (command == left) {
                 endTurn = gameDisplay.left(multiplier);
                 to.notify(blind_status);
@@ -206,13 +206,13 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
                     in = &cin;
                 }
                 *in >> file_name;
-                // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
+                // Send file name in case random block generation file is read through once already, must be reset
                 gameDisplay.norandom(file_name);
                 cout << "Switched to reading blocks from " + file_name << endl;
             } else if (command == random) {
                 gameDisplay.random();
                 cout << "Switched to random block generation" << endl;
-            } else if (command.length() == 1 && find_block(string_to_char(command))) {
+            } else if (command.length() == 1 && find_block(string_to_char(command))) { // Change current block to specified block by I, J, T, etc.
                 char c = string_to_char(command);
                 gameDisplay.setCurrentBlock(c);
                 to.notify(blind_status);
@@ -235,7 +235,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
         }
     }
     
-    
+    // Drop dummy cell if needed (In level 4 and haven't cleared in 5 turns)
     if (gameDisplay.needDummy()) gameDisplay.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
@@ -244,10 +244,10 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
     blind_status = 0;
 
     
-    // gameDisplay.resetSpecial();
 
-    if (gameDisplay.getSpecial() == true) { // change condiiton to gameDisplay.getSpecial() == true
-        gameDisplay.setSpecial(false);
+    if (gameDisplay.getSpecial() == true) { // Check if user attained a special
+    // Return the special that the user has attained
+        gameDisplay.setSpecial(false); 
         
         cout << "You have earned a special!" << endl;
         cout << "What special would you like to place on your opponent? (blind, force, heavy)" << endl;
@@ -281,15 +281,17 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
 
 
 
-
+// Return player lost status
 bool Player::getLost() {
     return lost;
 }
 
+// Grab the display
 GameDisplay *Player::getGameDisplay() {
     return &gameDisplay;
 }
 
+// Reset player
 void Player::reset() {
     in = &cin;
     blind_status = 0;
