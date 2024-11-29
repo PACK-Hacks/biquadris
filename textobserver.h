@@ -21,8 +21,8 @@ class TextObserver : public Observer {
 public:
     TextObserver(GameDisplay* subject1, GameDisplay* subject2);
 
-    void notify(int id=0, std::string message="") override;
-    // void printSeparation();
+  virtual void notify(int blind_status = 0, string message  = " ", 
+    int activePlayer = 0,vector<pair<int, int>> blockPixcels = {}, vector<pair<int, int>> nextBlockPixcels = {}) override;     // void printSeparation();
     // requested with render command
     // ~TextObserver() override;
 };

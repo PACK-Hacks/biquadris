@@ -71,3 +71,10 @@
             window.fillRectangle(xOffset + j * blockScale, yOffset + i * blockScale, blockScale, blockScale, color2);
         }
     }
+
+  window.fillRectangle(colStart1, yOffset, width * blockScale + 2, height * blockScale + 2, 1); // black
+    window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, 0); // wjite
+
+    // Player 2 Board
+    window.fillRectangle(xOffset, yOffset, width * blockScale + 2, height * blockScale + 2, 1);
+    window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, 0);
