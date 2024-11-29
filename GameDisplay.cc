@@ -49,6 +49,13 @@ char GameDisplay::getState(int row, int col) const {
     return '.';
 }
 
+void GameDisplay::addCurrBlockCells() {
+    for (auto cell : currentBlock->getAllCells()) {
+        movedCells.emplace_back(make_pair(cell->getX(), cell->getY()));
+    }
+    
+}
+
 
 // Gets the level of the GameDisplay
 int GameDisplay::getLevel() {
@@ -349,7 +356,9 @@ bool GameDisplay::left(int n) {
 
 // Move the currentBlock to the right n units. Return true if operation places block and false otherwise
 bool GameDisplay::right(int n) {
+    addCurrBlockCells();
     removeCurrentBlock();
+
 
     // Determine if what kind of heavy exists, special heavy or block heavy
     int heavy;
@@ -369,6 +378,7 @@ bool GameDisplay::right(int n) {
 
     // Move block right n units
     currentBlock->moveBlockX(n);
+    
 
     // If it is invalid to move the block down heavy units, drop the block and return true
     if (!operationIsValid(0, heavy)) {
@@ -379,8 +389,10 @@ bool GameDisplay::right(int n) {
     // Otherwise, move the block down heavy units
     currentBlock->moveBlockY(heavy);
 
+    addCurrBlockCells();
     // Insert currentBlock on board
     insertCurrentBlock();
+    
 
     // Successful operation
     return false;
