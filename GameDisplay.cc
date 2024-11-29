@@ -164,7 +164,7 @@ void GameDisplay::reset() {
 
 
     // Empty board
-    for (int i = 0; i < HEIGHT; ++i) {
+    for (int i = 0; i < HEIGHT + NEXT_BLOCK_DOCK; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             board[i][j] = nullptr;
         }

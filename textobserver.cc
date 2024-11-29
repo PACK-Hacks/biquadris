@@ -127,10 +127,6 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
                     if (id == 1 && 2 <= j && j < 9) {  // id = 1 => blind on p1
                         out << '?';                     // id = 2 => blind on p2
                     }                                   // id = 0 => blind on neither
-                    // // Print '-' for lid row
-                    // else if (i = numReserveRows) {
-                    //     out << '-';
-                    // }
                     else {
                         out << subject1->getState(i, j); // retrieved from Display 
                     }
@@ -139,7 +135,7 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
                 // seperate
                 printSeparation();
 
-                // plaer2 board
+                // Player 2 board
                 for (int j = 0; j < width; ++j) {
                     if (id == 2  && 2 <= j && j < 9) {
                         out << '?';
@@ -150,7 +146,7 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
                 out << endl;
                 continue;
             }
-            // plaer1 board
+            // Player 1 board
             for (int j = 0; j < width; ++j) {
                 out << subject1->getState(i, j); // retrieved from Display 
             }

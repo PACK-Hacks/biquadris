@@ -343,6 +343,7 @@ GameDisplay *Player::getGameDisplay() {
 
 // Reset player
 void Player::reset() {
+    lost = false;
     in = &cin;
     blind_status = 0;
     gameDisplay.reset();

@@ -89,8 +89,6 @@ void Game::runGame() {
 // Restart game
 void Game::restart() {
     p1.reset();
-    p1.getGameDisplay()->moveNextToCurrent();
-    p1.getGameDisplay()->generateNextBlock();
     
     if (!text) {
         go->notify();
