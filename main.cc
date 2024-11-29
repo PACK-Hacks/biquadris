@@ -12,8 +12,8 @@ int main(int argc, char *argv[]) {
     // Default construct flags
     bool text = false;
     int seed = 0;
-    string scriptfile1 = "blank.txt";
-    string scriptfile2 = "blank.txt";
+    string scriptfile1 = "sequence1.txt";
+    string scriptfile2 = "sequence2.txt";
     int startlevel = 0;
 
     // Read flags
