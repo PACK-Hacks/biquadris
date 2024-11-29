@@ -197,13 +197,16 @@ string Player::runTurn(string special, TextObserver &to) {
             *in >> file_name;
              // Will need to pass the file name to norandom in the case that the block file is read entirely and need to read it again from the top.
             gameDisplay.norandom(file_name);
+            cout << "Switched to reading blocks from " + file_name << endl;
         } else if (command == random) {
             gameDisplay.random();
+            cout << "Switched to random block generation" << endl;
         } else if (command.length() == 1 && find_block(string_to_char(command))) {
             char c = string_to_char(command);
             gameDisplay.setCurrentBlock(c);
             to.notify(blind_status);
         } else if (command == restart) {
+            cout << "Restarting the game!" << endl;
             return "restart";
         } else if (command == sequence) {
             if ((*in).fail()) {
@@ -214,14 +217,18 @@ string Player::runTurn(string special, TextObserver &to) {
             *in >> command;
             sequenceStream = ifstream{command};
             in = &sequenceStream;
+            cout << "Switched to reading commands from " + command << endl;
         } else {
             cout << "Please enter a valid command" << endl;
         }
     }
+    
     if (gameDisplay.needDummy()) gameDisplay.dropDummyCell();
 
     // Check and set the lost field in Display to that of Player
     lost = gameDisplay.getLost();
+
+    blind_status = 0;
 
     
     // gameDisplay.resetSpecial();
@@ -258,11 +265,10 @@ string Player::runTurn(string special, TextObserver &to) {
         return "";
     }
     
-
-    
-
-
 }
+
+
+
 
 bool Player::getLost() {
     return lost;
@@ -271,5 +277,13 @@ bool Player::getLost() {
 GameDisplay *Player::getGameDisplay() {
     return &gameDisplay;
 }
+
+void Player::reset() {
+    in = &cin;
+    blind_status = 0;
+    gameDisplay.reset();
+}
+
+
 
 
