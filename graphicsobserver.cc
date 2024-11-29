@@ -72,28 +72,53 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
 
     yOffset +=  5;
 
-    // Draw Board Borders
-    // Player 1 Board
+    // Draw Board Borders for initialization
     if (activePlayer == 0) {
+        // Player 1 Board
         window.fillRectangle(colStart1, yOffset, width * blockScale + 2, height * blockScale + 2, 1); // black
         window.fillRectangle(colStart1 + 1, yOffset + 1, width * blockScale, height * blockScale, Xwindow::LightGray); // white
         window.fillRectangle(colStart1 + 1, yOffset + 4 * blockScale + gap / 2, width * blockScale, (height-4) * blockScale , Xwindow::WhiteSmoke); // white
-
 
         // Player 2 Board
         window.fillRectangle(xOffset, yOffset, width * blockScale + 2, height * blockScale + 2, 1);
         window.fillRectangle(xOffset + 1, yOffset + 1, width * blockScale , height * blockScale, Xwindow::LightGray);
         window.fillRectangle(xOffset + 1, yOffset + 4 * blockScale + gap / 2, width * blockScale, (height-4) * blockScale , Xwindow::WhiteSmoke); // white
 
+        // Horizontal Grid
         for (int i = 1; i < height; ++i) { // Start at 1 to avoid drawing the top border
             window.fillRectangle(colStart1 + 1, yOffset + i * blockScale - 1, width * blockScale, 1, Xwindow::Black); // Horizontal line
             window.fillRectangle(xOffset + 1, yOffset + i * blockScale - 1, width * blockScale, 1, Xwindow::Black); // Horizontal line for Player 2
         }
 
-        // Vertical grid
+        // Vertical Grid
         for (int j = 1; j < width; ++j) { // Start at 1 to avoid drawing the left border
             window.fillRectangle(colStart1 + j * blockScale, yOffset, 1, height * blockScale, Xwindow::Black); // Vertical line
             window.fillRectangle(xOffset + j * blockScale, yOffset, 1, height * blockScale, Xwindow::Black); // Vertical line for Player 2
+        }
+        int yOffset2 = yOffset + height * blockScale + 31;
+
+        // Draw Border for Player 1's Next Block Dock
+        window.fillRectangle(colStart1, yOffset2 + gap / 2 - 1, 4 * blockScale + 2, nextBlockDock * blockScale + 2, 1); // Black border
+        window.fillRectangle(colStart1 + 1, yOffset2 + gap / 2, 4 * blockScale, nextBlockDock * blockScale, Xwindow::WhiteSmoke); // White dock background
+
+        // Draw the grid for Player 1's next block dock
+        for (int i = 1; i < nextBlockDock; ++i) {
+            window.fillRectangle(colStart1, yOffset2 + i * blockScale, 4 * blockScale, 1, Xwindow::Black); // Horizontal line
+        }
+        for (int j = 1; j < 4; ++j) {
+            window.fillRectangle(colStart1 + j * blockScale, yOffset2, 1, nextBlockDock * blockScale, Xwindow::Black); // Vertical line
+        }
+        
+        // Draw Border for Player 2's Next Block Dock
+        window.fillRectangle(xOffset, yOffset2 + gap / 2 - 1, 4 * blockScale + 2, nextBlockDock * blockScale + 2, 1); // Black border
+        window.fillRectangle(xOffset + 1, yOffset2 + gap / 2, 4 * blockScale, nextBlockDock * blockScale, Xwindow::WhiteSmoke); // White dock background
+
+        // Draw the grid for Player 2's next block dock
+        for (int i = 1; i < nextBlockDock; ++i) {
+            window.fillRectangle(xOffset, yOffset2 + i * blockScale, 4 * blockScale, 1, Xwindow::Black); // Horizontal line
+        }
+        for (int j = 1; j < 4; ++j) {
+            window.fillRectangle(xOffset + j * blockScale, yOffset2, 1, nextBlockDock * blockScale, Xwindow::Black); // Vertical line
         }
     }
 
@@ -154,15 +179,13 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
         }
     }
 
-    yOffset += height * blockScale + 10;
-
-    yOffset += 10;
+    yOffset += height * blockScale + 27;
 
     // Next Block
     window.drawString(colStart1, yOffset, "Next:      ");
     window.drawString(xOffset, yOffset, "Next:      ");
-    yOffset += 10;
 
+    yOffset += 5;
 
     for (int i = 0; i < nextBlockDock; ++i) {
         for (int j = 0; j < 4; ++j) {
