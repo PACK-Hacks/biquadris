@@ -221,6 +221,8 @@ void GameDisplay::reset() {
 
 // Set the nextBlock as the currentBlock, returns true if successful, false otherwise
 bool GameDisplay::moveNextToCurrent() {
+    moveCurrentBoardToPast();
+    
     currentBlock = move(nextBlock);
     insertCurrentBlock();
     return true;
