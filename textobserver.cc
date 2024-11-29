@@ -122,9 +122,9 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
             }
 
             // when blind is active cover row 3 to 12 column 3 to 9
-            if ( 3 + 2 <= i && i <= 11 + 3 ) {
+            if ( 2 + numReserveRows <= i && i < 12 + numReserveRows) {
                 for (int j = 0; j < width; ++j) {
-                    if (id == 1 && 2 <= j && j <= 8) {  // id = 1 => blind on p1
+                    if (id == 1 && 2 <= j && j < 9) {  // id = 1 => blind on p1
                         out << '?';                     // id = 2 => blind on p2
                     }                                   // id = 0 => blind on neither
                     // // Print '-' for lid row
@@ -141,7 +141,7 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
 
                 // plaer2 board
                 for (int j = 0; j < width; ++j) {
-                    if (id == 2  && 2 <= j && j <= 8) {
+                    if (id == 2  && 2 <= j && j < 9) {
                         out << '?';
                         continue;
                     }

@@ -12,7 +12,8 @@ class GraphicsObserver : public Observer {
     int numReserveRows, nextBlockDock, width, height;  // boundary fields
     std::ostream &out = std::cout;
 
-    int determineColor(char c, bool isBlind, int y);
+    int determineColor2(char c, bool isBlind, int y);
+    int determineColor(char c);
     Xwindow window;
 
     const int scale = 10;
@@ -25,7 +26,10 @@ class GraphicsObserver : public Observer {
 
     bool active;
 
-    bool playerWasBlind[2]{false};
+    char currentBoard1[20][11]{'\0'};
+    char pastBoard1[20][11]{'\0'};
+    char currentBoard2[20][11]{'\0'};
+    char pastBoard2[20][11]{'\0'};
 
     void printSeparation();
     void printTopBoundary();
