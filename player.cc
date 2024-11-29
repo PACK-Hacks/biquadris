@@ -162,6 +162,7 @@ string Player::runTurn(string special, TextObserver &to, GraphicsObserver &go) {
             } else if (command == right) {
                 endTurn = gameDisplay.right(multiplier);
                 to.notify(blind_status);
+                go.notify(blind_status, "", id, gameDisplay.getMovedCells());
 
             } else if (command == down) {
                 endTurn = gameDisplay.down(multiplier);

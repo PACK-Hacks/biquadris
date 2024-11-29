@@ -32,7 +32,7 @@ class GraphicsObserver : public Observer {
     int highScore = 0;
 public:
     GraphicsObserver(GameDisplay* subject1, GameDisplay* subject2);
-    void notify(int blind_status = 0, string message  = " ", int activePlayer = 0, vector<pair<int, int>> blockPixcels = {}, vector<pair<int, int>> nextBlockPixcels = {}) override;
+    void notify(int blind_status = 0, string message  = " ", int activePlayer = 0, set<pair<int, int>> blockPixcels = {}, vector<pair<int, int>> nextBlockPixcels = {}) override;
 
     // requested with render command
     // ~TextObserver() override;

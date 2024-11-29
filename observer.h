@@ -4,6 +4,7 @@
 #include "subject.h"
 #include "observer.h"
 #include <utility>
+#include <set>
 using namespace std;
 
 class Observer {
@@ -13,7 +14,7 @@ class Observer {
  // activePlayer: 0 = both players (begging of the game), 1 = p1, 2 = p2 
 
   virtual void notify(int blind_status = 0, std::string message  = " ", 
-    int activePlayer = 0, vector<pair<int, int>> blockPixcels = {}, vector<pair<int, int>> nextBlockPixcels = {}) = 0; 
+    int activePlayer = 0, set<pair<int, int>> blockPixcels = {}, vector<pair<int, int>> nextBlockPixcels = {}) = 0; 
   
   virtual ~Observer() = default;
 };

@@ -19,7 +19,7 @@ void GraphicsObserver::printSeparation() {
 
 // check message and rerender the message. 
 
-void GraphicsObserver::notify(int blind_status,  string message, int activePlayer, vector<pair<int, int>> blockPixcels, vector<pair<int, int>> nextBlockPixcels) { 
+void GraphicsObserver::notify(int blind_status,  string message, int activePlayer, set<pair<int, int>> blockPixcels, vector<pair<int, int>> nextBlockPixcels) { 
     int xOffset = colStart2;
     int yOffset = rowStart - 30;
 
