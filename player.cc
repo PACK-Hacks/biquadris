@@ -348,7 +348,3 @@ void Player::reset() {
     blind_status = 0;
     gameDisplay.reset();
 }
-
-
-
-

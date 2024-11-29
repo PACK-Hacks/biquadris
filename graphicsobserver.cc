@@ -50,7 +50,9 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
         window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
         window.drawString(20, 45, "P.A.C.K.");
 
-        window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getScore()));
+        // clearing highscore
+        window.fillRectangle(window.getWidth() - 200, 30, 150, 20, Xwindow::White);
+        window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getHighScore()));
         window.drawString(0, 60,"----------------------------------------------------------------------------------------------------");
     }
 

@@ -94,4 +94,3 @@ void Game::restart() {
         go->notify();
     }
 }
-

@@ -198,8 +198,3 @@ void TextObserver::notify(int id, std::string message, int activePlayer) {
     out << endl << endl;
 
 }
-
-
-
-
-

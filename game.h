@@ -27,8 +27,4 @@ class Game {
         void restart();
 };
 
-
-
-
-
 #endif
