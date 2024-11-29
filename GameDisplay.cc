@@ -163,8 +163,9 @@ void GameDisplay::generateNextBlock() {
         }
     }
 
+    // Place next block in next block dock
     for (auto cell : nextBlock->getAllCells()) {
-        board[cell->getY() + HEIGHT][cell->getX()] = cell;
+        board[cell->getY() + HEIGHT - (NUM_RESERVE_ROWS + 1 - NEXT_BLOCK_DOCK)][cell->getX()] = cell;
     }
 }
 

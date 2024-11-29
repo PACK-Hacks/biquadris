@@ -187,10 +187,14 @@ void TextObserver::notify(int id, std::string message) {
 
     // Printing the next block dock
     for (int i = 0; i < nextBlockDock; ++i) {
+        // Player 1
         for (int j = 0; j < width; ++j) {
             out << subject1->getState(i + height, j); // retrieved from Display
         }
-        for (int i = 0; i < SEPARATE; i++) out << " ";
+        
+        printSeparation();
+        
+        // Player 2
         for (int j = 0; j < width; ++j) {
             out << subject2->getState(i + height, j); // retrieved from Display
         }
