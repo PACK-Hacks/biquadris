@@ -42,7 +42,7 @@ class GameDisplay: public Subject {
     bool lost = false;  // maybe
     int turnsSinceClear = 0;
 
-    vector<unique_ptr<Level>> levels; // something
+    vector<unique_ptr<Level>> levels;
     int levelIndex;
     Level *level;
 
