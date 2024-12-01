@@ -39,8 +39,6 @@ int GameDisplay::getHighScore() {
 }
 
 
-
-
 // Returns the character of the cell at (row,col)
 char GameDisplay::getState(int row, int col) const {
     // If there is a cell at that position on the board, return its character

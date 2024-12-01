@@ -45,30 +45,37 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
     int gap = 2; // Gap between cells
     int adjustedBlockScale = blockScale - gap; // Adjusted size of each cell
 
-    // print the title, high scrore, andtop margin at the beginngin of a new game. 
+    // Print the title, high scrore, andtop margin at the beginngin of a new game. 
     if (activePlayer == 0) {
         window.drawString(window.getWidth() / 2 - 30, 30, "BIQUARIS");
-        window.drawString(20, 45, "P.A.C.K.");
+        window.drawString(480, 530, "P.A.C.K.");
+        window.drawString(0, 45,"----------------------------------------------------------------------------------------------------");
+    }
+    if (subject1->getHighScore() > highScore1 || activePlayer == 0) {
+         window.fillRectangle(colStart1, 45, 150, 20, Xwindow::White);
+        window.drawString(colStart1, 60, "High Score:     " + std::to_string(subject1->getHighScore()));
+    }
 
-        window.drawString(window.getWidth() - 200, 45, "High Score:     " + std::to_string(subject1->getScore()));
-        window.drawString(0, 60,"----------------------------------------------------------------------------------------------------");
+    if (subject2->getHighScore() > highScore2 || activePlayer == 0) {
+         window.fillRectangle(xOffset, 45, 150, 20, Xwindow::White);
+        window.drawString(xOffset, 60, "High Score:     " + std::to_string(subject2->getHighScore()));
     }
 
     // Clearing Player Levels
-    if (activePlayer == 1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
-    if (activePlayer == 2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
+    if (subject1->getLevel() != lvl1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
+    if (subject2->getLevel() != lvl2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
     // Player Levels
-    if (activePlayer == 1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Level:    " + std::to_string(subject1->getLevel()));
-    if (activePlayer == 2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Level:    " + std::to_string(subject2->getLevel()));
+    if (subject1->getLevel() != lvl1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Level:    " + std::to_string(subject1->getLevel()));
+    if (subject2->getLevel() != lvl2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Level:    " + std::to_string(subject2->getLevel()));
 
- 
+
     yOffset += 15;
     // Clearing Player Levels
-    if (activePlayer == 1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
-    if (activePlayer == 2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
+    if (subject1->getScore() > score1 || activePlayer == 0) window.fillRectangle(colStart1, yOffset - 15, 150, 20, Xwindow::White); // Adjust dimensions and color
+    if (subject2->getScore() > score2 || activePlayer == 0) window.fillRectangle(xOffset, yOffset - 15, 150, 20, Xwindow::White);
     // Player Scores
-    if (activePlayer == 1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Score:    " + std::to_string(subject1->getScore()));
-    if (activePlayer == 2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Score:    " + std::to_string(subject2->getScore()));
+    if (subject1->getScore() > score1 || activePlayer == 0) window.drawString(colStart1, yOffset, "Score:    " + std::to_string(subject1->getScore()));
+    if (subject2->getScore() > score2 || activePlayer == 0) window.drawString(xOffset, yOffset, "Score:    " + std::to_string(subject2->getScore()));
 
     yOffset +=  5;
 
@@ -224,6 +231,17 @@ void GraphicsObserver::notify(int blind_status, string message, int activePlayer
             }
         }
     }
+    if (activePlayer == 1 && subject1->getScore() > score1 ) score1 = subject1->getScore();
+    if (activePlayer == 2 && subject2->getScore() > score2 ) score2 = subject2->getScore();
+
+    if (activePlayer == 1 && subject1->getLevel() != lvl1 ) lvl1 = subject1->getLevel();
+    if (activePlayer == 2 && subject2->getLevel() != lvl2 ) lvl2 = subject2->getLevel();
+
+    if (activePlayer == 1 && subject1->getHighScore() > highScore1 ) highScore1 = subject1->getHighScore();
+    if (activePlayer == 2 && subject2->getHighScore() > highScore2 ) highScore2 = subject2->getHighScore();
+    
+
+
 }
 
 int GraphicsObserver::determineColor(char c) {

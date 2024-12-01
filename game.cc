@@ -32,37 +32,47 @@ string formatWinner(string winner, int score1, int score2) {
 void Game::runGame() {
     string special;
 
+    char input = ' ';
     // Keep running rounds until both players lose [BONUS]
-    while (!p1.getLost() || !p2.getLost()) {
-        if (p1.getLost()) {
-            cout << "Player 1 has already lost :( Skipping this turn" << endl << endl;
-            special = "";   // Reset special to prevent players from passing a special to themselves
-        }
-        // If Player 1's still alive, run their turn
-        else {
-            special = p1.runTurn(special, to.get(), go.get());
-            // Restart if Player 1 commands so
-            if (special == "restart") {
-                restart();
-                continue;
+    while (true) {
+        
+        while (!p1.getLost() || !p2.getLost()) {
+            if (p1.getLost()) {
+                cout << "Player 1 has already lost :( Skipping this turn" << endl << endl;
+                special = "";   // Reset special to prevent players from passing a special to themselves
             }
-        }
-        cout << "__________________________________________________________" << endl << endl;
-        if (p2.getLost()) {
-            cout << "Player 2 has already lost :( Skipping this turn" << endl << endl;
-            special = "";   // Reset special to prevent players from passing a special to themselves
-        }
-        // If Player 2's still alive, run their turn
-        else {
-            special = p2.runTurn(special, to.get(), go.get());
-            // Restart if Player 1 commands so
-            if (special == "restart") {
-                restart();
-                continue;
+            // If Player 1's still alive, run their turn
+            else {
+                special = p1.runTurn(special, to.get(), go.get());
+                // Restart if Player 1 commands so
+                if (special == "restart") {
+                    restart();
+                    continue;
+                }
             }
+            cout << "__________________________________________________________" << endl << endl;
+            if (p2.getLost()) {
+                cout << "Player 2 has already lost :( Skipping this turn" << endl << endl;
+                special = "";   // Reset special to prevent players from passing a special to themselves
+            }
+            // If Player 2's still alive, run their turn
+            else {
+                special = p2.runTurn(special, to.get(), go.get());
+                // Restart if Player 1 commands so
+                if (special == "restart") {
+                    restart();
+                    continue;
+                }
+            }
+            cout << "__________________________________________________________" << endl << endl;
         }
-        cout << "__________________________________________________________" << endl << endl;
+
+        cout << "Game is now over. Do you want to restart the game? (y/n) " << endl;
+        cin >> input;
+        if (input == 'n') break;
+        restart();
     }
+    
 
     // Output winner
     string gameOverMessage;
@@ -94,4 +104,3 @@ void Game::restart() {
         go->notify();
     }
 }
-
