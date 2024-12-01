@@ -1,0 +1,12 @@
+I
+drop
+I
+4ri
+drop
+O
+8ri
+drop
+I
+clockwise
+10ri
+drop
